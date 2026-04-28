@@ -174,10 +174,10 @@
   margin: 0 12px 16px;
   padding: 10px 12px;
   border-radius: 6px;
-  background-color: #fffde7;
-  border: 1px solid #f5d84a;
-  font-size: 12px;
-  color: #5a4800;
+  background-color: transparent;
+  border: 1px solid rgba(255,255,255,0.35);
+  font-size: 15px;
+  color: white;
   font-family: 'Source Sans 3', sans-serif;
   line-height: 1.55;
   display: flex;
@@ -190,8 +190,8 @@
 .sidebar-footer-section {
   padding: 14px 16px 20px;
   border-top: 1px solid rgba(255,255,255,0.12);
-  font-size: 12px;
-  color: rgba(255,255,255,0.5);
+  font-size: 15px;
+  color: white;
   font-family: 'Source Sans 3', sans-serif;
   line-height: 1.6;
 }
@@ -200,7 +200,7 @@
 .sidebar-footer-section p:last-child { margin-bottom: 0; }
 
 .sidebar-footer-section a {
-  color: rgba(255,255,255,0.72);
+  color: white;
   text-decoration: underline;
 }
 

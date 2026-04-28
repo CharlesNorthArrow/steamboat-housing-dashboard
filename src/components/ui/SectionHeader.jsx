@@ -1,6 +1,6 @@
 export default function SectionHeader({ title, subtitle, dark = false, color }) {
   const titleColor = color || (dark ? 'white' : 'var(--navy)')
-  const subtitleColor = dark ? 'rgba(255,255,255,0.75)' : 'var(--text-muted)'
+  const subtitleColor = dark ? 'white' : 'var(--text-muted)'
 
   return (
     <div style={{ marginBottom: subtitle ? 8 : 0 }}>

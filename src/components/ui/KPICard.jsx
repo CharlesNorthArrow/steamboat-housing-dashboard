@@ -17,7 +17,7 @@ export default function KPICard({ label, value, lastUpdated }) {
           fontSize: 15,
           fontWeight: 600,
           fontFamily: "'Source Sans 3', sans-serif",
-          color: 'rgba(255,255,255,0.85)',
+          color: 'white',
           letterSpacing: '0.02em',
         }}
       >
@@ -36,7 +36,7 @@ export default function KPICard({ label, value, lastUpdated }) {
         {value}
       </p>
       {lastUpdated && (
-        <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>{lastUpdated}</p>
+        <p style={{ margin: 0, fontSize: 13, color: 'white' }}>{lastUpdated}</p>
       )}
     </article>
   )

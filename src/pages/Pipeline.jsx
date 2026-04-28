@@ -22,11 +22,11 @@ export default function Pipeline() {
           <h2 style={{ margin: '0 0 8px', fontSize: 40, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
             Housing Pipeline
           </h2>
-          <p style={{ fontSize: 20, color: 'rgba(255,255,255,0.8)', marginBottom: 24, fontFamily: "'Source Sans 3', sans-serif" }}>
+          <p style={{ fontSize: 20, color: 'white', marginBottom: 24, fontFamily: "'Source Sans 3', sans-serif" }}>
             Tracking affordable housing developments across all stages in Steamboat Springs.
           </p>
           {loading && (
-            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14 }}>Loading pipeline data...</p>
+            <p style={{ color: 'white', fontSize: 14 }}>Loading pipeline data...</p>
           )}
           {error && (
             <p style={{ color: '#f87171', fontSize: 14 }}>Error loading data: {error}</p>

@@ -39,7 +39,7 @@ export default function PipelineStats({ data }) {
 
   return (
     <div>
-      <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.85)', marginBottom: 16 }}>
+      <p style={{ fontSize: 15, color: 'white', marginBottom: 16 }}>
         There are{' '}
         <strong style={{ color: 'white' }}>{builtCount}</strong> built developments, and{' '}
         <strong style={{ color: 'white' }}>{pipelineCount}</strong> currently in the pipeline
@@ -78,7 +78,7 @@ export default function PipelineStats({ data }) {
         </tbody>
       </table>
 
-      <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', lineHeight: 1.6 }}>
+      <div style={{ fontSize: 13, color: 'white', lineHeight: 1.6 }}>
         {Object.entries(STATUS_CONFIG).map(([key, cfg]) => (
           <p key={key} style={{ margin: '0 0 6px' }}>
             <strong style={{ color: 'white' }}>{cfg.label}:</strong> {cfg.desc}

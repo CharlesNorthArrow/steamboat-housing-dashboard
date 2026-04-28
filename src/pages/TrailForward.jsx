@@ -170,10 +170,10 @@ export default function TrailForward() {
             <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
           </svg>
         </div>
-        <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.75)', margin: '0 0 12px', fontFamily: "'Source Sans 3', sans-serif" }}>
+        <p style={{ fontSize: 17, color: 'white', margin: '0 0 12px', fontFamily: "'Source Sans 3', sans-serif" }}>
           A vibrant and healthy Steamboat Springs means having residents of all ages and incomes.
         </p>
-        <p style={{ margin: 0, fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', fontFamily: "'Source Sans 3', sans-serif" }}>
+        <p style={{ margin: 0, fontSize: 15, lineHeight: 1.75, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
           As we work together to create more affordable housing, we can measure our progress by
           tracking these two demographics — income and age. Over the past 15 years, we've seen the
           share of low- and middle-income residents and residents under 44 decrease rapidly.
@@ -227,7 +227,7 @@ export default function TrailForward() {
           title="Income Deeper Dive"
           subtitle="As high-income households surge, low- and middle-income households are disappearing."
         />
-        <p style={{ margin: '14px 0 0', fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', fontFamily: "'Source Sans 3', sans-serif" }}>
+        <p style={{ margin: '14px 0 0', fontSize: 15, lineHeight: 1.75, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
           Steamboat Springs is seeing clear, sustained growth at the top of the income ladder.
           Keeping the city livable for middle- and lower-income households will likely hinge on
           housing affordability initiatives, diverse job opportunities, and policies that help
@@ -304,7 +304,7 @@ export default function TrailForward() {
           title="Age Deeper Dive"
           subtitle="Young adults and early-career families are leaving."
         />
-        <p style={{ margin: '14px 0 0', fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', fontFamily: "'Source Sans 3', sans-serif" }}>
+        <p style={{ margin: '14px 0 0', fontSize: 15, lineHeight: 1.75, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
           Steamboat Springs is rapidly aging. Since the 2006–2010 American Community Survey, the
           city's median age has climbed more than seven years — to roughly 43 — while the share of
           residents 65 and older has more than doubled.
@@ -355,7 +355,7 @@ export default function TrailForward() {
           title="Employment Challenges"
           subtitle="Workers in the 5 most common industries can't afford housing."
         />
-        <p style={{ margin: '14px 0 0', fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', fontFamily: "'Source Sans 3', sans-serif" }}>
+        <p style={{ margin: '14px 0 0', fontSize: 15, lineHeight: 1.75, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
           The top 5 industries in Routt County, shown in this graph, collectively account for
           nearly half of all jobs. Given their modest wages relative to average rent in Steamboat
           Springs, most are likely to be housing-cost burdened — meaning they spend more than 30%

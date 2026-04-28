@@ -41,7 +41,7 @@ export default function Policies() {
           <h2 style={{ margin: '0 0 8px', fontSize: 40, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
             Policies &amp; Actions
           </h2>
-          <p style={{ fontSize: 20, color: 'rgba(255,255,255,0.8)', marginBottom: 32, fontFamily: "'Source Sans 3', sans-serif" }}>
+          <p style={{ fontSize: 20, color: 'white', marginBottom: 32, fontFamily: "'Source Sans 3', sans-serif" }}>
             Explore the affordable housing policies and programs being considered, implemented, or underway in Steamboat Springs.
           </p>
           <PolicyKPICards />

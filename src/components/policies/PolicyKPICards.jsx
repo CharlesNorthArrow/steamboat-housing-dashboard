@@ -17,7 +17,7 @@ export default function PolicyKPICards() {
   }, [data])
 
   if (loading) {
-    return <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14 }}>Loading investment stats...</p>
+    return <p style={{ color: 'white', fontSize: 14 }}>Loading investment stats...</p>
   }
   if (error) {
     return <p style={{ color: '#f87171', fontSize: 14 }}>Error loading stats: {error}</p>

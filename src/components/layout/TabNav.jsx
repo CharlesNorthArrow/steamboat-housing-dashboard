@@ -49,11 +49,11 @@ export default function TabNav({ activeTab, onTabChange }) {
       aria-orientation="vertical"
     >
       <div className="sidebar-brand">
-        <p style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+        <p style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'white', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
           City of Steamboat Springs
         </p>
-        <p style={{ margin: '4px 0 0', fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.85)', fontFamily: "'Source Sans 3', sans-serif" }}>
-          Affordable Housing
+        <p style={{ margin: '4px 0 0', fontSize: 13, fontWeight: 600, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
+          Affordable Housing Dashboard
         </p>
       </div>
 
@@ -80,7 +80,7 @@ export default function TabNav({ activeTab, onTabChange }) {
       {/* Disclaimer — yellow pill so it pops against the dark sidebar */}
       <div className="sidebar-disclaimer" role="note">
         <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none"
-          stroke="#7a6200" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+          stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
           style={{ flexShrink: 0, marginTop: 1 }}
         >
           <circle cx="12" cy="12" r="10" />

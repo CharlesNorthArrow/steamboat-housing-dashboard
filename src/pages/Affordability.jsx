@@ -13,14 +13,17 @@ function LoadState({ loading, error }) {
 
 const chartTitle = { color: 'var(--navy)', fontSize: 18, fontFamily: "'Source Sans 3', sans-serif", fontWeight: 600, margin: '0 0 4px' }
 const chartSubtitle = { fontSize: 13, color: 'var(--text-muted)', margin: '0 0 12px' }
-const bannerBody = { margin: '12px 0 0', fontSize: 16, color: 'var(--text-dark)', lineHeight: 1.75, fontFamily: "'Source Sans 3', sans-serif" }
+const accomp = { fontSize: 17, color: 'var(--text-dark)', lineHeight: 1.6, margin: '0 0 20px' }
+const bannerBodyWhite = { margin: '12px 0 0', fontSize: 16, color: 'white', lineHeight: 1.75, fontFamily: "'Source Sans 3', sans-serif" }
+const bannerBodyDark = { margin: '0', fontSize: 16, color: 'var(--text-dark)', lineHeight: 1.75, fontFamily: "'Source Sans 3', sans-serif" }
+const placeholder = { fontSize: 14, color: 'var(--text-muted)', padding: '12px 16px', border: '1px solid var(--border)', borderRadius: 4 }
 
 export default function Affordability() {
-  const { data: mktData, loading: mktLoading, error: mktError } = useGoogleSheet(SHEET_URLS.affordableVMarket)
-  const { data: amiData, loading: amiLoading, error: amiError } = useGoogleSheet(SHEET_URLS.salesByAMI)
-  const { data: salaryData, loading: salaryLoading, error: salaryError } = useGoogleSheet(SHEET_URLS.salaryToRentBuy)
-  const { data: colData, loading: colLoading, error: colError } = useGoogleSheet(SHEET_URLS.costOfLiving)
-  const { data: housingCostData, loading: hcLoading, error: hcError } = useGoogleSheet(SHEET_URLS.housingCosts)
+  const { data: mktData,         loading: mktLoading,    error: mktError    } = useGoogleSheet(SHEET_URLS.affordableVMarket)
+  const { data: amiData,         loading: amiLoading,    error: amiError    } = useGoogleSheet(SHEET_URLS.salesByAMI)
+  const { data: salaryData,      loading: salaryLoading, error: salaryError } = useGoogleSheet(SHEET_URLS.salaryToRentBuy)
+  const { data: colData,         loading: colLoading,    error: colError    } = useGoogleSheet(SHEET_URLS.costOfLiving)
+  const { data: housingCostData, loading: hcLoading,     error: hcError     } = useGoogleSheet(SHEET_URLS.housingCosts)
 
   const affordableVMarketChart = useMemo(() => {
     if (!mktData) return []
@@ -73,7 +76,7 @@ export default function Affordability() {
     return [
       { name: 'Educational Services', 'Annual Salary': parseDollar(row['Educational Services Professional']) },
       { name: 'Accommodation & Food', 'Annual Salary': parseDollar(row['Accomodation and Food Service Worker']) },
-      { name: 'Health Care', 'Annual Salary': parseDollar(row['Health Care and Social Assistance Professional']) },
+      { name: 'Health Care',          'Annual Salary': parseDollar(row['Health Care and Social Assistance Professional']) },
     ]
   }, [colData])
 
@@ -86,7 +89,7 @@ export default function Affordability() {
     return [
       { name: 'Educational Services', 'Combined Salaries': (parseDollar(baseRow['Educational Services Professional']) || 0) * 2 },
       { name: 'Accommodation & Food', 'Combined Salaries': (parseDollar(baseRow['Accomodation and Food Service Worker']) || 0) * 2 },
-      { name: 'Health Care', 'Combined Salaries': (parseDollar(baseRow['Health Care and Social Assistance Professional']) || 0) * 2 },
+      { name: 'Health Care',          'Combined Salaries': (parseDollar(baseRow['Health Care and Social Assistance Professional']) || 0) * 2 },
     ]
   }, [colData])
 
@@ -95,66 +98,102 @@ export default function Affordability() {
   return (
     <div id="panel-affordability" role="tabpanel" aria-labelledby="tab-affordability" tabIndex={-1}>
 
-      {/* ── Rising Rent banner ── */}
+      {/* ── Rising Costs — intro banner (light-bg, orange title) ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--light-bg)' }}>
-        <SectionHeader title="Rising Rent" />
-        <p style={bannerBody}>
-          Affordable rents are disappearing as market-rate housing costs climb far beyond what
-          local workers can afford — leaving renters facing severe financial strain.
+        <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 700, color: 'var(--orange)', fontFamily: "'Source Sans 3', sans-serif" }}>
+          Rising Costs
+        </h2>
+        <p style={{ margin: '0 0 16px', fontSize: 17, color: 'var(--text-muted)', fontFamily: "'Source Sans 3', sans-serif" }}>
+          Wages are not keeping up with Steamboat Springs' mounting costs of living.
         </p>
-      </div>
-
-      {/* ── Rising Rent charts ── */}
-      <div className="section-pad" style={{ backgroundColor: 'white' }}>
-
-        {/* Chart 8 placeholder */}
-        <div style={{ marginBottom: 48 }}>
-          <h3 style={chartTitle}>Housing Costs — Renters</h3>
-          <LoadState loading={hcLoading} error={hcError} />
-          {!hcLoading && !hcError && (
-            <p style={{ fontSize: 14, color: 'var(--text-muted)', padding: '12px 16px', border: '1px solid var(--border)', borderRadius: 4, maxWidth: 640 }}>
-              Renter housing cost distribution data (ACS B25070) will appear here once the
-              "Housing Cost Burden: Renters" sheet in Source A is populated.
-            </p>
-          )}
-        </div>
-
-        {/* Chart 9 — full width */}
-        <div>
-          <h3 style={chartTitle}>Affordable vs. Market Rent by Unit Size</h3>
-          <p style={chartSubtitle}>2024, Steamboat Springs</p>
-          <LoadState loading={mktLoading} error={mktError} />
-          {affordableVMarketChart.length > 0 && (
-            <AccessibleBarChart
-              data={affordableVMarketChart}
-              keys={['Affordable Rent', 'Market Rent', 'Market Premium']}
-              yTickFormatter={fmt$}
-              tooltipFormatter={(v, name) => [fmt$(v), name]}
-              yDomain={[0, 4500]}
-              ariaLabel="Grouped bar chart comparing affordable rent, market rent, and the market premium gap by unit size in 2024."
-              caption="Source: YVHA Housing Study 2025; CoStar; Property websites; Zillow; YVHA; CHFA; Economic & Planning Systems (page 71)"
-            />
-          )}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <p style={bannerBodyDark}>
+            Steamboat Springs has become dramatically more expensive for both renters and homebuyers,
+            creating a barrier to new residents moving into the city and to current residents who want to stay.
+          </p>
+          <p style={bannerBodyDark}>
+            Without bold action, the essential workforce — such as teachers, healthcare workers, and
+            service staff — will continue to be priced out, weakening the community for everyone.
+          </p>
         </div>
       </div>
 
-      {/* ── Rocketing Home Prices banner ── */}
+      {/* ── Rising Rent — section banner (navy) ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <SectionHeader dark title="Rocketing Home Prices" />
-        <p style={{ margin: '12px 0 0', fontSize: 16, color: 'white', lineHeight: 1.75, fontFamily: "'Source Sans 3', sans-serif" }}>
-          Steamboat Springs' for-sale housing market is heavily tilted toward high-income buyers,
-          leaving local workers priced out even with two incomes.
-        </p>
+        <SectionHeader dark
+          title="Rising Rent"
+          subtitle="Affordable rents are disappearing, and renters are facing severe financial strain."
+        />
       </div>
 
-      {/* ── Rocketing Home Prices charts ── */}
+      {/* ── Charts 1 + 2 ── */}
       <div className="section-pad" style={{ backgroundColor: 'white' }}>
         <div className="chart-grid">
 
-          {/* Chart 10 */}
+          {/* Chart 1 — Housing Costs, Renters */}
           <div>
-            <h3 style={chartTitle}>Top Industry Salaries vs. Median Home Price</h3>
+            <h3 style={chartTitle}>Housing Costs — Renters</h3>
+            <p style={chartSubtitle}>2006–2024, Steamboat Springs, ACS 5-year estimates</p>
+            <p style={accomp}>
+              Renters paying under $1,500 a month fell from 64% to 20% of all renter households,
+              while those paying $1,500 or more surged from 36% to 80% — and renters paying over
+              $2,500 jumped from 7% to 28%.
+            </p>
+            <LoadState loading={hcLoading} error={hcError} />
+            {!hcLoading && !hcError && !housingCostData && (
+              <p style={placeholder}>
+                This chart will display automatically once the "Housing Cost Burden: Renters" sheet
+                in Source A is populated with renter cost distribution data (ACS B25070).
+              </p>
+            )}
+          </div>
+
+          {/* Chart 2 — Affordable vs. Market Rent */}
+          <div>
+            <h3 style={chartTitle}>Affordable vs. Market Rent by Unit Size</h3>
+            <p style={chartSubtitle}>2024, Steamboat Springs</p>
+            <p style={accomp}>
+              Affordable rents range from $1,100 to $1,900 depending on unit size, while market
+              rents range from $2,400 to $4,000 — a gap of $1,300 to $2,100 per month that renters
+              must cover to secure housing.
+            </p>
+            <LoadState loading={mktLoading} error={mktError} />
+            {affordableVMarketChart.length > 0 && (
+              <AccessibleBarChart
+                data={affordableVMarketChart}
+                keys={['Affordable Rent', 'Market Rent', 'Market Premium']}
+                yTickFormatter={fmt$}
+                tooltipFormatter={(v, name) => [fmt$(v), name]}
+                yDomain={[0, 4500]}
+                ariaLabel="Grouped bar chart comparing affordable rent, market rent, and the market premium gap by unit size in 2024."
+                caption="Source: YVHA Housing Study 2025; CoStar; Zillow; YVHA; CHFA; Economic & Planning Systems (page 71)"
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Rocketing Home Prices — section banner (navy) ── */}
+      <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
+        <SectionHeader dark
+          title="Rocketing Home Prices"
+          subtitle="Steamboat Springs' for-sale housing market is heavily tilted toward high-income buyers."
+        />
+      </div>
+
+      {/* ── Charts 3 + 4 ── */}
+      <div className="section-pad" style={{ backgroundColor: 'white' }}>
+        <div className="chart-grid">
+
+          {/* Chart 3 — Salary vs. Home Price */}
+          <div>
+            <h3 style={chartTitle}>Top Industry Salaries Compared to Median Home Price</h3>
             <p style={chartSubtitle}>2024, Routt County</p>
+            <p style={accomp}>
+              Combined salaries from two workers in the same sector range from $67,320 (Educational
+              Services) to $142,924 (Health Care), yet all fall far short of the $328,451 income
+              needed to buy a median-priced home — a gap of $185,527 to $261,131.
+            </p>
             <LoadState loading={salaryLoading} error={salaryError} />
             {salaryChart.length > 0 && (
               <AccessibleBarChart
@@ -172,10 +211,15 @@ export default function Affordability() {
             )}
           </div>
 
-          {/* Chart 11 */}
+          {/* Chart 4 — Sales by AMI */}
           <div>
-            <h3 style={chartTitle}>Share of Households and Sales by AMI</h3>
+            <h3 style={chartTitle}>Share of Households and Sales by AMI, Routt County</h3>
             <p style={chartSubtitle}>2024, Routt County</p>
+            <p style={accomp}>
+              Households earning over 200% AMI make up 26% of all households but account for 71%
+              of home sales, while households earning below 80% AMI make up 44% of all households
+              but account for just 2% of sales.
+            </p>
             <LoadState loading={amiLoading} error={amiError} />
             {amiChart.length > 0 && (
               <AccessibleBarChart
@@ -185,49 +229,84 @@ export default function Affordability() {
                 xTickFormatter={(v) => `${v}%`}
                 tooltipFormatter={(v, name) => [`${v}%`, name]}
                 ariaLabel="Horizontal paired bar chart showing household share and sales share by AMI band in Routt County 2024."
-                caption="Source: YVHA Housing Demand Study 2025; MLS; Moffat County Assessor; CHFA Income Limits; Economic & Planning Systems (page 67)"
+                caption="Source: YVHA Housing Demand Study 2025; MLS; CHFA Income Limits; Economic & Planning Systems (page 67)"
               />
             )}
           </div>
         </div>
       </div>
 
-      {/* ── Housing Cost Burden banner ── */}
+      {/* ── Housing Cost Burden — section banner (navy) ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <SectionHeader dark title="Housing Cost Burden" />
-        <p style={{ margin: '12px 0 0', fontSize: 16, color: 'white', lineHeight: 1.75, fontFamily: "'Source Sans 3', sans-serif" }}>
-          New affordable housing can help reduce cost burden for renters and owners alike,
-          but sustained action is essential to make meaningful progress.
-        </p>
+        <SectionHeader dark
+          title="Housing Cost Burden"
+          subtitle="New affordable housing can help to reduce cost burden, but sustained action is essential."
+        />
       </div>
 
-      {/* ── Housing Cost Burden placeholder ── */}
+      {/* ── Charts 5 + 6 ── */}
       <div className="section-pad" style={{ backgroundColor: 'white' }}>
-        <p style={{ fontSize: 14, color: 'var(--text-muted)', padding: '12px 16px', border: '1px solid var(--border)', borderRadius: 4, maxWidth: 640 }}>
-          Charts 12 and 13 will display automatically once the "Housing Cost Burden: Renters" and
-          "Housing Cost Burden: Owners" sheets in Source A are populated with ACS B25070/B25091
-          data structured as: Years | 30%+ Renters | 50%+ Renters | 30%+ Owners | 50%+ Owners
-          with Mortgage | 50%+ Owners no Mortgage.
-        </p>
+        <div className="chart-grid">
+
+          {/* Chart 5 — 30%+ burden */}
+          <div>
+            <h3 style={chartTitle}>Paying 30% or More of Income on Housing</h3>
+            <p style={chartSubtitle}>2006–2024, Steamboat Springs, ACS 5-year estimates</p>
+            <p style={accomp}>
+              Renters are most cost-burdened, with 49% spending 30% or more of income on housing
+              in 2020–2024, up from 37% in 2006–2010. Owners with a mortgage have improved slightly
+              from 45% to 37%, while owners without a mortgage rose from 10% to 18%.
+            </p>
+            <LoadState loading={hcLoading} error={hcError} />
+            {!hcLoading && !hcError && !housingCostData && (
+              <p style={placeholder}>
+                This chart will display automatically once the "Housing Cost Burden: Renters" and
+                "Housing Cost Burden: Owners" sheets in Source A are populated.
+              </p>
+            )}
+          </div>
+
+          {/* Chart 6 — 50%+ burden */}
+          <div>
+            <h3 style={chartTitle}>Paying 50% or More of Income on Housing</h3>
+            <p style={chartSubtitle}>2006–2024, Steamboat Springs, ACS 5-year estimates</p>
+            <p style={accomp}>
+              Nearly 30% of renters spend 50% or more of their income on housing in 2020–2024 —
+              the highest of any group. Owners with a mortgage held steady around 16–20%, while
+              owners without a mortgage surged from 2% to a peak of 17% in 2016–2020 before
+              falling back to 9%.
+            </p>
+            {!hcLoading && !hcError && !housingCostData && (
+              <p style={placeholder}>
+                This chart will display automatically once the housing cost burden sheets in
+                Source A are populated.
+              </p>
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* ── Mounting Basic Costs banner ── */}
+      {/* ── Mounting Basic Costs — section banner (navy) ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <SectionHeader dark title="Mounting Basic Costs" />
-        <p style={{ margin: '12px 0 0', fontSize: 16, color: 'white', lineHeight: 1.75, fontFamily: "'Source Sans 3', sans-serif" }}>
-          In Routt County, the basic cost of living outpaces what many local workers earn —
-          even in households with two incomes.
-        </p>
+        <SectionHeader dark
+          title="Mounting Basic Costs"
+          subtitle="In Routt County, the basic cost of living outpaces what many local workers earn."
+        />
       </div>
 
-      {/* ── Mounting Basic Costs charts ── */}
+      {/* ── Charts 7 + 8 ── */}
       <div className="section-pad" style={{ backgroundColor: 'white', paddingBottom: 64 }}>
         <div className="chart-grid">
 
-          {/* Chart 14 */}
+          {/* Chart 7 — 1 Earner */}
           <div>
             <h3 style={chartTitle}>1 Earner Income vs. Basic Costs</h3>
             <p style={chartSubtitle}>Routt County</p>
+            <p style={accomp}>
+              Single earner salaries range from $33,660 (Educational Services) to $71,462 (Health
+              Care). Only the Health Care salary clears the basic cost threshold for a single adult
+              ($58,332), and none come close to the $107,299 needed for a single parent.
+            </p>
             <LoadState loading={colLoading} error={colError} />
             {col1EarnerChart.length > 0 && (
               <AccessibleBarChart
@@ -236,20 +315,26 @@ export default function Affordability() {
                 yTickFormatter={fmt$}
                 tooltipFormatter={(v, name) => [fmt$(v), name]}
                 referenceLines={[
-                  { value: 58332, label: '$58,332 — 1 Adult Costs', stroke: '#e07b2a', dashed: true },
-                  { value: 107299, label: '$107,299 — 1 Adult + 1 Child', stroke: '#c0392b' },
+                  { value: 58332,  label: '$58,332 — 1 Adult Costs',        stroke: '#e07b2a', dashed: true },
+                  { value: 107299, label: '$107,299 — 1 Adult + 1 Child',   stroke: '#c0392b' },
                 ]}
                 yDomain={[0, 130000]}
-                ariaLabel="Bar chart comparing single-earner salaries for three industry workers to the cost of living for one adult and one adult with one child in Routt County."
+                ariaLabel="Bar chart comparing single-earner salaries for three industries to basic cost-of-living thresholds in Routt County."
                 caption="Source: Routt County Economic Development Partnership 2025; MIT Living Wage Calculator for Routt County 2025"
               />
             )}
           </div>
 
-          {/* Chart 15 */}
+          {/* Chart 8 — 2 Earners */}
           <div>
             <h3 style={chartTitle}>2 Earners Income vs. Basic Costs</h3>
             <p style={chartSubtitle}>Routt County</p>
+            <p style={accomp}>
+              Combined salaries for two earners range from $67,320 (Educational Services) to
+              $142,924 (Health Care). Only Health Care clears the $79,780 threshold for two adults
+              with no children, and none reach the $151,805 needed for a family with two children.
+            </p>
+            <LoadState loading={colLoading} error={colError} />
             {col2EarnerChart.length > 0 && (
               <AccessibleBarChart
                 data={col2EarnerChart}
@@ -257,11 +342,11 @@ export default function Affordability() {
                 yTickFormatter={fmt$}
                 tooltipFormatter={(v, name) => [fmt$(v), name]}
                 referenceLines={[
-                  { value: 79780, label: '$79,780 — 2 Adults Costs', stroke: '#e07b2a', dashed: true },
-                  { value: 151805, label: '$151,805 — 2 Adults + 2 Children', stroke: '#c0392b' },
+                  { value: 79780,  label: '$79,780 — 2 Adults Costs',            stroke: '#e07b2a', dashed: true },
+                  { value: 151805, label: '$151,805 — 2 Adults + 2 Children',    stroke: '#c0392b' },
                 ]}
                 yDomain={[0, 180000]}
-                ariaLabel="Bar chart comparing combined two-earner salaries for three industry worker pairs to the cost of living for two adults and two adults with two children in Routt County."
+                ariaLabel="Bar chart comparing combined two-earner salaries for three industries to basic cost-of-living thresholds in Routt County."
                 caption="Source: Routt County Economic Development Partnership 2025; MIT Living Wage Calculator for Routt County 2025"
               />
             )}

@@ -6,13 +6,12 @@ import PolicySelector from '../components/policies/PolicySelector'
 import PolicyDetail from '../components/policies/PolicyDetail'
 import SectionHeader from '../components/ui/SectionHeader'
 
+const pad = { padding: '48px 48px' }
+
 const darkHeader = {
   backgroundColor: 'var(--dark-bg)',
   color: 'white',
-  padding: '40px 0 48px',
 }
-
-const contentStyle = { maxWidth: 1200, margin: '0 auto', padding: '0 24px' }
 
 function parsePolicies(data) {
   if (!data) return []
@@ -47,11 +46,11 @@ export default function Policies() {
     <div id="panel-policies" role="tabpanel" aria-labelledby="tab-policies" tabIndex={-1}>
       {/* Dark header */}
       <div style={darkHeader}>
-        <div style={contentStyle}>
-          <h2 style={{ margin: '0 0 8px', fontSize: 32, color: 'white', fontFamily: "'Source Serif 4', serif" }}>
+        <div style={pad}>
+          <h2 style={{ margin: '0 0 8px', fontSize: 40, color: 'white', fontFamily: "'Source Serif 4', serif" }}>
             Policies &amp; Actions
           </h2>
-          <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.8)', marginBottom: 32, fontFamily: "'Source Sans 3', sans-serif" }}>
+          <p style={{ fontSize: 20, color: 'rgba(255,255,255,0.8)', marginBottom: 32, fontFamily: "'Source Sans 3', sans-serif" }}>
             Explore the affordable housing policies and programs being considered, implemented, or underway in Steamboat Springs.
           </p>
           <PolicyKPICards />
@@ -59,7 +58,7 @@ export default function Policies() {
       </div>
 
       {/* Policy explorer */}
-      <div style={{ ...contentStyle, padding: '40px 24px 56px' }}>
+      <div style={{ ...pad, paddingBottom: 64 }}>
         <SectionHeader
           title="Policy Explorer"
           subtitle="Select a policy to view its status, description, and implementation details."

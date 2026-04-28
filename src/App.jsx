@@ -9,7 +9,7 @@ import Affordability from './pages/Affordability'
 import Pipeline from './pages/Pipeline'
 import Policies from './pages/Policies'
 
-const TABS = ['trail-forward', 'affordability', 'pipeline', 'policies']
+const TAB_IDS = ['trail-forward', 'affordability', 'pipeline', 'policies']
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('trail-forward')
@@ -17,17 +17,15 @@ export default function App() {
 
   function handleTabChange(tabId) {
     setActiveTab(tabId)
-    // Move focus to main content area after tab switch
     requestAnimationFrame(() => {
       const panel = document.getElementById(`panel-${tabId}`)
       if (panel) panel.focus()
     })
   }
 
-  // Sync hash for deep-linking
   useEffect(() => {
     const hash = window.location.hash.replace('#', '')
-    if (TABS.includes(hash)) setActiveTab(hash)
+    if (TAB_IDS.includes(hash)) setActiveTab(hash)
   }, [])
 
   useEffect(() => {
@@ -38,23 +36,31 @@ export default function App() {
     <>
       <SkipNav />
       <Header />
-      <TabNav activeTab={activeTab} onTabChange={handleTabChange} />
       <DataBanner />
 
-      <main id="main-content" ref={mainRef} tabIndex={-1} style={{ outline: 'none' }}>
-        <div hidden={activeTab !== 'trail-forward'}>
-          <TrailForward />
-        </div>
-        <div hidden={activeTab !== 'affordability'}>
-          <Affordability />
-        </div>
-        <div hidden={activeTab !== 'pipeline'}>
-          <Pipeline />
-        </div>
-        <div hidden={activeTab !== 'policies'}>
-          <Policies />
-        </div>
-      </main>
+      <div className="app-layout">
+        <TabNav activeTab={activeTab} onTabChange={handleTabChange} />
+
+        <main
+          id="main-content"
+          ref={mainRef}
+          tabIndex={-1}
+          className="content-col"
+        >
+          <div hidden={activeTab !== 'trail-forward'}>
+            <TrailForward />
+          </div>
+          <div hidden={activeTab !== 'affordability'}>
+            <Affordability />
+          </div>
+          <div hidden={activeTab !== 'pipeline'}>
+            <Pipeline />
+          </div>
+          <div hidden={activeTab !== 'policies'}>
+            <Policies />
+          </div>
+        </main>
+      </div>
 
       <Footer activeTab={activeTab} onTabChange={handleTabChange} />
     </>

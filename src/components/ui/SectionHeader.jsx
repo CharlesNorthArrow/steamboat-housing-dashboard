@@ -12,7 +12,7 @@ export default function SectionHeader({ title, subtitle, dark = false }) {
       <h3
         style={{
           margin: '0 0 6px',
-          fontSize: 22,
+          fontSize: 26,
           fontWeight: 700,
           color: dark ? 'white' : 'var(--navy)',
         }}

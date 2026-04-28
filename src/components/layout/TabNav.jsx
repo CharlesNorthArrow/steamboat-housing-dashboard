@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 
 const TABS = [
-  { id: 'trail-forward', label: 'Trail Forward' },
-  { id: 'affordability', label: 'Affordability' },
-  { id: 'pipeline', label: 'Pipeline' },
-  { id: 'policies', label: 'Policies' },
+  { id: 'trail-forward', label: 'Trail Forward', description: 'Community demographics and trends' },
+  { id: 'affordability', label: 'Affordability', description: 'Rising costs and the affordability gap' },
+  { id: 'pipeline', label: 'Pipeline', description: 'Developments under way and planned' },
+  { id: 'policies', label: 'Policies', description: 'Programs and policy options' },
 ]
 
 export default function TabNav({ activeTab, onTabChange }) {
@@ -12,10 +12,9 @@ export default function TabNav({ activeTab, onTabChange }) {
 
   function handleKeyDown(e, index) {
     let next = index
-    if (e.key === 'ArrowRight') next = (index + 1) % TABS.length
-    else if (e.key === 'ArrowLeft') next = (index - 1 + TABS.length) % TABS.length
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') next = (index + 1) % TABS.length
+    else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = (index - 1 + TABS.length) % TABS.length
     else return
-
     e.preventDefault()
     onTabChange(TABS[next].id)
     tabRefs.current[next]?.focus()
@@ -23,51 +22,38 @@ export default function TabNav({ activeTab, onTabChange }) {
 
   return (
     <nav
+      className="sidebar-nav"
       aria-label="Dashboard sections"
-      style={{
-        backgroundColor: 'var(--navy)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
-      }}
+      role="tablist"
+      aria-orientation="vertical"
     >
-      <div
-        style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}
-        role="tablist"
-        aria-label="Dashboard tabs"
-      >
-        <div style={{ display: 'flex', gap: 4, padding: '6px 0' }}>
-          {TABS.map((tab, i) => {
-            const isActive = activeTab === tab.id
-            return (
-              <button
-                key={tab.id}
-                id={`tab-${tab.id}`}
-                ref={(el) => (tabRefs.current[i] = el)}
-                role="tab"
-                aria-selected={isActive}
-                aria-controls={`panel-${tab.id}`}
-                tabIndex={isActive ? 0 : -1}
-                onClick={() => onTabChange(tab.id)}
-                onKeyDown={(e) => handleKeyDown(e, i)}
-                style={{
-                  padding: '8px 20px',
-                  fontSize: 15,
-                  fontWeight: 600,
-                  fontFamily: "'Source Sans 3', sans-serif",
-                  border: 'none',
-                  cursor: 'pointer',
-                  borderRadius: 4,
-                  background: isActive ? 'var(--orange)' : 'transparent',
-                  color: isActive ? 'white' : 'rgba(255,255,255,0.8)',
-                  transition: 'background 0.15s, color 0.15s',
-                }}
-              >
-                {tab.label}
-              </button>
-            )
-          })}
-        </div>
+      <div className="sidebar-brand">
+        <p style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          City of Steamboat Springs
+        </p>
+        <p style={{ margin: '4px 0 0', fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.85)', fontFamily: "'Source Sans 3', sans-serif" }}>
+          Affordable Housing
+        </p>
+      </div>
+
+      <div className="sidebar-tabs">
+        {TABS.map((tab, i) => (
+          <button
+            key={tab.id}
+            id={`tab-${tab.id}`}
+            ref={(el) => (tabRefs.current[i] = el)}
+            role="tab"
+            aria-selected={activeTab === tab.id}
+            aria-controls={`panel-${tab.id}`}
+            tabIndex={activeTab === tab.id ? 0 : -1}
+            onClick={() => onTabChange(tab.id)}
+            onKeyDown={(e) => handleKeyDown(e, i)}
+            className="sidebar-tab-btn"
+          >
+            <span className="sidebar-tab-label">{tab.label}</span>
+            <span className="sidebar-tab-description">{tab.description}</span>
+          </button>
+        ))}
       </div>
     </nav>
   )

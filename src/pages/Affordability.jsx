@@ -15,8 +15,10 @@ function LoadState({ loading, error }) {
   return null
 }
 
-const sectionGap = { marginBottom: 56 }
-const contentStyle = { maxWidth: 1200, margin: '0 auto', padding: '40px 24px' }
+const pad = { padding: '48px 48px' }
+const sectionGap = { marginBottom: 64 }
+const chartTitle = { color: 'var(--navy)', marginBottom: 4, fontSize: 18, fontFamily: "'Source Sans 3', sans-serif", fontWeight: 600 }
+const chartSubtitle = { fontSize: 14, color: 'var(--text-muted)', marginBottom: 16 }
 
 export default function Affordability() {
   const { data: mktData, loading: mktLoading, error: mktError } = useGoogleSheet(SHEET_URLS.affordableVMarket)
@@ -25,7 +27,7 @@ export default function Affordability() {
   const { data: colData, loading: colLoading, error: colError } = useGoogleSheet(SHEET_URLS.costOfLiving)
   const { data: housingCostData, loading: hcLoading, error: hcError } = useGoogleSheet(SHEET_URLS.housingCosts)
 
-  // Chart 9 — Affordable vs Market rent by unit size
+  // Chart 9 — Affordable vs Market
   const affordableVMarketChart = useMemo(() => {
     if (!mktData) return []
     return mktData.map((r) => ({
@@ -36,7 +38,7 @@ export default function Affordability() {
     }))
   }, [mktData])
 
-  // Chart 11 — Sales by AMI paired horizontal bar
+  // Chart 11 — Sales by AMI
   const amiChart = useMemo(() => {
     if (!amiData) return []
     return amiData.map((r) => ({
@@ -72,7 +74,7 @@ export default function Affordability() {
     return parseDollar(row?.['Income Required to Buy a Median Prices Home'] || '328452')
   }, [salaryData])
 
-  // Chart 14 — 1 Earner Cost of Living
+  // Chart 14 — 1 Earner
   const col1EarnerChart = useMemo(() => {
     if (!colData) return []
     const row = colData.find((r) => r.Earners === '1 Earner')
@@ -84,7 +86,7 @@ export default function Affordability() {
     ]
   }, [colData])
 
-  // Chart 15 — 2 Earners Cost of Living
+  // Chart 15 — 2 Earners
   const col2EarnerChart = useMemo(() => {
     if (!colData) return []
     const row2 = colData.find((r) => r.Earners === '2 Adults _both working')
@@ -102,43 +104,40 @@ export default function Affordability() {
 
   return (
     <div id="panel-affordability" role="tabpanel" aria-labelledby="tab-affordability" tabIndex={-1}>
-      <div style={{ ...contentStyle, ...sectionGap }}>
-        <h2 style={{ margin: '0 0 8px', fontSize: 32, color: 'var(--navy)' }}>Rising Costs</h2>
-        <p style={{ fontSize: 18, color: 'var(--text-muted)', marginBottom: 16 }}>
+
+      {/* Page header */}
+      <div style={{ ...pad, paddingBottom: 40, ...sectionGap, borderBottom: '1px solid var(--border)' }}>
+        <h2 style={{ margin: '0 0 12px', fontSize: 40, color: 'var(--navy)' }}>Rising Costs</h2>
+        <p style={{ fontSize: 20, color: 'var(--text-muted)', margin: 0, maxWidth: 700 }}>
           Wages are not keeping up with Steamboat Springs' mounting costs of living.
         </p>
       </div>
 
-      {/* Rising Rent */}
-      <div style={{ backgroundColor: 'white', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', ...sectionGap }}>
-        <div style={contentStyle}>
+      {/* Rising Rent — Chart 8 placeholder + Chart 9 full width */}
+      <div style={{ backgroundColor: 'white', borderBottom: '1px solid var(--border)', ...sectionGap }}>
+        <div style={pad}>
           <SectionHeader
             title="Rising Rent"
             subtitle="Affordable rents are disappearing, and renters are facing severe financial strain."
           />
 
-          {/* Chart 8 — Housing Costs Renters (from CP04 if available, else note) */}
-          <div style={{ marginBottom: 40 }}>
-            <h4 style={{ color: 'var(--navy)', marginBottom: 4, fontSize: 17, fontFamily: "'Source Sans 3', sans-serif", fontWeight: 600 }}>
-              Housing Costs — Renters
-            </h4>
+          {/* Chart 8 placeholder */}
+          <div style={{ marginTop: 24, marginBottom: 40 }}>
+            <h4 style={chartTitle}>Housing Costs — Renters</h4>
             <LoadState loading={hcLoading} error={hcError} />
             {!hcLoading && !hcError && (
-              <p style={{ fontSize: 14, color: 'var(--text-muted)', fontStyle: 'normal', padding: '12px 16px', border: '1px solid var(--border)', borderRadius: 4, maxWidth: 640 }}>
-                Renter housing cost distribution data (ACS B25070) is referenced in the data dictionary.
-                The client-maintained spreadsheet sheet for this chart will be mapped when the tab
-                "Housing Cost Burden: Renters" is populated with renter cost distribution by period.
-                Contact the data team to confirm sheet configuration.
+              <p style={{ fontSize: 14, color: 'var(--text-muted)', padding: '12px 16px', border: '1px solid var(--border)', borderRadius: 4, maxWidth: 640 }}>
+                Renter housing cost distribution data (ACS B25070) will appear here once the
+                "Housing Cost Burden: Renters" sheet in Source A is populated with renter cost
+                distribution by period.
               </p>
             )}
           </div>
 
-          {/* Chart 9 — Affordable vs Market */}
-          <div style={{ marginBottom: 0 }}>
-            <h4 style={{ color: 'var(--navy)', marginBottom: 4, fontSize: 17, fontFamily: "'Source Sans 3', sans-serif", fontWeight: 600 }}>
-              Affordable vs. Market Rent by Unit Size
-            </h4>
-            <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 16 }}>2024, Steamboat Springs</p>
+          {/* Chart 9 — full width */}
+          <div>
+            <h4 style={chartTitle}>Affordable vs. Market Rent by Unit Size</h4>
+            <p style={chartSubtitle}>2024, Steamboat Springs</p>
             <LoadState loading={mktLoading} error={mktError} />
             {affordableVMarketChart.length > 0 && (
               <AccessibleBarChart
@@ -147,7 +146,7 @@ export default function Affordability() {
                 yTickFormatter={fmt$}
                 tooltipFormatter={(v, name) => [fmt$(v), name]}
                 yDomain={[0, 4500]}
-                ariaLabel="Grouped bar chart comparing affordable rent, market rent, and the market premium gap by unit size (1-bed, 2-bed, 3-bed) in 2024."
+                ariaLabel="Grouped bar chart comparing affordable rent, market rent, and the market premium gap by unit size in 2024."
                 caption="Source: YVHA Housing Study 2025; CoStar; Property websites; Zillow; YVHA; CHFA; Economic & Planning Systems (page 71)"
               />
             )}
@@ -155,126 +154,122 @@ export default function Affordability() {
         </div>
       </div>
 
-      {/* Rocketing Home Prices */}
+      {/* Rocketing Home Prices — Charts 10 + 11 side by side */}
       <div style={{ ...sectionGap }}>
-        <div style={contentStyle}>
+        <div style={pad}>
           <SectionHeader
             title="Rocketing Home Prices"
             subtitle="Steamboat Springs' for-sale housing market is heavily tilted toward high-income buyers."
           />
 
-          {/* Chart 10 — Salary to Home Price */}
-          <div style={{ marginBottom: 40 }}>
-            <h4 style={{ color: 'var(--navy)', marginBottom: 4, fontSize: 17, fontFamily: "'Source Sans 3', sans-serif", fontWeight: 600 }}>
-              Top Industry Salaries Compared to Median Home Price
-            </h4>
-            <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 16 }}>2024, Routt County</p>
-            <LoadState loading={salaryLoading} error={salaryError} />
-            {salaryChart.length > 0 && (
-              <AccessibleBarChart
-                data={salaryChart}
-                keys={['1 Salary (Est.)', '2 Salaries (Combined)']}
-                yTickFormatter={fmt$}
-                tooltipFormatter={(v, name) => [fmt$(v), name]}
-                referenceLines={incomeToByRef ? [
-                  { value: incomeToByRef, label: `${fmt$(incomeToByRef)} — Income Required to Buy Median Home`, stroke: '#c0392b' },
-                ] : []}
-                yDomain={[0, 380000]}
-                ariaLabel="Grouped bar chart showing 1-salary and 2-salary combined incomes for four industries compared to the $328,452 income required to buy a median-priced home in Routt County."
-                caption="Source: YVHA Housing Demand Study 2025; Routt County Economic Development Partnership; MLS; Routt County Assessor"
-              />
-            )}
-          </div>
+          <div className="chart-grid" style={{ marginTop: 24 }}>
+            {/* Chart 10 — Salary to Home Price */}
+            <div>
+              <h4 style={chartTitle}>Top Industry Salaries vs. Median Home Price</h4>
+              <p style={chartSubtitle}>2024, Routt County</p>
+              <LoadState loading={salaryLoading} error={salaryError} />
+              {salaryChart.length > 0 && (
+                <AccessibleBarChart
+                  data={salaryChart}
+                  keys={['1 Salary (Est.)', '2 Salaries (Combined)']}
+                  yTickFormatter={fmt$}
+                  tooltipFormatter={(v, name) => [fmt$(v), name]}
+                  referenceLines={incomeToByRef ? [
+                    { value: incomeToByRef, label: `${fmt$(incomeToByRef)} — Income Required to Buy Median Home`, stroke: '#c0392b' },
+                  ] : []}
+                  yDomain={[0, 380000]}
+                  ariaLabel="Grouped bar chart showing 1-salary and 2-salary incomes for four industries compared to the income required to buy a median-priced home in Routt County."
+                  caption="Source: YVHA Housing Demand Study 2025; Routt County Economic Development Partnership; MLS; Routt County Assessor"
+                />
+              )}
+            </div>
 
-          {/* Chart 11 — Sales by AMI */}
-          <div style={{ marginBottom: 0 }}>
-            <h4 style={{ color: 'var(--navy)', marginBottom: 4, fontSize: 17, fontFamily: "'Source Sans 3', sans-serif", fontWeight: 600 }}>
-              Share of Households and Sales by AMI, Routt County
-            </h4>
-            <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 16 }}>2024</p>
-            <LoadState loading={amiLoading} error={amiError} />
-            {amiChart.length > 0 && (
-              <AccessibleBarChart
-                data={amiChart}
-                keys={['Household Share (%)', 'Sales Share (%)']}
-                layout="horizontal"
-                xTickFormatter={(v) => `${v}%`}
-                tooltipFormatter={(v, name) => [`${v}%`, name]}
-                ariaLabel="Horizontal paired bar chart showing household share and sales share by AMI band in Routt County 2024. Lower AMI bands have many more households than their share of home sales reflects."
-                caption="Source: YVHA Housing Demand Study 2025; MLS; Moffat County Assessor; CHFA Income Limits; Economic & Planning Systems (page 67)"
-              />
-            )}
+            {/* Chart 11 — Sales by AMI */}
+            <div>
+              <h4 style={chartTitle}>Share of Households and Sales by AMI</h4>
+              <p style={chartSubtitle}>2024, Routt County</p>
+              <LoadState loading={amiLoading} error={amiError} />
+              {amiChart.length > 0 && (
+                <AccessibleBarChart
+                  data={amiChart}
+                  keys={['Household Share (%)', 'Sales Share (%)']}
+                  layout="horizontal"
+                  xTickFormatter={(v) => `${v}%`}
+                  tooltipFormatter={(v, name) => [`${v}%`, name]}
+                  ariaLabel="Horizontal paired bar chart showing household share and sales share by AMI band in Routt County 2024."
+                  caption="Source: YVHA Housing Demand Study 2025; MLS; Moffat County Assessor; CHFA Income Limits; Economic & Planning Systems (page 67)"
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Housing Cost Burden */}
+      {/* Housing Cost Burden — placeholder */}
       <div style={{ backgroundColor: 'white', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', ...sectionGap }}>
-        <div style={contentStyle}>
+        <div style={pad}>
           <SectionHeader
             title="Housing Cost Burden"
             subtitle="New affordable housing can help to reduce cost burden, but sustained action is essential."
           />
-          <p style={{ fontSize: 14, color: 'var(--text-muted)', padding: '12px 16px', border: '1px solid var(--border)', borderRadius: 4, maxWidth: 640 }}>
-            Charts 12 and 13 (30%+ and 50%+ of income on housing for renters and owners) will display
-            automatically once the "Housing Cost Burden: Renters" and "Housing Cost Burden: Owners"
-            sheets in the Source A spreadsheet are populated with ACS B25070/B25091 data structured
-            as: Years | 30%+ Renters | 50%+ Renters | 30%+ Owners | 50%+ Owners with Mortgage | 50%+ Owners no Mortgage.
+          <p style={{ marginTop: 16, fontSize: 14, color: 'var(--text-muted)', padding: '12px 16px', border: '1px solid var(--border)', borderRadius: 4, maxWidth: 640 }}>
+            Charts 12 and 13 will display automatically once the "Housing Cost Burden: Renters" and
+            "Housing Cost Burden: Owners" sheets in Source A are populated with ACS B25070/B25091
+            data structured as: Years | 30%+ Renters | 50%+ Renters | 30%+ Owners | 50%+ Owners
+            with Mortgage | 50%+ Owners no Mortgage.
           </p>
         </div>
       </div>
 
-      {/* Mounting Basic Costs */}
-      <div style={sectionGap}>
-        <div style={contentStyle}>
+      {/* Mounting Basic Costs — Charts 14 + 15 side by side */}
+      <div style={{ paddingBottom: 64 }}>
+        <div style={pad}>
           <SectionHeader
             title="Mounting Basic Costs"
             subtitle="In Routt County, the basic cost of living outpaces what many local workers earn."
           />
 
-          {/* Chart 14 */}
-          <div style={{ marginBottom: 40 }}>
-            <h4 style={{ color: 'var(--navy)', marginBottom: 4, fontSize: 17, fontFamily: "'Source Sans 3', sans-serif", fontWeight: 600 }}>
-              1 Earner Income vs. Basic Costs
-            </h4>
-            <LoadState loading={colLoading} error={colError} />
-            {col1EarnerChart.length > 0 && (
-              <AccessibleBarChart
-                data={col1EarnerChart}
-                keys={['Annual Salary']}
-                yTickFormatter={fmt$}
-                tooltipFormatter={(v, name) => [fmt$(v), name]}
-                referenceLines={[
-                  { value: 58332, label: '$58,332 — 1 Adult Costs', stroke: '#e07b2a', dashed: true },
-                  { value: 107299, label: '$107,299 — 1 Adult + 1 Child Costs', stroke: '#c0392b' },
-                ]}
-                yDomain={[0, 130000]}
-                ariaLabel="Bar chart comparing single-earner salaries for three industry workers to the cost of living for one adult ($58,332) and one adult with one child ($107,299) in Routt County."
-                caption="Source: Routt County Economic Development Partnership Highest Ranked Industries report 2025; MIT Living Wage Calculator for Routt County 2025"
-              />
-            )}
-          </div>
+          <div className="chart-grid" style={{ marginTop: 24 }}>
+            {/* Chart 14 — 1 Earner */}
+            <div>
+              <h4 style={chartTitle}>1 Earner Income vs. Basic Costs</h4>
+              <LoadState loading={colLoading} error={colError} />
+              {col1EarnerChart.length > 0 && (
+                <AccessibleBarChart
+                  data={col1EarnerChart}
+                  keys={['Annual Salary']}
+                  yTickFormatter={fmt$}
+                  tooltipFormatter={(v, name) => [fmt$(v), name]}
+                  referenceLines={[
+                    { value: 58332, label: '$58,332 — 1 Adult Costs', stroke: '#e07b2a', dashed: true },
+                    { value: 107299, label: '$107,299 — 1 Adult + 1 Child', stroke: '#c0392b' },
+                  ]}
+                  yDomain={[0, 130000]}
+                  ariaLabel="Bar chart comparing single-earner salaries for three industry workers to the cost of living for one adult and one adult with one child in Routt County."
+                  caption="Source: Routt County Economic Development Partnership 2025; MIT Living Wage Calculator for Routt County 2025"
+                />
+              )}
+            </div>
 
-          {/* Chart 15 */}
-          <div style={{ marginBottom: 0 }}>
-            <h4 style={{ color: 'var(--navy)', marginBottom: 4, fontSize: 17, fontFamily: "'Source Sans 3', sans-serif", fontWeight: 600 }}>
-              2 Earners Income vs. Basic Costs
-            </h4>
-            {col2EarnerChart.length > 0 && (
-              <AccessibleBarChart
-                data={col2EarnerChart}
-                keys={['Combined Salaries']}
-                yTickFormatter={fmt$}
-                tooltipFormatter={(v, name) => [fmt$(v), name]}
-                referenceLines={[
-                  { value: 79780, label: '$79,780 — 2 Adults Costs', stroke: '#e07b2a', dashed: true },
-                  { value: 151805, label: '$151,805 — 2 Adults + 2 Children', stroke: '#c0392b' },
-                ]}
-                yDomain={[0, 180000]}
-                ariaLabel="Bar chart comparing combined two-earner salaries for three industry worker pairs to the cost of living for two adults ($79,780) and two adults with two children ($151,805) in Routt County."
-                caption="Source: Routt County Economic Development Partnership Highest Ranked Industries report 2025; MIT Living Wage Calculator for Routt County 2025"
-              />
-            )}
+            {/* Chart 15 — 2 Earners */}
+            <div>
+              <h4 style={chartTitle}>2 Earners Income vs. Basic Costs</h4>
+              {col2EarnerChart.length > 0 && (
+                <AccessibleBarChart
+                  data={col2EarnerChart}
+                  keys={['Combined Salaries']}
+                  yTickFormatter={fmt$}
+                  tooltipFormatter={(v, name) => [fmt$(v), name]}
+                  referenceLines={[
+                    { value: 79780, label: '$79,780 — 2 Adults Costs', stroke: '#e07b2a', dashed: true },
+                    { value: 151805, label: '$151,805 — 2 Adults + 2 Children', stroke: '#c0392b' },
+                  ]}
+                  yDomain={[0, 180000]}
+                  ariaLabel="Bar chart comparing combined two-earner salaries for three industry worker pairs to the cost of living for two adults and two adults with two children in Routt County."
+                  caption="Source: Routt County Economic Development Partnership 2025; MIT Living Wage Calculator for Routt County 2025"
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

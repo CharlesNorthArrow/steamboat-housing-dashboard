@@ -442,7 +442,7 @@ export default function Affordability() {
                 keys={['Renters', 'Owners w/ Mortgage', 'Owners w/o Mortgage']}
                 yTickFormatter={(v) => `${v}%`}
                 tooltipFormatter={(v, name) => [`${v}%`, name]}
-                yDomain={[0, 50]}
+                yDomain={[0, 60]}
                 chartHeight={280}
                 ariaLabel="Line chart showing the share of renters, owners with a mortgage, and owners without a mortgage paying 30% or more of income on housing from 2006 to 2024."
                 caption="Sources: ACS Data — B25070: Gross Rent as a Percentage of Household Income in the Past 12 Months; B25091: Mortgage Status by Selected Monthly Owner Costs as a Percentage of Household Income in the Past 12 Months"
@@ -468,7 +468,7 @@ export default function Affordability() {
                 keys={['Renters', 'Owners w/ Mortgage', 'Owners w/o Mortgage']}
                 yTickFormatter={(v) => `${v}%`}
                 tooltipFormatter={(v, name) => [`${v}%`, name]}
-                yDomain={[0, 30]}
+                yDomain={[0, 60]}
                 chartHeight={280}
                 ariaLabel="Line chart showing the share of renters, owners with a mortgage, and owners without a mortgage paying 50% or more of income on housing from 2006 to 2024."
                 caption="Sources: ACS Data — B25070: Gross Rent as a Percentage of Household Income in the Past 12 Months; B25091: Mortgage Status by Selected Monthly Owner Costs as a Percentage of Household Income in the Past 12 Months"

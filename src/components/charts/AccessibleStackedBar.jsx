@@ -4,6 +4,7 @@ import {
 } from 'recharts'
 import { PatternDefs, PATTERN_IDS, PATTERN_COLORS } from './PatternDefs'
 import ChartFigure from './ChartFigure'
+import ChartTooltip from './ChartTooltip'
 
 function SRTable({ data, keys, label }) {
   return (
@@ -60,7 +61,7 @@ export default function AccessibleStackedBar({
             tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }}
             domain={percent ? [0, 1] : undefined}
           />
-          <Tooltip formatter={tooltipFormatter} />
+          <Tooltip content={(p) => <ChartTooltip {...p} formatter={tooltipFormatter} />} />
           <Legend
             wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 8, color: '#1a1a1a' }}
             payload={legendPayload}

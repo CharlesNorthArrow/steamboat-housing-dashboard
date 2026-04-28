@@ -3,6 +3,7 @@ import {
   ResponsiveContainer, ReferenceLine,
 } from 'recharts'
 import ChartFigure from './ChartFigure'
+import ChartTooltip from './ChartTooltip'
 
 const LINE_STYLES = [
   { stroke: '#1b3a5c', strokeDasharray: '0' },
@@ -52,7 +53,7 @@ export default function AccessibleLineChart({
             tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }}
             domain={yDomain}
           />
-          <Tooltip formatter={tooltipFormatter} />
+          <Tooltip content={(p) => <ChartTooltip {...p} formatter={tooltipFormatter} />} />
           <Legend
             wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 8, color: '#1a1a1a' }}
           />

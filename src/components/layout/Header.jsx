@@ -90,6 +90,8 @@ export default function Header({ activeTab }) {
           boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
           zIndex: 10,
           display: 'block',
+          transform: 'scale(calc(1 - var(--scroll-p, 0) * 0.3))',
+          transformOrigin: 'top right',
         }}
       />
     </header>

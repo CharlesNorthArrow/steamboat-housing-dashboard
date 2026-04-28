@@ -1,33 +1,23 @@
 export default function SectionHeader({ title, subtitle, dark = false }) {
   return (
-    <div
-      style={{
-        backgroundColor: dark ? 'var(--dark-bg)' : 'transparent',
-        color: dark ? 'white' : 'var(--text-dark)',
-        padding: dark ? '28px 32px' : '0',
-        marginBottom: dark ? 0 : 16,
-        borderRadius: dark ? '6px 6px 0 0' : 0,
-      }}
-    >
-      <h3
-        style={{
-          margin: '0 0 6px',
-          fontSize: 26,
-          fontWeight: 700,
-          color: dark ? 'white' : 'var(--navy)',
-        }}
-      >
+    <div style={{ marginBottom: subtitle ? 8 : 0 }}>
+      <h3 style={{
+        margin: '0 0 6px',
+        fontSize: 26,
+        fontWeight: 700,
+        color: dark ? 'white' : 'var(--navy)',
+        fontFamily: "'Source Serif 4', serif",
+      }}>
         {title}
       </h3>
       {subtitle && (
-        <p
-          style={{
-            margin: 0,
-            fontSize: 15,
-            lineHeight: 1.5,
-            color: dark ? 'rgba(255,255,255,0.8)' : 'var(--text-muted)',
-          }}
-        >
+        <p style={{
+          margin: 0,
+          fontSize: 16,
+          lineHeight: 1.5,
+          color: dark ? 'rgba(255,255,255,0.75)' : 'var(--text-muted)',
+          fontFamily: "'Source Sans 3', sans-serif",
+        }}>
           {subtitle}
         </p>
       )}

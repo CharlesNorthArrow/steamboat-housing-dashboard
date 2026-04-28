@@ -1,11 +1,32 @@
 import { useRef } from 'react'
+import { useGoogleSheet } from '../../hooks/useGoogleSheet'
+import { SHEET_URLS } from '../../utils/sheetUrls'
 
 const TABS = [
-  { id: 'trail-forward', label: 'Trail Forward', description: 'Community demographics and trends' },
-  { id: 'affordability', label: 'Affordability', description: 'Rising costs and the affordability gap' },
-  { id: 'pipeline', label: 'Pipeline', description: 'Developments under way and planned' },
-  { id: 'policies', label: 'Policies', description: 'Programs and policy options' },
+  { id: 'trail-forward', label: 'Trail Forward',  description: 'Community demographics and trends' },
+  { id: 'affordability', label: 'Affordability',  description: 'Rising costs and the affordability gap' },
+  { id: 'pipeline',      label: 'Pipeline',        description: 'Developments under way and planned' },
+  { id: 'policies',      label: 'Policies',        description: 'Programs and policy options' },
 ]
+
+function SidebarFooter() {
+  const { data } = useGoogleSheet(SHEET_URLS.lastUpdated)
+  const lu = data?.[0]
+
+  return (
+    <div className="sidebar-footer-section">
+      {lu && (
+        <p>Data and narrative last updated {lu.Month} {lu.Year}</p>
+      )}
+      <p>
+        For questions or assistance accessing this dashboard, email the{' '}
+        <a href="mailto:kmccarthy@steamboatsprings.net">Housing Innovation Specialist</a>
+        {' '}or call{' '}
+        <a href="tel:9708717063">970-871-7063</a>.
+      </p>
+    </div>
+  )
+}
 
 export default function TabNav({ activeTab, onTabChange }) {
   const tabRefs = useRef([])
@@ -13,7 +34,7 @@ export default function TabNav({ activeTab, onTabChange }) {
   function handleKeyDown(e, index) {
     let next = index
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight') next = (index + 1) % TABS.length
-    else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = (index - 1 + TABS.length) % TABS.length
+    else if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  next = (index - 1 + TABS.length) % TABS.length
     else return
     e.preventDefault()
     onTabChange(TABS[next].id)
@@ -56,17 +77,23 @@ export default function TabNav({ activeTab, onTabChange }) {
         ))}
       </div>
 
-      {/* Data disclaimer — lives in sidebar below the tabs */}
+      {/* Disclaimer — yellow pill so it pops against the dark sidebar */}
       <div className="sidebar-disclaimer" role="note">
-        <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
+        <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="#7a6200" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+          style={{ flexShrink: 0, marginTop: 1 }}
+        >
           <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="8"  x2="12"    y2="12" />
           <line x1="12" y1="16" x2="12.01" y2="16" />
         </svg>
         <span>
           All public data is from the latest available year and will be updated regularly.
         </span>
       </div>
+
+      {/* Last updated + contact — always visible at bottom */}
+      <SidebarFooter />
     </nav>
   )
 }

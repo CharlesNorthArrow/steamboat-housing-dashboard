@@ -7,6 +7,7 @@
     --orange: #e07b2a;
     --gold: #f5a623;
     --dark-bg: #225286;
+    --sidebar-bg: #193d6a;
     --light-bg: #f7f6f2;
     --white: #ffffff;
     --text-dark: #1a1a1a;
@@ -84,14 +85,14 @@
 .app-layout {
   display: flex;
   align-items: flex-start;
-  background-color: var(--navy); /* fills left gutter blue all the way down */
+  background-color: var(--sidebar-bg); /* fills left gutter blue all the way down */
 }
 
 .content-col {
   flex: 1;
   min-width: 0;
   outline: none;
-  background-color: var(--light-bg);
+  background-color: white;
   min-height: 100vh;
 }
 
@@ -104,7 +105,7 @@
   top: 0;
   max-height: 100vh;
   overflow-y: auto;
-  background-color: var(--navy);
+  background-color: var(--sidebar-bg);
   display: flex;
   flex-direction: column;
 }
@@ -160,18 +161,37 @@
 /* ── Sidebar disclaimer ─────────────────────────────────────── */
 
 .sidebar-disclaimer {
-  margin: 0 12px 20px;
-  padding: 12px 14px;
+  margin: 0 12px 16px;
+  padding: 10px 12px;
   border-radius: 6px;
-  background-color: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
+  background-color: #fffde7;
+  border: 1px solid #f5d84a;
   font-size: 12px;
-  color: rgba(255,255,255,0.6);
+  color: #5a4800;
   font-family: 'Source Sans 3', sans-serif;
   line-height: 1.55;
   display: flex;
   gap: 8px;
   align-items: flex-start;
+}
+
+/* ── Sidebar footer ─────────────────────────────────────────── */
+
+.sidebar-footer-section {
+  padding: 14px 16px 20px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  font-family: 'Source Sans 3', sans-serif;
+  line-height: 1.6;
+}
+
+.sidebar-footer-section p { margin: 0 0 6px; }
+.sidebar-footer-section p:last-child { margin-bottom: 0; }
+
+.sidebar-footer-section a {
+  color: rgba(255,255,255,0.72);
+  text-decoration: underline;
 }
 
 /* ── Paired chart grid ──────────────────────────────────────── */
@@ -186,7 +206,7 @@
 /* ── Mobile ─────────────────────────────────────────────────── */
 
 @media (max-width: 800px) {
-  .app-layout { flex-direction: column; }
+  .app-layout { flex-direction: column; background-color: var(--sidebar-bg); }
 
   .sidebar-nav {
     width: 100%;

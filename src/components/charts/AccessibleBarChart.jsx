@@ -96,7 +96,7 @@ export default function AccessibleBarChart({
               <YAxis tickFormatter={yTickFormatter} tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }} domain={yDomain} />
             </>
           )}
-          <Tooltip content={(p) => <ChartTooltip {...p} formatter={tooltipFormatter} />} />
+          <Tooltip content={(p) => <ChartTooltip {...p} formatter={tooltipFormatter} colorEachBarData={colorEachBar ? data : undefined} />} />
           {!colorEachBar && (
             <Legend
               wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 8 }}

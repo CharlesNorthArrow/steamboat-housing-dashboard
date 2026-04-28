@@ -1,4 +1,4 @@
-import { PATTERNS } from './PatternDefs'
+import { PATTERNS, PATTERN_COLORS } from './PatternDefs'
 
 // Converts url(#pat-solid) → the solid fill color for that pattern.
 // Leaves regular hex/rgb colors untouched.
@@ -12,11 +12,14 @@ function resolveColor(raw, index = 0) {
 }
 
 // Drop-in replacement for the Recharts default tooltip.
-// Usage in a chart:
-//   <Tooltip content={(p) => <ChartTooltip {...p} formatter={myFormatter} />} />
 //
-// formatter: (value, name) => [displayValue, displayName]  (same as Recharts formatter prop)
-export default function ChartTooltip({ active, payload, label, formatter }) {
+// formatter: (value, name) => [displayValue, displayName]
+//
+// colorEachBarData: pass the chart's data array when colorEachBar=true.
+// Recharts sets entry.fill to the Bar's fill prop for ALL bars (it doesn't
+// reflect the per-bar Cell fill), so we look up the correct pattern color
+// by finding the bar's position in the data array by name.
+export default function ChartTooltip({ active, payload, label, formatter, colorEachBarData }) {
   if (!active || !payload?.length) return null
 
   return (
@@ -37,8 +40,18 @@ export default function ChartTooltip({ active, payload, label, formatter }) {
         </div>
       )}
       {payload.map((entry, i) => {
-        const rawColor = entry.fill || entry.color || entry.stroke
-        const color = resolveColor(rawColor, i)
+        let color
+        if (colorEachBarData) {
+          // colorEachBar mode: look up bar index by name to get the correct Cell color
+          const barIndex = colorEachBarData.findIndex(d => d.name === entry.payload?.name)
+          color = PATTERN_COLORS[(barIndex >= 0 ? barIndex : i) % PATTERN_COLORS.length]
+        } else {
+          // Standard bars: entry.color = pattern URL → resolveColor maps to hex
+          // Lines: entry.color = stroke hex (reliable); entry.fill is 'none' for lines
+          //        so we must not use entry.fill first or it short-circuits the chain
+          color = resolveColor(entry.color || entry.stroke, i)
+        }
+
         const result = formatter ? formatter(entry.value, entry.name, entry, i, payload) : null
         const displayValue = result ? result[0] : entry.value
         const displayName  = result ? result[1] : entry.name

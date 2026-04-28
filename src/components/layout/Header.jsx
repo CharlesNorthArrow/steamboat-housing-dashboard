@@ -1,4 +1,21 @@
-export default function Header() {
+const TAB_IMAGES = {
+  'trail-forward': '/header-trail-forward.jpg',
+  'affordability': '/header-affordability.jpg',
+  'pipeline':      '/header-pipeline.jpg',
+  'policies':      '/header-policies.jpg',
+}
+
+const TAB_IMAGE_LABELS = {
+  'trail-forward': 'Community scene in Steamboat Springs',
+  'affordability': 'Steamboat Springs housing and community',
+  'pipeline':      'Housing developments in Steamboat Springs',
+  'policies':      'City policy and planning in Steamboat Springs',
+}
+
+export default function Header({ activeTab }) {
+  const imgSrc = TAB_IMAGES[activeTab] || TAB_IMAGES['trail-forward']
+  const imgAlt = TAB_IMAGE_LABELS[activeTab] || 'Steamboat Springs, Colorado'
+
   return (
     <header
       style={{ backgroundColor: 'var(--white)', borderBottom: '2px solid var(--border)' }}
@@ -6,24 +23,23 @@ export default function Header() {
     >
       <div
         style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          padding: '0 24px',
+          padding: '0 48px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          minHeight: 80,
-          gap: 24,
+          minHeight: 120,
+          gap: 32,
         }}
       >
         <div>
           <p
             style={{
-              margin: 0,
-              fontSize: 13,
+              margin: '0 0 6px',
+              fontSize: 16,
               fontWeight: 600,
               color: 'var(--text-muted)',
-              letterSpacing: '0.05em',
+              letterSpacing: '0.04em',
+              fontFamily: "'Source Sans 3', sans-serif",
             }}
           >
             City of Steamboat Springs
@@ -31,31 +47,31 @@ export default function Header() {
           <h1
             style={{
               margin: 0,
-              fontSize: 22,
+              fontSize: 44,
               fontWeight: 700,
               color: 'var(--navy)',
-              lineHeight: 1.2,
+              lineHeight: 1.15,
+              fontFamily: "'Source Serif 4', serif",
             }}
           >
             Affordable Housing Dashboard
           </h1>
         </div>
 
-        {/* Header image placeholder — drop your aerial photo here as /public/steamboat-aerial.jpg */}
         <div
           role="img"
-          aria-label="Aerial view of Steamboat Springs, Colorado"
+          aria-label={imgAlt}
           style={{
-            width: 200,
-            height: 64,
+            width: 320,
+            height: 90,
             borderRadius: 6,
             overflow: 'hidden',
             flexShrink: 0,
-            background: 'var(--light-bg)',
-            backgroundImage: 'url(/steamboat-aerial.jpg)',
+            backgroundImage: `url(${imgSrc})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             border: '1px solid var(--border)',
+            transition: 'background-image 0.3s ease',
           }}
         />
       </div>

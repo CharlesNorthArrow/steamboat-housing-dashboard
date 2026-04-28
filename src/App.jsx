@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import SkipNav from './components/layout/SkipNav'
 import Header from './components/layout/Header'
 import TabNav from './components/layout/TabNav'
-import DataBanner from './components/layout/DataBanner'
 import Footer from './components/layout/Footer'
 import TrailForward from './pages/TrailForward'
 import Affordability from './pages/Affordability'
@@ -35,8 +34,7 @@ export default function App() {
   return (
     <>
       <SkipNav />
-      <Header />
-      <DataBanner />
+      <Header activeTab={activeTab} />
 
       <div className="app-layout">
         <TabNav activeTab={activeTab} onTabChange={handleTabChange} />

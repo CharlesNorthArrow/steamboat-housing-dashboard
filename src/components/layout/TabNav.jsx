@@ -55,6 +55,18 @@ export default function TabNav({ activeTab, onTabChange }) {
           </button>
         ))}
       </div>
+
+      {/* Data disclaimer — lives in sidebar below the tabs */}
+      <div className="sidebar-disclaimer" role="note">
+        <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+        <span>
+          All public data is from the latest available year and will be updated regularly.
+        </span>
+      </div>
     </nav>
   )
 }

@@ -3,10 +3,10 @@
 
 @layer base {
   :root {
-    --navy: #1b3a5c;
+    --navy: #225286;
     --orange: #e07b2a;
     --gold: #f5a623;
-    --dark-bg: #1b2b3a;
+    --dark-bg: #225286;
     --light-bg: #f7f6f2;
     --white: #ffffff;
     --text-dark: #1a1a1a;
@@ -84,12 +84,15 @@
 .app-layout {
   display: flex;
   align-items: flex-start;
+  background-color: var(--navy); /* fills left gutter blue all the way down */
 }
 
 .content-col {
   flex: 1;
   min-width: 0;
   outline: none;
+  background-color: var(--light-bg);
+  min-height: 100vh;
 }
 
 /* ── Sidebar nav ────────────────────────────────────────────── */
@@ -152,6 +155,23 @@
   color: rgba(255,255,255,0.55);
   font-family: 'Source Sans 3', sans-serif;
   line-height: 1.4;
+}
+
+/* ── Sidebar disclaimer ─────────────────────────────────────── */
+
+.sidebar-disclaimer {
+  margin: 0 12px 20px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  background-color: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  font-family: 'Source Sans 3', sans-serif;
+  line-height: 1.55;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
 }
 
 /* ── Paired chart grid ──────────────────────────────────────── */

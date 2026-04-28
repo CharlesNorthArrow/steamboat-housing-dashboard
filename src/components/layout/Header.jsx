@@ -1,3 +1,5 @@
+import { useRef, useEffect } from 'react'
+
 const TAB_IMAGES = {
   'trail-forward': '/header-trail-forward.jpg',
   'affordability':  '/header-affordability.jpg',
@@ -13,14 +15,29 @@ const TAB_IMAGE_LABELS = {
 }
 
 export default function Header({ activeTab }) {
+  const headerRef = useRef(null)
   const imgSrc = TAB_IMAGES[activeTab]  || TAB_IMAGES['trail-forward']
   const imgAlt = TAB_IMAGE_LABELS[activeTab] || 'Steamboat Springs, Colorado'
 
+  useEffect(() => {
+    const el = headerRef.current
+    if (!el) return
+    const update = () => {
+      const progress = Math.min(window.scrollY / 100, 1)
+      el.style.setProperty('--scroll-p', progress)
+    }
+    window.addEventListener('scroll', update, { passive: true })
+    return () => window.removeEventListener('scroll', update)
+  }, [])
+
   return (
     <header
+      ref={headerRef}
       style={{
         backgroundColor: 'var(--white)',
-        position: 'relative',
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
         overflow: 'visible',
       }}
       role="banner"
@@ -37,7 +54,7 @@ export default function Header({ activeTab }) {
         <div>
           <p style={{
             margin: '0 0 6px',
-            fontSize: 16,
+            fontSize: 'calc(24px - var(--scroll-p, 0) * 8px)',
             fontWeight: 600,
             color: 'var(--text-muted)',
             letterSpacing: '0.04em',
@@ -47,7 +64,7 @@ export default function Header({ activeTab }) {
           </p>
           <h1 style={{
             margin: 0,
-            fontSize: 44,
+            fontSize: 'calc(44px - var(--scroll-p, 0) * 14px)',
             fontWeight: 700,
             color: 'var(--navy)',
             lineHeight: 1.15,

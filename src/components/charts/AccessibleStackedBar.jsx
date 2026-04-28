@@ -1,6 +1,6 @@
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-  ResponsiveContainer, LabelList,
+  ResponsiveContainer,
 } from 'recharts'
 import { PatternDefs, PATTERN_IDS, PATTERN_COLORS } from './PatternDefs'
 import ChartFigure from './ChartFigure'
@@ -35,6 +35,13 @@ export default function AccessibleStackedBar({
     ? (v, name) => [`${(v * 100).toFixed(1)}%`, name]
     : undefined
 
+  const legendPayload = keys.map((key, i) => ({
+    value: key,
+    type: 'square',
+    color: PATTERN_COLORS[i % PATTERN_COLORS.length],
+    id: key,
+  }))
+
   return (
     <ChartFigure
       ariaLabel={ariaLabel}
@@ -47,19 +54,19 @@ export default function AccessibleStackedBar({
             <PatternDefs />
           </svg>
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
-          <XAxis dataKey="name" tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif" }} />
+          <XAxis dataKey="name" tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }} />
           <YAxis
             tickFormatter={tickFormatter}
-            tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif" }}
+            tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }}
             domain={percent ? [0, 1] : undefined}
           />
           <Tooltip formatter={tooltipFormatter} />
           <Legend
-            wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 8 }}
+            wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 8, color: '#1a1a1a' }}
+            payload={legendPayload}
           />
           {keys.map((key, i) => (
-            <Bar key={key} dataKey={key} stackId="a" fill={PATTERN_IDS[i % PATTERN_IDS.length]}>
-            </Bar>
+            <Bar key={key} dataKey={key} stackId="a" fill={PATTERN_IDS[i % PATTERN_IDS.length]} />
           ))}
         </BarChart>
       </ResponsiveContainer>

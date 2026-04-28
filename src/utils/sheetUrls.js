@@ -11,6 +11,8 @@ export const SHEET_URLS = {
   income:                 sheetUrl(SOURCE_A, 'Income'),
   employment:             sheetUrl(SOURCE_A, 'Employment'),
   housingCosts:           sheetUrl(SOURCE_A, 'Housing Costs'),
+  renterCostBurden:       sheetUrl(SOURCE_A, 'Housing Cost Burden - Renters'),
+  ownerCostBurden:        sheetUrl(SOURCE_A, 'Housing Cost Burden - Owners'),
   affordableVMarket:      sheetUrl(SOURCE_A, 'Affordable v Market'),
   salesByAMI:             sheetUrl(SOURCE_A, 'Sales by AMI'),
   salaryToRentBuy:        sheetUrl(SOURCE_A, 'Salary to Rent/Buy'),

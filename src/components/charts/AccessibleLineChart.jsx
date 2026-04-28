@@ -35,7 +35,7 @@ function SRTable({ data, keys, label }) {
 
 export default function AccessibleLineChart({
   data, keys, ariaLabel, caption, yTickFormatter, referenceLines = [],
-  yDomain, tooltipFormatter,
+  yDomain, tooltipFormatter, chartHeight = 300,
 }) {
   return (
     <ChartFigure
@@ -43,18 +43,18 @@ export default function AccessibleLineChart({
       caption={caption}
       srTable={<SRTable data={data} keys={keys} label={ariaLabel} />}
     >
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={chartHeight}>
         <LineChart data={data} margin={{ top: 8, right: 32, left: 8, bottom: 8 }}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
-          <XAxis dataKey="name" tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif" }} />
+          <XAxis dataKey="name" tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }} />
           <YAxis
             tickFormatter={yTickFormatter}
-            tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif" }}
+            tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }}
             domain={yDomain}
           />
           <Tooltip formatter={tooltipFormatter} />
           <Legend
-            wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 8 }}
+            wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 8, color: '#1a1a1a' }}
           />
           {referenceLines.map((rl) => (
             <ReferenceLine

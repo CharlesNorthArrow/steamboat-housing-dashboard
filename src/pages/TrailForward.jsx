@@ -11,6 +11,7 @@ import AccessibleLineChart from '../components/charts/AccessibleLineChart'
 import AccessibleBarChart from '../components/charts/AccessibleBarChart'
 import ChartFigure from '../components/charts/ChartFigure'
 import SectionHeader from '../components/ui/SectionHeader'
+import ReadAloudButton from '../components/ui/ReadAloudButton'
 
 const PERIODS = ['2006-2010', '2011-2015', '2016-2020', '2020-2024']
 
@@ -137,43 +138,86 @@ export default function TrailForward() {
   const incomeKeys = ['Low Income (<$50K)', 'Middle ($50K–$124K)', 'Upper Middle ($125K–$199K)', 'High Income (>$200K)']
   const ageKeys    = ['0–14', '15–24', '25–44', '45–64', '65–74', '75 & over']
 
+  const SCRIPTS = {
+    urgency: [
+      { text: "Urgency to Act.", readId: "tf-urgency-title" },
+      { text: "The past 15 years show the ripple effects of the city's affordable housing crisis.", readId: "tf-urgency-sub" },
+      { text: "Employers are struggling to hire talent, and modest-income residents and young people are moving out. As a result, the very character of our community is rapidly changing.", readId: "tf-urgency-p1" },
+      { text: "We want those who contribute to Steamboat Springs to be able to live here. Now, more than ever, we need to take action.", readId: "tf-urgency-p2" },
+    ],
+
+    trailForward: [
+      { text: "Our Trail Forward.", readId: "tf-trail-title" },
+      { text: "A vibrant and healthy Steamboat Springs means having residents of all ages and incomes.", readId: "tf-trail-sub" },
+      { text: "As we work together to create more affordable housing, we can measure our progress by tracking two demographics: income and age. Over the past 15 years, we have seen the share of low- and middle-income residents and residents under 44 decrease rapidly.", readId: "tf-trail-body" },
+      { text: "Chart one: Percentage of Households by Income Level. Low- and middle-income households fell from 86% to 57% of all households, while high-income households earning over $200,000 quadrupled from 6% to 25%." },
+      { text: "Chart two: Percentage of Residents by Age Group. Residents aged 25 to 44 fell from 32% to 27% of the population, while residents 65 and older nearly tripled from 7% to 18%, signaling rapid community aging." },
+    ],
+
+    incomeDeep: [
+      { text: "Income Deeper Dive. As high-income households surge, low- and middle-income households are disappearing.", readId: "tf-income-header" },
+      { text: "Steamboat Springs is seeing clear, sustained growth at the top of the income ladder. Keeping the city livable for middle- and lower-income households will likely hinge on housing affordability initiatives, diverse job opportunities, and policies that help long-time residents stay rooted as the resort economy booms.", readId: "tf-income-body" },
+      { text: "Chart three: Number of High-Income Households earning $200,000 or more. High-income households grew modestly from 298 to 549 between 2006 and 2020, then nearly tripled in just five years, reaching 1,446 by 2020 to 2024." },
+      { text: "Chart four: Net Population Shift by Income Level. Between 2010 and 2023, low- and middle-income households shrank by 12 and 14 percentage points respectively, while upper-middle and high-income households grew by 10 and 18 percentage points." },
+    ],
+
+    ageDeep: [
+      { text: "Age Deeper Dive. Young adults and early-career families are leaving.", readId: "tf-age-header" },
+      { text: "Steamboat Springs is rapidly aging. Since the 2006 to 2010 American Community Survey, the city's median age has climbed more than seven years, to roughly 43, while the share of residents 65 and older has more than doubled.", readId: "tf-age-body" },
+      { text: "Chart five: Median Age. Median age rose steadily from 35 to 39 between 2006 and 2020, then accelerated sharply to 44 by 2020 to 2024, nearly a 9-year increase in less than two decades." },
+      { text: "Chart six: Share of 25 to 44 Year Olds. The share of 25 to 44 year olds held relatively steady around 32 to 33% from 2006 to 2020, then dropped sharply to 27% by 2020 to 2024." },
+    ],
+
+    employment: [
+      { text: "Employment Challenges. Workers in the five most common industries cannot afford housing.", readId: "tf-emp-header" },
+      { text: "The top five industries in Routt County collectively account for nearly half of all jobs. Given their modest wages relative to average rent in Steamboat Springs, most are likely to be housing-cost burdened, meaning they spend more than 30% of their income on housing.", readId: "tf-emp-body" },
+      { text: "Chart seven: Max Rent Without Being Housing Cost Burdened Compared to Average Rent. The maximum rent workers in these five industries can afford ranges from $2,018 for Business and Financial Operations down to $1,053 for Food Preparation, all falling well below the average market rent of $4,985 and below or near the ACS median rent of $1,909." },
+    ],
+  }
+
   return (
     <div id="panel-trail-forward" role="tabpanel" aria-labelledby="tab-trail-forward" tabIndex={-1}>
 
       {/* ── Urgency to Act — orange title on broken white ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--light-bg)' }}>
-        <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 700, color: 'var(--orange)', fontFamily: "'Source Sans 3', sans-serif" }}>
+        <h2 data-read-id="tf-urgency-title" style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 700, color: 'var(--orange)', fontFamily: "'Source Sans 3', sans-serif" }}>
           Urgency to Act
         </h2>
-        <p style={{ margin: '0 0 16px', fontSize: 17, color: 'var(--text-muted)', fontFamily: "'Source Sans 3', sans-serif" }}>
+        <p data-read-id="tf-urgency-sub" style={{ margin: '0 0 16px', fontSize: 17, color: 'var(--text-muted)', fontFamily: "'Source Sans 3', sans-serif" }}>
           The past 15 years show the ripple effects of the city's affordable housing crisis.
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <p style={bannerBody}>
+          <p data-read-id="tf-urgency-p1" style={bannerBody}>
             Employers are struggling to hire talent, and modest-income residents and young people are moving out.
             As a result, the very character of our community is rapidly changing.
           </p>
-          <p style={bannerBody}>
+          <p data-read-id="tf-urgency-p2" style={bannerBody}>
             We want those who contribute to Steamboat Springs to be able to live here. Now, more than ever,
             we need to take action.
           </p>
+        </div>
+        <div style={{ marginTop: 20 }}>
+          <ReadAloudButton segments={SCRIPTS.urgency} dark={false} />
         </div>
       </div>
 
       {/* ── Our Trail Forward — section banner (navy) ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-          <h2 style={{ margin: 0, fontSize: 40, fontWeight: 700, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
-            Our Trail Forward
-          </h2>
-          <svg aria-hidden="true" focusable="false" width="28" height="28" viewBox="0 0 24 24" fill="var(--gold)">
-            <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
-          </svg>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, marginBottom: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <h2 data-read-id="tf-trail-title" style={{ margin: 0, fontSize: 40, fontWeight: 700, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
+              Our Trail Forward
+            </h2>
+            <svg aria-hidden="true" focusable="false" width="28" height="28" viewBox="0 0 24 24" fill="var(--gold)">
+              <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+            </svg>
+          </div>
+          <ReadAloudButton segments={SCRIPTS.trailForward} />
         </div>
-        <p style={{ fontSize: 17, color: 'white', margin: '0 0 12px', fontFamily: "'Source Sans 3', sans-serif" }}>
+        <p data-read-id="tf-trail-sub" style={{ fontSize: 17, color: 'white', margin: '0 0 12px', fontFamily: "'Source Sans 3', sans-serif" }}>
           A vibrant and healthy Steamboat Springs means having residents of all ages and incomes.
         </p>
-        <p style={{ margin: 0, fontSize: 15, lineHeight: 1.75, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
+        <p data-read-id="tf-trail-body" style={{ margin: 0, fontSize: 15, lineHeight: 1.75, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
           As we work together to create more affordable housing, we can measure our progress by
           tracking these two demographics — income and age. Over the past 15 years, we've seen the
           share of low- and middle-income residents and residents under 44 decrease rapidly.
@@ -196,7 +240,7 @@ export default function TrailForward() {
               <AccessibleStackedBar
                 data={incomeChartData} keys={incomeKeys} percent
                 ariaLabel="Stacked bar chart: percentage of households by income level 2006–2024."
-                caption="Source: ACS 5-year estimates, Table B19001"
+                caption="Source: ACS 5-Year Estimates, B19001 Household Income in the Past 12 Months"
               />
             )}
           </div>
@@ -214,7 +258,7 @@ export default function TrailForward() {
                 data={ageChartData.map(({ _medianAge, _share2544, ...rest }) => rest)}
                 keys={ageKeys} percent
                 ariaLabel="Stacked bar chart: percentage of residents by age group 2006–2024."
-                caption="Source: ACS 5-year estimates, Table S0101"
+                caption="Source: ACS 5-Year Estimates, S0101 Age and Sex"
               />
             )}
           </div>
@@ -223,11 +267,16 @@ export default function TrailForward() {
 
       {/* ── Income Deeper Dive banner ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <SectionHeader dark
-          title="Income Deeper Dive"
-          subtitle="As high-income households surge, low- and middle-income households are disappearing."
-        />
-        <p style={{ margin: '14px 0 0', fontSize: 15, lineHeight: 1.75, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
+          <div data-read-id="tf-income-header">
+            <SectionHeader dark
+              title="Income Deeper Dive"
+              subtitle="As high-income households surge, low- and middle-income households are disappearing."
+            />
+          </div>
+          <ReadAloudButton segments={SCRIPTS.incomeDeep} />
+        </div>
+        <p data-read-id="tf-income-body" style={{ margin: '14px 0 0', fontSize: 15, lineHeight: 1.75, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
           Steamboat Springs is seeing clear, sustained growth at the top of the income ladder.
           Keeping the city livable for middle- and lower-income households will likely hinge on
           housing affordability initiatives, diverse job opportunities, and policies that help
@@ -252,7 +301,7 @@ export default function TrailForward() {
                 yDomain={[0, 2000]}
                 yTickFormatter={(v) => v >= 1000 ? `${v / 1000}K` : v}
                 ariaLabel="Line chart: high-income households grew from 298 in 2006-2010 to 1,446 in 2020-2024."
-                caption="Source: ACS 5-year estimates, Table B19001"
+                caption="Source: ACS 5-Year Estimates, B19001 Household Income in the Past 12 Months"
               />
             )}
           </div>
@@ -267,7 +316,7 @@ export default function TrailForward() {
             {netShiftData.length > 0 && (
               <ChartFigure
                 ariaLabel="Bar chart: net percentage-point shift by income level. Low income −12pp, middle −14pp, upper middle +10pp, high income +18pp."
-                caption="Source: ACS 5-year estimates, Table B19001"
+                caption="Source: ACS 5-Year Estimates, B19001 Household Income in the Past 12 Months"
                 srTable={
                   <table>
                     <caption>Net Population Shift by Income Level</caption>
@@ -300,11 +349,16 @@ export default function TrailForward() {
 
       {/* ── Age Deeper Dive banner ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <SectionHeader dark
-          title="Age Deeper Dive"
-          subtitle="Young adults and early-career families are leaving."
-        />
-        <p style={{ margin: '14px 0 0', fontSize: 15, lineHeight: 1.75, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
+          <div data-read-id="tf-age-header">
+            <SectionHeader dark
+              title="Age Deeper Dive"
+              subtitle="Young adults and early-career families are leaving."
+            />
+          </div>
+          <ReadAloudButton segments={SCRIPTS.ageDeep} />
+        </div>
+        <p data-read-id="tf-age-body" style={{ margin: '14px 0 0', fontSize: 15, lineHeight: 1.75, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
           Steamboat Springs is rapidly aging. Since the 2006–2010 American Community Survey, the
           city's median age has climbed more than seven years — to roughly 43 — while the share of
           residents 65 and older has more than doubled.
@@ -326,7 +380,7 @@ export default function TrailForward() {
               <AccessibleLineChart
                 data={medianAgeData} keys={['Median Age']} yDomain={[34, 46]}
                 ariaLabel="Line chart: median age rose from 35 in 2006-2010 to 44 in 2020-2024."
-                caption="Source: ACS 5-year estimates, Table S0101"
+                caption="Source: ACS 5-Year Estimates, S0101 Age and Sex"
               />
             )}
           </div>
@@ -342,7 +396,7 @@ export default function TrailForward() {
                 data={share2544Data} keys={['Share of 25–44 Year Olds']}
                 yTickFormatter={(v) => `${v}%`} yDomain={[24, 36]}
                 ariaLabel="Line chart: share of residents aged 25–44 dropped from 32% to 27% by 2020-2024."
-                caption="Source: ACS 5-year estimates, Table S0101"
+                caption="Source: ACS 5-Year Estimates, S0101 Age and Sex"
               />
             )}
           </div>
@@ -351,11 +405,16 @@ export default function TrailForward() {
 
       {/* ── Employment Challenges banner ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <SectionHeader dark
-          title="Employment Challenges"
-          subtitle="Workers in the 5 most common industries can't afford housing."
-        />
-        <p style={{ margin: '14px 0 0', fontSize: 15, lineHeight: 1.75, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
+          <div data-read-id="tf-emp-header">
+            <SectionHeader dark
+              title="Employment Challenges"
+              subtitle="Workers in the 5 most common industries can't afford housing."
+            />
+          </div>
+          <ReadAloudButton segments={SCRIPTS.employment} />
+        </div>
+        <p data-read-id="tf-emp-body" style={{ margin: '14px 0 0', fontSize: 15, lineHeight: 1.75, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
           The top 5 industries in Routt County, shown in this graph, collectively account for
           nearly half of all jobs. Given their modest wages relative to average rent in Steamboat
           Springs, most are likely to be housing-cost burdened — meaning they spend more than 30%
@@ -384,8 +443,9 @@ export default function TrailForward() {
               { value: 4985, label: '$4,985 Zillow avg (2025)', stroke: '#c0392b' },
             ]}
             yDomain={[0, 5500]}
+            colorEachBar
             ariaLabel="Bar chart: max affordable rent by industry vs. $1,909 ACS median and $4,985 Zillow average."
-            caption="Source: YVHA Housing Demand Study 2025; JobsEQ; ACS 5-year estimates; Zillow."
+            caption="Sources: YVHA Housing Demand Study, 2025 — Job data from JobsEQ, Economic and Planning Systems, Page 99; Rent data from ACS 5-Year Estimates; CoStar; Zillow, Page 56"
           />
         )}
       </div>

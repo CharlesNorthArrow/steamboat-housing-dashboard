@@ -139,9 +139,9 @@ export default function Affordability() {
       </div>
 
       {/* ── Rocketing Home Prices banner ── */}
-      <div className="banner-pad" style={{ backgroundColor: 'var(--light-bg)', borderTop: '1px solid var(--border)' }}>
-        <SectionHeader title="Rocketing Home Prices" />
-        <p style={bannerBody}>
+      <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
+        <SectionHeader dark title="Rocketing Home Prices" />
+        <p style={{ margin: '12px 0 0', fontSize: 16, color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, fontFamily: "'Source Sans 3', sans-serif" }}>
           Steamboat Springs' for-sale housing market is heavily tilted toward high-income buyers,
           leaving local workers priced out even with two incomes.
         </p>
@@ -193,9 +193,9 @@ export default function Affordability() {
       </div>
 
       {/* ── Housing Cost Burden banner ── */}
-      <div className="banner-pad" style={{ backgroundColor: 'var(--light-bg)', borderTop: '1px solid var(--border)' }}>
-        <SectionHeader title="Housing Cost Burden" />
-        <p style={bannerBody}>
+      <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
+        <SectionHeader dark title="Housing Cost Burden" />
+        <p style={{ margin: '12px 0 0', fontSize: 16, color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, fontFamily: "'Source Sans 3', sans-serif" }}>
           New affordable housing can help reduce cost burden for renters and owners alike,
           but sustained action is essential to make meaningful progress.
         </p>
@@ -212,9 +212,9 @@ export default function Affordability() {
       </div>
 
       {/* ── Mounting Basic Costs banner ── */}
-      <div className="banner-pad" style={{ backgroundColor: 'var(--light-bg)', borderTop: '1px solid var(--border)' }}>
-        <SectionHeader title="Mounting Basic Costs" />
-        <p style={bannerBody}>
+      <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
+        <SectionHeader dark title="Mounting Basic Costs" />
+        <p style={{ margin: '12px 0 0', fontSize: 16, color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, fontFamily: "'Source Sans 3', sans-serif" }}>
           In Routt County, the basic cost of living outpaces what many local workers earn —
           even in households with two incomes.
         </p>

@@ -28,7 +28,7 @@ export default function Header({ activeTab }) {
       <div
         style={{
           padding: '20px 48px 20px 48px',
-          paddingRight: 320,
+          paddingRight: 480,
           minHeight: 112,
           display: 'flex',
           alignItems: 'center',
@@ -66,7 +66,7 @@ export default function Header({ activeTab }) {
           position: 'absolute',
           right: 48,
           top: 16,
-          height: 165,
+          height: 248,
           width: 'auto',
           borderRadius: 10,
           border: '3px solid white',

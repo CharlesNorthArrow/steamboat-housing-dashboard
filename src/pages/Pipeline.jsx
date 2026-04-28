@@ -7,13 +7,6 @@ import PipelineMap from '../components/pipeline/PipelineMap'
 import PipelineTable from '../components/pipeline/PipelineTable'
 import SectionHeader from '../components/ui/SectionHeader'
 
-const pad = { padding: '48px 48px' }
-
-const darkHeader = {
-  backgroundColor: 'var(--dark-bg)',
-  color: 'white',
-}
-
 export default function Pipeline() {
   const { data, loading, error } = useGoogleSheet(SHEET_URLS.housingPipeline)
   const [statusFilter, setStatusFilter] = useState('')
@@ -22,16 +15,16 @@ export default function Pipeline() {
 
   return (
     <div id="panel-pipeline" role="tabpanel" aria-labelledby="tab-pipeline" tabIndex={-1}>
+
       {/* Dark header with stats */}
-      <div style={darkHeader}>
-        <div style={pad}>
-          <h2 style={{ margin: '0 0 8px', fontSize: 40, color: 'white', fontFamily: "'Source Serif 4', serif" }}>
+      <div style={{ backgroundColor: 'var(--dark-bg)', color: 'white' }}>
+        <div className="section-pad">
+          <h2 style={{ margin: '0 0 8px', fontSize: 40, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
             Housing Pipeline
           </h2>
           <p style={{ fontSize: 20, color: 'rgba(255,255,255,0.8)', marginBottom: 24, fontFamily: "'Source Sans 3', sans-serif" }}>
             Tracking affordable housing developments across all stages in Steamboat Springs.
           </p>
-
           {loading && (
             <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14 }}>Loading pipeline data...</p>
           )}
@@ -46,7 +39,7 @@ export default function Pipeline() {
 
       {/* Map section */}
       <div style={{ backgroundColor: 'white', borderBottom: '1px solid var(--border)' }}>
-        <div style={pad}>
+        <div className="section-pad">
           <SectionHeader
             title="Development Map"
             subtitle="Each circle represents a development — size reflects unit count, color reflects status."
@@ -63,7 +56,7 @@ export default function Pipeline() {
       </div>
 
       {/* Table section */}
-      <div style={{ ...pad, paddingBottom: 64 }}>
+      <div className="section-pad" style={{ paddingBottom: 64 }}>
         <SectionHeader
           title="Development Directory"
           subtitle="Browse, filter, and explore all tracked affordable housing developments."

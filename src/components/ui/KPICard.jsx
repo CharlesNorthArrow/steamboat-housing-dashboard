@@ -28,7 +28,7 @@ export default function KPICard({ label, value, lastUpdated }) {
           margin: '0 0 8px',
           fontSize: 36,
           fontWeight: 700,
-          fontFamily: "'Source Serif 4', serif",
+          fontFamily: "'Source Sans 3', sans-serif",
           color: 'var(--gold)',
           lineHeight: 1.1,
         }}

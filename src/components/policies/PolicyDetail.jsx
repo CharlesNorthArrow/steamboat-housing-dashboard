@@ -62,7 +62,7 @@ export default function PolicyDetail({ policy }) {
           margin: '0 0 10px',
           fontSize: 22,
           color: 'var(--navy)',
-          fontFamily: "'Source Serif 4', serif",
+          fontFamily: "'Source Sans 3', sans-serif",
           lineHeight: 1.3,
           outline: 'none',
         }}

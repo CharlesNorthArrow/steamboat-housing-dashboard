@@ -26,7 +26,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Source Serif 4', serif;
+    font-family: 'Source Sans 3', sans-serif;
     line-height: 1.25;
   }
 
@@ -132,6 +132,16 @@
   transition: background-color 0.15s;
 }
 
+/* ── Section / banner padding (balanced right margin) ─────── */
+
+.section-pad {
+  padding: 48px var(--sidebar-width) 48px 48px;
+}
+
+.banner-pad {
+  padding: 40px var(--sidebar-width) 40px 48px;
+}
+
 .sidebar-tab-btn:hover {
   background-color: rgba(255,255,255,0.06);
 }
@@ -143,16 +153,16 @@
 
 .sidebar-tab-label {
   display: block;
-  font-size: 15px;
+  font-size: 19px;
   font-weight: 700;
   color: white;
-  font-family: 'Source Serif 4', serif;
+  font-family: 'Source Sans 3', sans-serif;
   margin-bottom: 3px;
 }
 
 .sidebar-tab-description {
   display: block;
-  font-size: 12px;
+  font-size: 15px;
   color: rgba(255,255,255,0.55);
   font-family: 'Source Sans 3', sans-serif;
   line-height: 1.4;
@@ -206,6 +216,9 @@
 /* ── Mobile ─────────────────────────────────────────────────── */
 
 @media (max-width: 800px) {
+  .section-pad { padding: 32px 24px; }
+  .banner-pad  { padding: 28px 24px; }
+
   .app-layout { flex-direction: column; background-color: var(--sidebar-bg); }
 
   .sidebar-nav {

@@ -13,25 +13,28 @@ const TAB_IMAGE_LABELS = {
 }
 
 export default function Header({ activeTab }) {
-  const imgSrc   = TAB_IMAGES[activeTab]  || TAB_IMAGES['trail-forward']
-  const imgAlt   = TAB_IMAGE_LABELS[activeTab] || 'Steamboat Springs, Colorado'
+  const imgSrc = TAB_IMAGES[activeTab]  || TAB_IMAGES['trail-forward']
+  const imgAlt = TAB_IMAGE_LABELS[activeTab] || 'Steamboat Springs, Colorado'
 
   return (
     <header
-      style={{ backgroundColor: 'var(--white)', borderBottom: '2px solid var(--border)' }}
+      style={{
+        backgroundColor: 'var(--white)',
+        position: 'relative',
+        overflow: 'visible',
+      }}
       role="banner"
     >
       <div
         style={{
-          padding: '16px 48px',
+          padding: '20px 48px 20px 48px',
+          paddingRight: 320,
+          minHeight: 112,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 32,
-          minHeight: 100,
         }}
       >
-        <div style={{ flexShrink: 0 }}>
+        <div>
           <p style={{
             margin: '0 0 6px',
             fontSize: 16,
@@ -48,27 +51,30 @@ export default function Header({ activeTab }) {
             fontWeight: 700,
             color: 'var(--navy)',
             lineHeight: 1.15,
-            fontFamily: "'Source Serif 4', serif",
+            fontFamily: "'Source Sans 3', sans-serif",
           }}>
             Affordable Housing Dashboard
           </h1>
         </div>
-
-        <img
-          key={imgSrc}
-          src={imgSrc}
-          alt={imgAlt}
-          style={{
-            height: 110,
-            width: 'auto',
-            maxWidth: '45%',
-            borderRadius: 6,
-            border: '1px solid var(--border)',
-            objectFit: 'contain',
-            display: 'block',
-          }}
-        />
       </div>
+
+      <img
+        key={imgSrc}
+        src={imgSrc}
+        alt={imgAlt}
+        style={{
+          position: 'absolute',
+          right: 48,
+          top: 16,
+          height: 165,
+          width: 'auto',
+          borderRadius: 10,
+          border: '3px solid white',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+          zIndex: 10,
+          display: 'block',
+        }}
+      />
     </header>
   )
 }

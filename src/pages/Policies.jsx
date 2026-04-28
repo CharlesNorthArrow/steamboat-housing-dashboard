@@ -6,13 +6,6 @@ import PolicySelector from '../components/policies/PolicySelector'
 import PolicyDetail from '../components/policies/PolicyDetail'
 import SectionHeader from '../components/ui/SectionHeader'
 
-const pad = { padding: '48px 48px' }
-
-const darkHeader = {
-  backgroundColor: 'var(--dark-bg)',
-  color: 'white',
-}
-
 function parsePolicies(data) {
   if (!data) return []
   return data.map((row, i) => ({
@@ -35,19 +28,17 @@ export default function Policies() {
 
   const policies = useMemo(() => parsePolicies(data), [data])
 
-  const selectedPolicy = policies.find((p) => p.id === selectedId) || null
-
-  // Auto-select first policy once loaded
   const firstId = policies[0]?.id
   const resolvedSelectedId = selectedId ?? firstId ?? null
   const resolvedPolicy = policies.find((p) => p.id === resolvedSelectedId) || null
 
   return (
     <div id="panel-policies" role="tabpanel" aria-labelledby="tab-policies" tabIndex={-1}>
+
       {/* Dark header */}
-      <div style={darkHeader}>
-        <div style={pad}>
-          <h2 style={{ margin: '0 0 8px', fontSize: 40, color: 'white', fontFamily: "'Source Serif 4', serif" }}>
+      <div style={{ backgroundColor: 'var(--dark-bg)', color: 'white' }}>
+        <div className="section-pad">
+          <h2 style={{ margin: '0 0 8px', fontSize: 40, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
             Policies &amp; Actions
           </h2>
           <p style={{ fontSize: 20, color: 'rgba(255,255,255,0.8)', marginBottom: 32, fontFamily: "'Source Sans 3', sans-serif" }}>
@@ -58,7 +49,7 @@ export default function Policies() {
       </div>
 
       {/* Policy explorer */}
-      <div style={{ ...pad, paddingBottom: 64 }}>
+      <div className="section-pad" style={{ paddingBottom: 64 }}>
         <SectionHeader
           title="Policy Explorer"
           subtitle="Select a policy to view its status, description, and implementation details."
@@ -85,7 +76,6 @@ export default function Policies() {
             overflow: 'hidden',
             minHeight: 600,
           }}>
-            {/* Left panel */}
             <div style={{ borderRight: '1px solid var(--border)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
               <PolicySelector
                 policies={policies}
@@ -93,8 +83,6 @@ export default function Policies() {
                 onSelect={setSelectedId}
               />
             </div>
-
-            {/* Right panel */}
             <div style={{ backgroundColor: 'white', overflowY: 'auto' }}>
               <PolicyDetail policy={resolvedPolicy} />
             </div>

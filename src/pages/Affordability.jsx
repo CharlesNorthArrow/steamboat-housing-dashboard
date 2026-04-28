@@ -11,11 +11,9 @@ function LoadState({ loading, error }) {
   return null
 }
 
-const pad = { padding: '48px 48px' }
-const bannerPad = { padding: '40px 48px' }
 const chartTitle = { color: 'var(--navy)', fontSize: 18, fontFamily: "'Source Sans 3', sans-serif", fontWeight: 600, margin: '0 0 4px' }
 const chartSubtitle = { fontSize: 13, color: 'var(--text-muted)', margin: '0 0 12px' }
-const bannerBody = { color: 'rgba(255,255,255,0.85)', fontSize: 18, margin: '12px 0 0', lineHeight: 1.6, fontFamily: "'Source Sans 3', sans-serif" }
+const bannerBody = { margin: '12px 0 0', fontSize: 16, color: 'var(--text-dark)', lineHeight: 1.75, fontFamily: "'Source Sans 3', sans-serif" }
 
 export default function Affordability() {
   const { data: mktData, loading: mktLoading, error: mktError } = useGoogleSheet(SHEET_URLS.affordableVMarket)
@@ -97,17 +95,17 @@ export default function Affordability() {
   return (
     <div id="panel-affordability" role="tabpanel" aria-labelledby="tab-affordability" tabIndex={-1}>
 
-      {/* ── Rising Rent banner ──────────────────────────────────── */}
-      <div style={{ backgroundColor: 'var(--navy)', ...bannerPad }}>
-        <SectionHeader title="Rising Rent" dark />
+      {/* ── Rising Rent banner ── */}
+      <div className="banner-pad" style={{ backgroundColor: 'var(--light-bg)' }}>
+        <SectionHeader title="Rising Rent" />
         <p style={bannerBody}>
           Affordable rents are disappearing as market-rate housing costs climb far beyond what
           local workers can afford — leaving renters facing severe financial strain.
         </p>
       </div>
 
-      {/* ── Rising Rent charts ──────────────────────────────────── */}
-      <div style={{ backgroundColor: 'white', ...pad }}>
+      {/* ── Rising Rent charts ── */}
+      <div className="section-pad" style={{ backgroundColor: 'white' }}>
 
         {/* Chart 8 placeholder */}
         <div style={{ marginBottom: 48 }}>
@@ -140,20 +138,20 @@ export default function Affordability() {
         </div>
       </div>
 
-      {/* ── Rocketing Home Prices banner ────────────────────────── */}
-      <div style={{ backgroundColor: 'var(--navy)', ...bannerPad }}>
-        <SectionHeader title="Rocketing Home Prices" dark />
+      {/* ── Rocketing Home Prices banner ── */}
+      <div className="banner-pad" style={{ backgroundColor: 'var(--light-bg)', borderTop: '1px solid var(--border)' }}>
+        <SectionHeader title="Rocketing Home Prices" />
         <p style={bannerBody}>
           Steamboat Springs' for-sale housing market is heavily tilted toward high-income buyers,
           leaving local workers priced out even with two incomes.
         </p>
       </div>
 
-      {/* ── Rocketing Home Prices charts ────────────────────────── */}
-      <div style={{ backgroundColor: 'white', ...pad }}>
+      {/* ── Rocketing Home Prices charts ── */}
+      <div className="section-pad" style={{ backgroundColor: 'white' }}>
         <div className="chart-grid">
 
-          {/* Chart 10 — Salary to Home Price */}
+          {/* Chart 10 */}
           <div>
             <h3 style={chartTitle}>Top Industry Salaries vs. Median Home Price</h3>
             <p style={chartSubtitle}>2024, Routt County</p>
@@ -174,7 +172,7 @@ export default function Affordability() {
             )}
           </div>
 
-          {/* Chart 11 — Sales by AMI */}
+          {/* Chart 11 */}
           <div>
             <h3 style={chartTitle}>Share of Households and Sales by AMI</h3>
             <p style={chartSubtitle}>2024, Routt County</p>
@@ -194,17 +192,17 @@ export default function Affordability() {
         </div>
       </div>
 
-      {/* ── Housing Cost Burden banner ───────────────────────────── */}
-      <div style={{ backgroundColor: 'var(--navy)', ...bannerPad }}>
-        <SectionHeader title="Housing Cost Burden" dark />
+      {/* ── Housing Cost Burden banner ── */}
+      <div className="banner-pad" style={{ backgroundColor: 'var(--light-bg)', borderTop: '1px solid var(--border)' }}>
+        <SectionHeader title="Housing Cost Burden" />
         <p style={bannerBody}>
           New affordable housing can help reduce cost burden for renters and owners alike,
           but sustained action is essential to make meaningful progress.
         </p>
       </div>
 
-      {/* ── Housing Cost Burden placeholder ─────────────────────── */}
-      <div style={{ backgroundColor: 'white', ...pad }}>
+      {/* ── Housing Cost Burden placeholder ── */}
+      <div className="section-pad" style={{ backgroundColor: 'white' }}>
         <p style={{ fontSize: 14, color: 'var(--text-muted)', padding: '12px 16px', border: '1px solid var(--border)', borderRadius: 4, maxWidth: 640 }}>
           Charts 12 and 13 will display automatically once the "Housing Cost Burden: Renters" and
           "Housing Cost Burden: Owners" sheets in Source A are populated with ACS B25070/B25091
@@ -213,20 +211,20 @@ export default function Affordability() {
         </p>
       </div>
 
-      {/* ── Mounting Basic Costs banner ──────────────────────────── */}
-      <div style={{ backgroundColor: 'var(--navy)', ...bannerPad }}>
-        <SectionHeader title="Mounting Basic Costs" dark />
+      {/* ── Mounting Basic Costs banner ── */}
+      <div className="banner-pad" style={{ backgroundColor: 'var(--light-bg)', borderTop: '1px solid var(--border)' }}>
+        <SectionHeader title="Mounting Basic Costs" />
         <p style={bannerBody}>
           In Routt County, the basic cost of living outpaces what many local workers earn —
           even in households with two incomes.
         </p>
       </div>
 
-      {/* ── Mounting Basic Costs charts ──────────────────────────── */}
-      <div style={{ backgroundColor: 'white', ...pad, paddingBottom: 64 }}>
+      {/* ── Mounting Basic Costs charts ── */}
+      <div className="section-pad" style={{ backgroundColor: 'white', paddingBottom: 64 }}>
         <div className="chart-grid">
 
-          {/* Chart 14 — 1 Earner */}
+          {/* Chart 14 */}
           <div>
             <h3 style={chartTitle}>1 Earner Income vs. Basic Costs</h3>
             <p style={chartSubtitle}>Routt County</p>
@@ -248,7 +246,7 @@ export default function Affordability() {
             )}
           </div>
 
-          {/* Chart 15 — 2 Earners */}
+          {/* Chart 15 */}
           <div>
             <h3 style={chartTitle}>2 Earners Income vs. Basic Costs</h3>
             <p style={chartSubtitle}>Routt County</p>

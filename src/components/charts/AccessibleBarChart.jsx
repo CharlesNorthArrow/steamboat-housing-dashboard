@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, ReferenceLine, Cell, LabelList,
@@ -62,6 +63,14 @@ export default function AccessibleBarChart({
   const isHorizontal = layout === 'horizontal'
   const resolvedHeight = chartHeight ?? (isHorizontal ? Math.max(240, data.length * 48 + 60) : 320)
 
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 800)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 800px)')
+    const handler = (e) => setIsMobile(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
   // When colorEachBar=true, legend is rendered as a custom HTML block below the chart.
   // When false, Recharts auto-generates the legend from the Bar components.
   const colorBarLegendItems = colorEachBar
@@ -88,7 +97,7 @@ export default function AccessibleBarChart({
           {isHorizontal ? (
             <>
               <XAxis type="number" tickFormatter={xTickFormatter} tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }} domain={yDomain} />
-              <YAxis type="category" dataKey="name" width={175} tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }} />
+              <YAxis type="category" dataKey="name" width={isMobile ? 110 : 175} tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }} />
             </>
           ) : (
             <>

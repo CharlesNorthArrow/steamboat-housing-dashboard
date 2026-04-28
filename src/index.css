@@ -232,6 +232,24 @@
   text-decoration: underline;
 }
 
+/* ── Header inner layout ────────────────────────────────────── */
+
+.header-inner {
+  padding: 20px 480px 20px 48px;
+  min-height: 112px;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Banner flex (heading + ReadAloudButton row) ─────────────── */
+
+.banner-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
 /* ── Read-aloud highlight ───────────────────────────────────── */
 
 .reading-highlight {
@@ -293,8 +311,21 @@
 
   .sidebar-tab-description { display: none; }
 
+  .sidebar-bottom { display: none; }
+
   .chart-grid {
     grid-template-columns: 1fr;
     gap: 32px;
   }
+
+  .header-inner {
+    padding: 16px 24px;
+    min-height: auto;
+  }
+
+  .header-image { display: none; }
+
+  .banner-pad h2 { font-size: 26px !important; }
+
+  .banner-flex { flex-wrap: wrap; }
 }

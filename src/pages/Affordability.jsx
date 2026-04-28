@@ -273,7 +273,7 @@ export default function Affordability() {
 
       {/* ── Rising Rent — section banner (navy) ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
+        <div className="banner-flex">
           <div data-read-id="af-rent-header">
             <SectionHeader dark
               title="Rising Rent"
@@ -335,7 +335,7 @@ export default function Affordability() {
 
       {/* ── Rocketing Home Prices — section banner (navy) ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
+        <div className="banner-flex">
           <div data-read-id="af-home-header">
             <SectionHeader dark
               title="Rocketing Home Prices"
@@ -410,7 +410,7 @@ export default function Affordability() {
 
       {/* ── Housing Cost Burden — section banner (navy) ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
+        <div className="banner-flex">
           <div data-read-id="af-burden-header">
             <SectionHeader dark
               title="Housing Cost Burden"
@@ -480,7 +480,7 @@ export default function Affordability() {
 
       {/* ── Mounting Basic Costs — section banner (navy) ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
+        <div className="banner-flex">
           <div data-read-id="af-basic-header">
             <SectionHeader dark
               title="Mounting Basic Costs"

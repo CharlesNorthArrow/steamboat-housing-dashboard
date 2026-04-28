@@ -203,7 +203,7 @@ export default function TrailForward() {
 
       {/* ── Our Trail Forward — section banner (navy) ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, marginBottom: 12 }}>
+        <div className="banner-flex" style={{ marginBottom: 12 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <h2 data-read-id="tf-trail-title" style={{ margin: 0, fontSize: 40, fontWeight: 700, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
               Our Trail Forward
@@ -267,7 +267,7 @@ export default function TrailForward() {
 
       {/* ── Income Deeper Dive banner ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
+        <div className="banner-flex">
           <div data-read-id="tf-income-header">
             <SectionHeader dark
               title="Income Deeper Dive"
@@ -349,7 +349,7 @@ export default function TrailForward() {
 
       {/* ── Age Deeper Dive banner ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
+        <div className="banner-flex">
           <div data-read-id="tf-age-header">
             <SectionHeader dark
               title="Age Deeper Dive"
@@ -405,7 +405,7 @@ export default function TrailForward() {
 
       {/* ── Employment Challenges banner ── */}
       <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
+        <div className="banner-flex">
           <div data-read-id="tf-emp-header">
             <SectionHeader dark
               title="Employment Challenges"

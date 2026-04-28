@@ -42,15 +42,7 @@ export default function Header({ activeTab }) {
       }}
       role="banner"
     >
-      <div
-        style={{
-          padding: '20px 48px 20px 48px',
-          paddingRight: 480,
-          minHeight: 112,
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
+      <div className="header-inner">
         <div>
           <p style={{
             margin: '0 0 6px',
@@ -79,6 +71,7 @@ export default function Header({ activeTab }) {
         key={imgSrc}
         src={imgSrc}
         alt={imgAlt}
+        className="header-image"
         style={{
           position: 'absolute',
           right: 48,

@@ -66,7 +66,7 @@ export default function Header({ activeTab }) {
           position: 'absolute',
           right: 48,
           top: 16,
-          height: 248,
+          height: 211,
           width: 'auto',
           borderRadius: 10,
           border: '3px solid white',

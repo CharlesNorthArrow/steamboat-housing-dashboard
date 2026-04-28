@@ -160,20 +160,20 @@ export default function TrailForward() {
         </div>
       </div>
 
-      {/* ── Our Trail Forward — navy on broken white ── */}
-      <div className="banner-pad" style={{ backgroundColor: 'var(--light-bg)', borderTop: '1px solid var(--border)' }}>
+      {/* ── Our Trail Forward — section banner (navy) ── */}
+      <div className="banner-pad" style={{ backgroundColor: 'var(--navy)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-          <h2 style={{ margin: 0, fontSize: 40, fontWeight: 700, color: 'var(--navy)', fontFamily: "'Source Sans 3', sans-serif" }}>
+          <h2 style={{ margin: 0, fontSize: 40, fontWeight: 700, color: 'white', fontFamily: "'Source Sans 3', sans-serif" }}>
             Our Trail Forward
           </h2>
           <svg aria-hidden="true" focusable="false" width="28" height="28" viewBox="0 0 24 24" fill="var(--gold)">
             <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
           </svg>
         </div>
-        <p style={{ fontSize: 17, color: 'var(--text-muted)', margin: '0 0 12px', fontFamily: "'Source Sans 3', sans-serif" }}>
+        <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.75)', margin: '0 0 12px', fontFamily: "'Source Sans 3', sans-serif" }}>
           A vibrant and healthy Steamboat Springs means having residents of all ages and incomes.
         </p>
-        <p style={{ ...bannerBody, fontSize: 15, lineHeight: 1.75 }}>
+        <p style={{ margin: 0, fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', fontFamily: "'Source Sans 3', sans-serif" }}>
           As we work together to create more affordable housing, we can measure our progress by
           tracking these two demographics — income and age. Over the past 15 years, we've seen the
           share of low- and middle-income residents and residents under 44 decrease rapidly.

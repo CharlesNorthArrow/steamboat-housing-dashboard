@@ -461,7 +461,7 @@
 /* ── Print / PDF export ──────────────────────────────────────── */
 
 @media print {
-  @page { margin: 1.5cm 2cm; size: letter portrait; }
+  @page { margin: 1cm; size: letter portrait; }
 
   /* Strip chrome */
   .site-header { position: static; box-shadow: none; border-bottom: 1px solid #ccc; }
@@ -471,7 +471,14 @@
   footer { display: none !important; }
 
   .app-layout { display: block; }
-  .content-col { min-height: auto; box-shadow: none; }
+
+  /* Scale content 25% larger: set layout width to 80% so zoom:1.25 fills the page */
+  .content-col {
+    width: 80%;
+    zoom: 1.25;
+    min-height: auto;
+    box-shadow: none;
+  }
 
   /* Remove sidebar-width right padding — full width in print */
   .section-pad { padding: 24px 0 !important; }

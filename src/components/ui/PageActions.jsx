@@ -1,25 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 
-const btnStyle = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: 6,
-  padding: '5px 12px',
-  border: '1px solid var(--border)',
-  borderRadius: 6,
-  background: 'white',
-  cursor: 'pointer',
-  fontSize: 13,
-  fontFamily: "'Source Sans 3', sans-serif",
-  color: 'var(--text-muted)',
-  fontWeight: 500,
-  lineHeight: 1.4,
-  transition: 'border-color 0.15s, color 0.15s',
-}
-
 function IconShare() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
       <polyline points="16 6 12 2 8 6"/>
@@ -30,7 +13,7 @@ function IconShare() {
 
 function IconDownload() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
       <polyline points="7 10 12 15 17 10"/>
@@ -41,7 +24,7 @@ function IconDownload() {
 
 function IconChevron() {
   return (
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <polyline points="6 9 12 15 18 9"/>
     </svg>
@@ -49,14 +32,14 @@ function IconChevron() {
 }
 
 function ShareButton() {
-  const [label, setLabel] = useState('Share')
+  const [label, setLabel] = useState('Share link')
 
   function handleClick() {
     const url = window.location.href
     if (navigator.clipboard) {
       navigator.clipboard.writeText(url).then(() => {
         setLabel('Copied!')
-        setTimeout(() => setLabel('Share'), 2200)
+        setTimeout(() => setLabel('Share link'), 2200)
       })
     } else {
       prompt('Copy this link:', url)
@@ -64,7 +47,7 @@ function ShareButton() {
   }
 
   return (
-    <button style={btnStyle} onClick={handleClick} aria-label="Copy link to this page">
+    <button className="action-btn" onClick={handleClick} aria-label="Copy link to this page">
       <IconShare />
       {label}
     </button>
@@ -97,7 +80,7 @@ function ExportButton({ onExportAll }) {
   return (
     <div ref={wrapRef} style={{ position: 'relative' }}>
       <button
-        style={btnStyle}
+        className="action-btn"
         onClick={() => setOpen(o => !o)}
         aria-haspopup="true"
         aria-expanded={open}
@@ -111,27 +94,21 @@ function ExportButton({ onExportAll }) {
       {open && (
         <div style={{
           position: 'absolute',
-          right: 0,
-          top: 'calc(100% + 4px)',
+          left: 0,
+          bottom: 'calc(100% + 4px)',
           background: 'white',
-          border: '1px solid var(--border)',
+          border: '1px solid #d8d5cc',
           borderRadius: 8,
-          boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+          boxShadow: '0 -4px 16px rgba(0,0,0,0.15)',
           minWidth: 160,
-          zIndex: 100,
+          zIndex: 200,
           overflow: 'hidden',
         }}>
-          <button
-            style={{ ...btnStyle, width: '100%', borderRadius: 0, border: 'none', padding: '10px 14px', justifyContent: 'flex-start' }}
-            onClick={handleExportTab}
-          >
+          <button className="action-dropdown-item" onClick={handleExportTab}>
             Current tab
           </button>
-          <div style={{ height: 1, background: 'var(--border)' }} />
-          <button
-            style={{ ...btnStyle, width: '100%', borderRadius: 0, border: 'none', padding: '10px 14px', justifyContent: 'flex-start' }}
-            onClick={handleExportAll}
-          >
+          <div style={{ height: 1, background: '#d8d5cc' }} />
+          <button className="action-dropdown-item" onClick={handleExportAll}>
             Full report
           </button>
         </div>

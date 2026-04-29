@@ -3,7 +3,6 @@ import SkipNav from './components/layout/SkipNav'
 import Header from './components/layout/Header'
 import TabNav from './components/layout/TabNav'
 import Footer from './components/layout/Footer'
-import PageActions from './components/ui/PageActions'
 import TrailForward from './pages/TrailForward'
 import Affordability from './pages/Affordability'
 import Pipeline from './pages/Pipeline'
@@ -52,7 +51,7 @@ export default function App() {
       <Header activeTab={activeTab} />
 
       <div className="app-layout">
-        <TabNav activeTab={activeTab} onTabChange={handleTabChange} />
+        <TabNav activeTab={activeTab} onTabChange={handleTabChange} onExportAll={handleExportAll} />
 
         <main
           id="main-content"
@@ -60,18 +59,16 @@ export default function App() {
           tabIndex={-1}
           className="content-col"
         >
-          <PageActions onExportAll={handleExportAll} />
-
-          <div hidden={!printAll && activeTab !== 'trail-forward'}>
+          <div className="tab-panel-wrapper" hidden={!printAll && activeTab !== 'trail-forward'}>
             <TrailForward />
           </div>
-          <div hidden={!printAll && activeTab !== 'affordability'}>
+          <div className="tab-panel-wrapper" hidden={!printAll && activeTab !== 'affordability'}>
             <Affordability />
           </div>
-          <div hidden={!printAll && activeTab !== 'pipeline'}>
+          <div className="tab-panel-wrapper" hidden={!printAll && activeTab !== 'pipeline'}>
             <Pipeline />
           </div>
-          <div hidden={!printAll && activeTab !== 'policies'}>
+          <div className="tab-panel-wrapper" hidden={!printAll && activeTab !== 'policies'}>
             <Policies />
           </div>
         </main>

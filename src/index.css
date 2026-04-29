@@ -284,14 +284,52 @@
   transform-origin: top right;
 }
 
-/* ── Page actions bar (share / export) ──────────────────────── */
+/* ── Page actions (share / export) ──────────────────────────── */
 
 .page-actions {
   display: flex;
-  justify-content: flex-start;
+  flex-wrap: wrap;
   gap: 8px;
-  padding: 10px 48px 0;
+  padding: 0 12px 14px;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'Source Sans 3', sans-serif;
+  color: rgba(255,255,255,0.75);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.action-btn:hover {
+  background-color: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.55);
+  color: white;
+}
+
+.action-dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 9px 14px;
+  border: none;
   background: white;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'Source Sans 3', sans-serif;
+  color: #1a1a1a;
+  text-align: left;
+}
+
+.action-dropdown-item:hover {
+  background-color: #f5f5f5;
 }
 
 /* ── Banner flex (heading + ReadAloudButton row) ─────────────── */
@@ -418,15 +456,16 @@
   .banner-pad h2 { font-size: 26px !important; }
 
   .banner-flex { flex-wrap: wrap; }
-
-  .page-actions { padding: 10px 20px 0; }
 }
 
 /* ── Print / PDF export ──────────────────────────────────────── */
 
 @media print {
+  @page { margin: 1.5cm 2cm; size: letter portrait; }
+
+  /* Strip chrome */
   .site-header { position: static; box-shadow: none; border-bottom: 1px solid #ccc; }
-  .header-image { display: none; }
+  .header-image { position: static !important; height: 56px !important; width: auto !important; transform: none !important; border-radius: 6px; }
   .sidebar-nav,
   .page-actions,
   footer { display: none !important; }
@@ -434,17 +473,29 @@
   .app-layout { display: block; }
   .content-col { min-height: auto; box-shadow: none; }
 
-  .section-pad { padding: 20px 32px !important; }
-  .banner-pad  { padding: 16px 32px !important; }
+  /* Remove sidebar-width right padding — full width in print */
+  .section-pad { padding: 24px 0 !important; }
+  .banner-pad  { padding: 20px 0 !important; }
 
-  .chart-grid { gap: 32px; }
+  /* ── Page breaks ── */
 
-  /* Prevent charts from splitting across pages */
-  figure, .chart-grid > * { page-break-inside: avoid; break-inside: avoid; }
+  /* Each section banner after the first starts a new page */
+  .banner-pad ~ .banner-pad {
+    break-before: page;
+    page-break-before: always;
+  }
 
-  /* Section banners print better without heavy background */
-  [style*="background-color: var(--navy)"],
-  [style*="backgroundColor: 'var(--navy)'"] { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  /* In full-report mode: each tab starts a new page */
+  .tab-panel-wrapper ~ .tab-panel-wrapper {
+    break-before: page;
+    page-break-before: always;
+  }
 
+  /* Keep chart grids together; don't split individual charts */
+  .chart-grid { gap: 24px; break-inside: avoid; page-break-inside: avoid; }
+  figure      { break-inside: avoid; page-break-inside: avoid; }
+
+  /* Preserve color backgrounds (navy banners, orange text) */
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   * { transition-duration: 0ms !important; animation-duration: 0ms !important; }
 }

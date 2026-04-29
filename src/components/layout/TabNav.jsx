@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { useGoogleSheet } from '../../hooks/useGoogleSheet'
 import { SHEET_URLS } from '../../utils/sheetUrls'
+import PageActions from '../ui/PageActions'
 
 const TABS = [
   { id: 'trail-forward', label: 'Trail Forward',  description: 'Community demographics and trends' },
@@ -28,7 +29,7 @@ function SidebarFooter() {
   )
 }
 
-export default function TabNav({ activeTab, onTabChange }) {
+export default function TabNav({ activeTab, onTabChange, onExportAll }) {
   const tabRefs = useRef([])
 
   function handleKeyDown(e, index) {
@@ -80,6 +81,7 @@ export default function TabNav({ activeTab, onTabChange }) {
 
       {/* Disclaimer + last updated grouped at the bottom with a clear divider */}
       <div className="sidebar-bottom">
+        <PageActions onExportAll={onExportAll} />
         <div className="sidebar-disclaimer" role="note">
           <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none"
             stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"

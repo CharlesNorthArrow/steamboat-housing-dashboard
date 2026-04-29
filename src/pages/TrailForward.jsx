@@ -255,7 +255,7 @@ export default function TrailForward() {
               <AccessibleStackedBar
                 data={ageChartData.map(({ _medianAge, _share2544, ...rest }) => rest)}
                 keys={ageKeys} percent
-                patternIndices={[0, 1, 2, 3, 4, 8]}
+                patternIndices={[0, 1, 2, 3, 4, 5]}
                 ariaLabel="Stacked bar chart: percentage of residents by age group 2006–2024."
                 caption="Source: ACS 5-Year Estimates, S0101 Age and Sex"
               />

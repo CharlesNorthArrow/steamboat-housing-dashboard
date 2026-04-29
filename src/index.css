@@ -284,6 +284,16 @@
   transform-origin: top right;
 }
 
+/* ── Page actions bar (share / export) ──────────────────────── */
+
+.page-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 48px 0;
+  background: white;
+}
+
 /* ── Banner flex (heading + ReadAloudButton row) ─────────────── */
 
 .banner-flex {
@@ -408,4 +418,33 @@
   .banner-pad h2 { font-size: 26px !important; }
 
   .banner-flex { flex-wrap: wrap; }
+
+  .page-actions { padding: 10px 20px 0; }
+}
+
+/* ── Print / PDF export ──────────────────────────────────────── */
+
+@media print {
+  .site-header { position: static; box-shadow: none; border-bottom: 1px solid #ccc; }
+  .header-image { display: none; }
+  .sidebar-nav,
+  .page-actions,
+  footer { display: none !important; }
+
+  .app-layout { display: block; }
+  .content-col { min-height: auto; box-shadow: none; }
+
+  .section-pad { padding: 20px 32px !important; }
+  .banner-pad  { padding: 16px 32px !important; }
+
+  .chart-grid { gap: 32px; }
+
+  /* Prevent charts from splitting across pages */
+  figure, .chart-grid > * { page-break-inside: avoid; break-inside: avoid; }
+
+  /* Section banners print better without heavy background */
+  [style*="background-color: var(--navy)"],
+  [style*="backgroundColor: 'var(--navy)'"] { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  * { transition-duration: 0ms !important; animation-duration: 0ms !important; }
 }

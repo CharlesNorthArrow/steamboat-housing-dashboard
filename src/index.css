@@ -232,13 +232,56 @@
   text-decoration: underline;
 }
 
-/* ── Header inner layout ────────────────────────────────────── */
+/* ── Site header ─────────────────────────────────────────────── */
+
+.site-header {
+  background-color: var(--white);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  overflow: visible;
+}
 
 .header-inner {
   padding: 20px 480px 20px 48px;
   min-height: 112px;
   display: flex;
   align-items: center;
+}
+
+.header-text { flex: 1; }
+
+.header-sub {
+  margin: 0 0 6px;
+  font-size: calc(24px - var(--scroll-p, 0) * 8px);
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+.header-title {
+  margin: 0;
+  font-size: calc(44px - var(--scroll-p, 0) * 14px);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.15;
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+.header-image {
+  position: absolute;
+  right: 48px;
+  top: 16px;
+  height: 211px;
+  width: auto;
+  border-radius: 10px;
+  border: 3px solid white;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  z-index: 10;
+  display: block;
+  transform: scale(calc(1 - var(--scroll-p, 0) * 0.3));
+  transform-origin: top right;
 }
 
 /* ── Banner flex (heading + ReadAloudButton row) ─────────────── */
@@ -271,59 +314,96 @@
 /* ── Mobile ─────────────────────────────────────────────────── */
 
 @media (max-width: 800px) {
-  .section-pad { padding: 32px 24px; }
-  .banner-pad  { padding: 28px 24px; }
+  .section-pad { padding: 32px 20px; }
+  .banner-pad  { padding: 24px 20px; }
 
-  .app-layout { flex-direction: column; background-color: var(--sidebar-bg); }
+  .app-layout { flex-direction: column; }
 
-  .sidebar-nav {
-    width: 100%;
+  /* Header: not sticky, scrolls away; shows image inline */
+  .site-header {
     position: static;
-    max-height: none;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
   }
 
-  .sidebar-brand { display: none; }
+  .header-inner {
+    padding: 14px 16px;
+    min-height: auto;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .header-text { flex: 2; }
+
+  .header-sub { font-size: 11px; margin-bottom: 2px; }
+
+  .header-title { font-size: 17px; }
+
+  .header-image {
+    position: static;
+    flex: 0 0 auto;
+    height: 56px;
+    width: auto;
+    top: auto;
+    right: auto;
+    transform: none;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  /* Nav: sticky at top, 2×2 grid */
+  .sidebar-nav {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: auto;
+    overflow: visible;
+    flex-direction: column;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
 
   .sidebar-tabs {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     padding: 0;
-    flex: 1;
+    flex: none;
+    /* 1px gap trick: show grid background as dividers */
+    gap: 1px;
+    background-color: rgba(255,255,255,0.12);
   }
 
   .sidebar-tab-btn {
-    flex: 1;
+    flex: none;
+    width: 100%;
     border-left: none;
-    border-bottom: 4px solid transparent;
-    padding: 12px 10px;
+    border-bottom: 3px solid transparent;
+    padding: 11px 6px 8px;
     text-align: center;
-    white-space: nowrap;
+    white-space: normal;
+    background-color: var(--sidebar-bg);
   }
+
+  .sidebar-tab-btn:hover { background-color: rgba(255,255,255,0.06); }
 
   .sidebar-tab-btn[aria-selected="true"] {
     border-left-color: transparent;
     border-bottom-color: var(--orange);
+    background-color: rgba(255,255,255,0.1);
   }
+
+  .sidebar-tab-label { font-size: 13px; margin-bottom: 0; }
 
   .sidebar-tab-description { display: none; }
 
   .sidebar-bottom { display: none; }
 
+  .sidebar-brand { display: none; }
+
   .chart-grid {
     grid-template-columns: 1fr;
     gap: 32px;
   }
-
-  .header-inner {
-    padding: 16px 24px;
-    min-height: auto;
-  }
-
-  .header-image { display: none; }
 
   .banner-pad h2 { font-size: 26px !important; }
 

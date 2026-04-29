@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import {
-  ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid,
+  ComposedChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, Legend, ResponsiveContainer,
 } from 'recharts'
 import { useGoogleSheet } from '../hooks/useGoogleSheet'
@@ -14,6 +14,21 @@ import AccessibleStackedBar from '../components/charts/AccessibleStackedBar'
 import AccessibleLineChart from '../components/charts/AccessibleLineChart'
 import SectionHeader from '../components/ui/SectionHeader'
 import ReadAloudButton from '../components/ui/ReadAloudButton'
+
+function GapBracket({ x, y, width, height }) {
+  if (!height || height <= 0) return null
+  const cx = Math.round(x + width / 2)
+  const top = Math.round(y)
+  const bot = Math.round(y + height)
+  const tick = Math.min(Math.round(width * 0.4), 12)
+  return (
+    <g>
+      <line x1={cx} y1={top} x2={cx} y2={bot} stroke="#555" strokeWidth={2.5} />
+      <line x1={cx - tick} y1={top} x2={cx + tick} y2={top} stroke="#555" strokeWidth={2.5} />
+      <line x1={cx - tick} y1={bot} x2={cx + tick} y2={bot} stroke="#555" strokeWidth={2.5} />
+    </g>
+  )
+}
 
 function LoadState({ loading, error }) {
   if (loading) return <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>Loading data...</p>
@@ -370,26 +385,19 @@ export default function Affordability() {
                             Market Rent
                           </span>
                           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                            <svg width="20" height="14" aria-hidden="true" style={{ flexShrink: 0 }}>
-                              <line x1="0" y1="7" x2="20" y2="7" stroke="#555" strokeWidth="2" strokeDasharray="5 3" />
-                              <circle cx="10" cy="7" r="3" fill="#555" />
+                            <svg width="14" height="14" aria-hidden="true" style={{ flexShrink: 0 }}>
+                              <line x1="7" y1="1" x2="7" y2="13" stroke="#555" strokeWidth="2.5" />
+                              <line x1="3" y1="1" x2="11" y2="1" stroke="#555" strokeWidth="2.5" />
+                              <line x1="3" y1="13" x2="11" y2="13" stroke="#555" strokeWidth="2.5" />
                             </svg>
                             Market Premium (gap)
                           </span>
                         </div>
                       )}
                     />
-                    <Bar dataKey="Affordable Rent" fill={PATTERN_IDS[0]} />
+                    <Bar dataKey="Affordable Rent" stackId="a" fill={PATTERN_IDS[0]} />
+                    <Bar dataKey="Market Premium" stackId="a" fill="#555" fillOpacity={0} shape={<GapBracket />} isAnimationActive={false} />
                     <Bar dataKey="Market Rent" fill={PATTERN_IDS[4]} />
-                    <Line
-                      dataKey="Market Premium"
-                      stroke="#555"
-                      strokeWidth={2}
-                      strokeDasharray="5 3"
-                      dot={{ r: 4, fill: '#555' }}
-                      activeDot={{ r: 6 }}
-                      type="monotone"
-                    />
                   </ComposedChart>
                 </ResponsiveContainer>
               </ChartFigure>

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+﻿import { useMemo } from 'react'
 import {
   ComposedChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, Legend, ResponsiveContainer,
@@ -421,8 +421,8 @@ export default function Affordability() {
 
       {/* ── Charts 3 + 4 ── */}
       {/* 2×2 grid so the browser equalises header-row height and chart-row height independently */}
-      <div className=”section-pad” style={{ backgroundColor: ‘white’ }}>
-        <div style={{ display: ‘grid’, gridTemplateColumns: ‘1fr 1fr’, gridTemplateRows: ‘auto auto’, gap: ‘16px 80px’ }}>
+      <div className="section-pad" style={{ backgroundColor: 'white' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto auto', gap: '16px 80px' }}>
 
           {/* Row 1 — headers */}
           <div>
@@ -449,17 +449,17 @@ export default function Affordability() {
             {salaryChart.length > 0 && (
               <AccessibleBarChart
                 data={salaryChart}
-                keys={[‘2 Salaries (Combined)’]}
+                keys={['2 Salaries (Combined)']}
                 yTickFormatter={fmt$}
                 tooltipFormatter={(v, name) => [fmt$(v), name]}
                 referenceLines={incomeToByRef ? [
-                  { value: incomeToByRef, label: `${fmt$(incomeToByRef)} — Income Required to Buy Median Home`, stroke: ‘#c0392b’ },
+                  { value: incomeToByRef, label: `${fmt$(incomeToByRef)} — Income Required to Buy Median Home`, stroke: '#c0392b' },
                 ] : []}
                 yDomain={[0, 380000]}
                 chartHeight={492}
                 colorEachBar
-                ariaLabel=”Bar chart showing combined two-salary incomes across all industry sectors compared to the income required to buy a median-priced home in Routt County.”
-                caption={`Sources: Select Salaries from Routt County Economic Development Partnership’s “Highest Ranked Industries” report; Income data from YVHA Housing Demand Study, 2025, Page 60 — MLS; Routt County Assessor; Economic and Planning Systems`}
+                ariaLabel="Bar chart showing combined two-salary incomes across all industry sectors compared to the income required to buy a median-priced home in Routt County."
+                caption={`Sources: Select Salaries from Routt County Economic Development Partnership's "Highest Ranked Industries" report; Income data from YVHA Housing Demand Study, 2025, Page 60 — MLS; Routt County Assessor; Economic and Planning Systems`}
               />
             )}
           </div>
@@ -467,16 +467,16 @@ export default function Affordability() {
             {amiChart.length > 0 && (
               <AccessibleBarChart
                 data={amiChart}
-                keys={[‘Household Share (%)’, ‘Sales Share (%)’]}
-                layout=”horizontal”
+                keys={['Household Share (%)', 'Sales Share (%)']}
+                layout="horizontal"
                 xTickFormatter={(v) => `${v}%`}
                 yTickFormatter={(v) => `${v}%`}
                 tooltipFormatter={(v, name) => [`${v}%`, name]}
                 yDomain={[0, 80]}
                 chartHeight={492}
                 patternIndices={[4, 2]}
-                ariaLabel=”Horizontal paired bar chart showing household share and sales share by AMI band in Routt County 2024.”
-                caption=”Source: YVHA Housing Demand Study, 2025, Page 67 — MLS; Moffat County Assessor; CHFA Income Limits; Economic and Planning Systems”
+                ariaLabel="Horizontal paired bar chart showing household share and sales share by AMI band in Routt County 2024."
+                caption="Source: YVHA Housing Demand Study, 2025, Page 67 — MLS; Moffat County Assessor; CHFA Income Limits; Economic and Planning Systems"
               />
             )}
           </div>

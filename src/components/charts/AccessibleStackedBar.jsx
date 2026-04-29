@@ -65,8 +65,17 @@ export default function AccessibleStackedBar({
           />
           <Tooltip content={(p) => <ChartTooltip {...p} formatter={tooltipFormatter} />} />
           <Legend
-            wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 8, color: '#1a1a1a' }}
-            payload={legendPayload}
+            wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif" }}
+            content={() => (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 16px', justifyContent: 'center', paddingTop: 8, color: '#1a1a1a' }}>
+                {legendPayload.map((entry) => (
+                  <span key={entry.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ display: 'inline-block', width: 14, height: 14, background: entry.color, borderRadius: 2, flexShrink: 0 }} />
+                    {entry.value}
+                  </span>
+                ))}
+              </div>
+            )}
           />
           {keys.map((key, i) => (
             <Bar key={key} dataKey={key} stackId="a" fill={PATTERN_IDS[getIdx(i) % PATTERN_IDS.length]} />

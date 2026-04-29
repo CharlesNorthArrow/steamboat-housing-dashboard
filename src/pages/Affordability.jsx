@@ -1,7 +1,14 @@
 import { useMemo } from 'react'
+import {
+  ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid,
+  Tooltip, Legend, ResponsiveContainer,
+} from 'recharts'
 import { useGoogleSheet } from '../hooks/useGoogleSheet'
 import { SHEET_URLS } from '../utils/sheetUrls'
 import { parseDollar, parsePercent } from '../utils/formatters'
+import { PatternDefs, PATTERN_IDS, PATTERN_COLORS } from '../components/charts/PatternDefs'
+import ChartFigure from '../components/charts/ChartFigure'
+import ChartTooltip from '../components/charts/ChartTooltip'
 import AccessibleBarChart from '../components/charts/AccessibleBarChart'
 import AccessibleStackedBar from '../components/charts/AccessibleStackedBar'
 import AccessibleLineChart from '../components/charts/AccessibleLineChart'
@@ -316,15 +323,76 @@ export default function Affordability() {
             </p>
             <LoadState loading={mktLoading} error={mktError} />
             {affordableVMarketChart.length > 0 && (
-              <AccessibleBarChart
-                data={affordableVMarketChart}
-                keys={['Affordable Rent', 'Market Rent', 'Market Premium']}
-                yTickFormatter={fmt$}
-                tooltipFormatter={(v, name) => [fmt$(v), name]}
-                yDomain={[0, 4500]}
-                ariaLabel="Grouped bar chart comparing affordable rent, market rent, and the market premium gap by unit size in 2024."
+              <ChartFigure
+                ariaLabel="Grouped bar chart: affordable rent (yellow) vs. market rent (blue) by unit size, with a line showing the market premium gap."
                 caption="Sources: YVHA Housing Demand Study, 2025, Page 71 — CoStar; Property websites; Zillow; YVHA; CHFA; Economic and Planning Systems"
-              />
+                srTable={
+                  <table>
+                    <caption>Affordable vs. Market Rent by Unit Size</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Unit Size</th>
+                        <th scope="col">Affordable Rent</th>
+                        <th scope="col">Market Rent</th>
+                        <th scope="col">Market Premium (Gap)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {affordableVMarketChart.map((row) => (
+                        <tr key={row.name}>
+                          <th scope="row">{row.name}</th>
+                          <td>{fmt$(row['Affordable Rent'])}</td>
+                          <td>{fmt$(row['Market Rent'])}</td>
+                          <td>{fmt$(row['Market Premium'])}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                }
+              >
+                <ResponsiveContainer width="100%" height={320}>
+                  <ComposedChart data={affordableVMarketChart} margin={{ top: 8, right: 16, left: 8, bottom: 8 }}>
+                    <svg><PatternDefs /></svg>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                    <XAxis dataKey="name" tick={{ fontSize: 13, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }} />
+                    <YAxis tickFormatter={fmt$} tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }} domain={[0, 4500]} />
+                    <Tooltip content={(p) => <ChartTooltip {...p} formatter={(v, name) => [fmt$(v), name]} />} />
+                    <Legend
+                      wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif" }}
+                      content={() => (
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 20px', justifyContent: 'center', paddingTop: 8, color: '#1a1a1a' }}>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                            <span style={{ display: 'inline-block', width: 14, height: 14, background: PATTERN_COLORS[0], borderRadius: 2, flexShrink: 0 }} />
+                            Affordable Rent
+                          </span>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                            <span style={{ display: 'inline-block', width: 14, height: 14, background: PATTERN_COLORS[4], borderRadius: 2, flexShrink: 0 }} />
+                            Market Rent
+                          </span>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                            <svg width="20" height="14" aria-hidden="true" style={{ flexShrink: 0 }}>
+                              <line x1="0" y1="7" x2="20" y2="7" stroke="#555" strokeWidth="2" strokeDasharray="5 3" />
+                              <circle cx="10" cy="7" r="3" fill="#555" />
+                            </svg>
+                            Market Premium (gap)
+                          </span>
+                        </div>
+                      )}
+                    />
+                    <Bar dataKey="Affordable Rent" fill={PATTERN_IDS[0]} />
+                    <Bar dataKey="Market Rent" fill={PATTERN_IDS[4]} />
+                    <Line
+                      dataKey="Market Premium"
+                      stroke="#555"
+                      strokeWidth={2}
+                      strokeDasharray="5 3"
+                      dot={{ r: 4, fill: '#555' }}
+                      activeDot={{ r: 6 }}
+                      type="monotone"
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </ChartFigure>
             )}
           </div>
         </div>

@@ -59,8 +59,7 @@ function LoadState({ loading, error }) {
 }
 
 const chartTitle = { color: 'var(--navy)', fontSize: 18, fontFamily: "'Source Sans 3', sans-serif", fontWeight: 600, margin: '0 0 4px' }
-const chartSubtitle = { fontSize: 13, color: 'var(--text-muted)', margin: '0 0 12px' }
-const accomp = { fontSize: 17, color: 'var(--text-dark)', lineHeight: 1.6, margin: '0 0 20px' }
+const accomp = { fontSize: 14, color: 'var(--text-dark)', lineHeight: 1.6, margin: '0 0 20px' }
 const bannerBody = { margin: 0, fontSize: 16, color: 'var(--text-dark)', lineHeight: 1.75, fontFamily: "'Source Sans 3', sans-serif" }
 
 export default function TrailForward() {
@@ -92,10 +91,10 @@ export default function TrailForward() {
     const s = groupIncome(start)
     const e = groupIncome(end)
     const keys = [
-      ['Low Income (<$50K)',        'Low Income\n(<$50K)'],
-      ['Middle ($50K–$124K)',       'Middle\n($50K–$124K)'],
-      ['Upper Middle ($125K–$199K)','Upper Middle\n($125K–$199K)'],
-      ['High Income (>$200K)',      'High Income\n(>$200K)'],
+      ['Low Income (<$50K)',        'Low Income'],
+      ['Middle ($50K–$124K)',       'Middle'],
+      ['Upper Middle ($125K–$199K)','Upper Middle'],
+      ['High Income (>$200K)',      'High Income'],
     ]
     return keys.map(([k, label]) => ({
       name: label,
@@ -150,15 +149,15 @@ export default function TrailForward() {
       { text: "Our Trail Forward.", readId: "tf-trail-title" },
       { text: "A vibrant and healthy Steamboat Springs means having residents of all ages and incomes.", readId: "tf-trail-sub" },
       { text: "As we work together to create more affordable housing, we can measure our progress by tracking two demographics: income and age. Over the past 15 years, we have seen the share of low- and middle-income residents and residents under 44 decrease rapidly.", readId: "tf-trail-body" },
-      { text: "Chart one: Percentage of Households by Income Level. Low- and middle-income households fell from 86% to 57% of all households, while high-income households earning over $200,000 quadrupled from 6% to 25%." },
+      { text: "Chart one: Percentage of Households by Income Level. Low- and middle-income households fell from 86% to 54% of all households, while high-income households earning over $200,000 quadrupled from 6% to 24%." },
       { text: "Chart two: Percentage of Residents by Age Group. Residents aged 25 to 44 fell from 32% to 27% of the population, while residents 65 and older nearly tripled from 7% to 18%, signaling rapid community aging." },
     ],
 
     incomeDeep: [
       { text: "Income Deeper Dive. As high-income households surge, low- and middle-income households are disappearing.", readId: "tf-income-header" },
       { text: "Steamboat Springs is seeing clear, sustained growth at the top of the income ladder. Keeping the city livable for middle- and lower-income households will likely hinge on housing affordability initiatives, diverse job opportunities, and policies that help long-time residents stay rooted as the resort economy booms.", readId: "tf-income-body" },
-      { text: "Chart three: Number of High-Income Households earning $200,000 or more. High-income households grew modestly from 298 to 549 between 2006 and 2020, then nearly tripled in just five years, reaching 1,446 by 2020 to 2024." },
-      { text: "Chart four: Net Population Shift by Income Level. Between 2010 and 2023, low- and middle-income households shrank by 12 and 14 percentage points respectively, while upper-middle and high-income households grew by 10 and 18 percentage points." },
+      { text: "Chart three: Number of High-Income Households earning $200,000 or more. High-income households grew modestly from 298 to 549 between 2006 and 2020, then nearly tripled in just five years, reaching 1,504 by 2020 to 2024." },
+      { text: "Chart four: Net Population Shift by Income Level. Between 2010 and 2024, low- and middle-income households shrank by 10 and 19 percentage points respectively, while upper-middle and high-income households grew by 14 and 18 percentage points." },
     ],
 
     ageDeep: [
@@ -230,10 +229,9 @@ export default function TrailForward() {
           {/* Chart 1 */}
           <div>
             <h3 style={chartTitle}>Percentage of Households by Income Level</h3>
-            <p style={chartSubtitle}>2006–2024, Steamboat Springs city, ACS 5-year estimates</p>
             <p style={accomp}>
-              Low- and middle-income households fell from 86% to 57% of all households, while
-              high-income households (&gt;$200K) quadrupled from 6% to 25%.
+              Low- and middle-income households fell from 86% to 54% of all households, while
+              high-income households (&gt;$200K) quadrupled from 6% to 24%.
             </p>
             <LoadState loading={incomeLoading} error={incomeError} />
             {incomeChartData.length > 0 && (
@@ -247,7 +245,6 @@ export default function TrailForward() {
           {/* Chart 2 */}
           <div>
             <h3 style={chartTitle}>Percentage of Residents by Age Group</h3>
-            <p style={chartSubtitle}>2006–2024, Steamboat Springs city, ACS 5-year estimates</p>
             <p style={accomp}>
               Residents aged 25–44 fell from 32% to 27% of the population, while residents 65 and
               older nearly tripled from 7% to 18% — signaling rapid community aging.
@@ -292,7 +289,7 @@ export default function TrailForward() {
             <h3 style={chartTitle}>Number of High-Income Households ($200K or More)</h3>
             <p style={accomp}>
               High-income households earning more than $200,000 a year grew modestly from 298 to 549
-              between 2006 and 2020, then nearly tripled in just five years — reaching 1,446 by 2019–2023.
+              between 2006 and 2020, then nearly tripled in just five years — reaching 1,504 by 2020–2024.
             </p>
             <LoadState loading={incomeLoading} error={incomeError} />
             {highIncomeLineData.length > 0 && (
@@ -307,10 +304,10 @@ export default function TrailForward() {
           </div>
           {/* Chart 4 */}
           <div>
-            <h3 style={chartTitle}>Net Population Shift by Income Level (2010 vs. 2023)</h3>
+            <h3 style={chartTitle}>Net Population Shift by Income Level (2010 vs. 2024)</h3>
             <p style={accomp}>
-              Between 2010 and 2023, low- and middle-income households shrank by 12 and 14 percentage
-              points respectively, while upper-middle and high-income households grew by 10 and 18 points.
+              Between 2010 and 2024, low- and middle-income households shrank by 10 and 19 percentage
+              points respectively, while upper-middle and high-income households grew by 14 and 18 points.
             </p>
             <LoadState loading={incomeLoading} error={incomeError} />
             {netShiftData.length > 0 && (
@@ -330,7 +327,7 @@ export default function TrailForward() {
                 <ResponsiveContainer width="100%" height={280}>
                   <BarChart data={netShiftData} margin={{ top: 16, right: 16, left: 8, bottom: 8 }}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <XAxis dataKey="name" tick={{ fontSize: 12, fontFamily: "'Source Sans 3', sans-serif" }} />
+                    <XAxis dataKey="name" tick={{ fontSize: 12, fontFamily: "'Source Sans 3', sans-serif" }} interval={0} />
                     <YAxis tickFormatter={(v) => `${v > 0 ? '+' : ''}${v}pp`} tick={{ fontSize: 13, fontFamily: "'Source Sans 3', sans-serif" }} />
                     <Tooltip formatter={(v) => [`${v > 0 ? '+' : ''}${v} pp`, 'Change']} contentStyle={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: 13 }} />
                     <ReferenceLine y={0} stroke="rgba(0,0,0,0.25)" />

@@ -76,6 +76,7 @@ export default function AccessibleLineChart({
               strokeWidth={2}
               dot={{ r: 5, fill: LINE_STYLES[i % LINE_STYLES.length].stroke }}
               activeDot={{ r: 7 }}
+              connectNulls
             />
           ))}
         </LineChart>

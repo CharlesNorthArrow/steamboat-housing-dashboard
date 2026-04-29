@@ -23,7 +23,7 @@ export default function Footer({ activeTab, onTabChange }) {
         }}
       >
         <a
-          href="https://docs.google.com/spreadsheets/d/1ey3NC264FNto7_xKQs07A3bVP4x6RDqoy6QTAYpEWp4/edit"
+          href="https://docs.google.com/spreadsheets/d/1nn4IIdTEniLSEnd30zwSVMjoVd88Fd5gKjltxlSb0tk/edit?usp=sharing"
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'underline' }}

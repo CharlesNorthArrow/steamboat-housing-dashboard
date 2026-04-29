@@ -15,8 +15,7 @@ function LoadState({ loading, error }) {
 }
 
 const chartTitle = { color: 'var(--navy)', fontSize: 18, fontFamily: "'Source Sans 3', sans-serif", fontWeight: 600, margin: '0 0 4px' }
-const chartSubtitle = { fontSize: 13, color: 'var(--text-muted)', margin: '0 0 12px' }
-const accomp = { fontSize: 17, color: 'var(--text-dark)', lineHeight: 1.6, margin: '0 0 20px' }
+const accomp = { fontSize: 14, color: 'var(--text-dark)', lineHeight: 1.6, margin: '0 0 20px' }
 const bannerBodyWhite = { margin: '12px 0 0', fontSize: 16, color: 'white', lineHeight: 1.75, fontFamily: "'Source Sans 3', sans-serif" }
 const bannerBodyDark = { margin: '0', fontSize: 16, color: 'var(--text-dark)', lineHeight: 1.75, fontFamily: "'Source Sans 3', sans-serif" }
 const placeholder = { fontSize: 14, color: 'var(--text-muted)', padding: '12px 16px', border: '1px solid var(--border)', borderRadius: 4 }
@@ -222,7 +221,7 @@ export default function Affordability() {
 
     risingRent: [
       { text: "Rising Rent. Affordable rents are disappearing, and renters are facing severe financial strain.", readId: "af-rent-header" },
-      { text: "Chart one: Housing Costs for Renters. Renters paying under $1,500 a month fell from 64% to 20% of all renter households, while those paying $1,500 or more surged from 36% to 80%, and renters paying over $2,500 jumped from 7% to 28%." },
+      { text: "Chart one: Housing Costs for Renters. Renters paying under $1,500 a month fell from 65% to 39% of all renter households, while those paying $1,500 or more surged from 36% to 86%, and renters paying over $2,500 jumped from 7% to 19%." },
       { text: "Chart two: Affordable versus Market Rent by Unit Size. Affordable rents range from $1,100 to $1,900 depending on unit size, while market rents range from $2,400 to $4,000 — a gap of $1,300 to $2,100 per month that renters must cover to secure housing." },
     ],
 
@@ -291,11 +290,10 @@ export default function Affordability() {
           {/* Chart 1 — Housing Costs, Renters */}
           <div>
             <h3 style={chartTitle}>Housing Costs — Renters</h3>
-            <p style={chartSubtitle}>2006–2024, Steamboat Springs, ACS 5-year estimates</p>
             <p style={accomp}>
-              Renters paying under $1,500 a month fell from 64% to 20% of all renter households,
-              while those paying $1,500 or more surged from 36% to 80% — and renters paying over
-              $2,500 jumped from 7% to 28%.
+              Renters paying under $1,500 a month fell from 65% to 39% of all renter households,
+              while those paying $1,500 or more surged from 36% to 86% — and renters paying over
+              $2,500 jumped from 7% to 19%.
             </p>
             <LoadState loading={hcLoading} error={hcError} />
             {housingCostRenterChart.data.length > 0 && (
@@ -311,7 +309,6 @@ export default function Affordability() {
           {/* Chart 2 — Affordable vs. Market Rent */}
           <div>
             <h3 style={chartTitle}>Affordable vs. Market Rent by Unit Size</h3>
-            <p style={chartSubtitle}>2024, Steamboat Springs</p>
             <p style={accomp}>
               Affordable rents range from $1,100 to $1,900 depending on unit size, while market
               rents range from $2,400 to $4,000 — a gap of $1,300 to $2,100 per month that renters
@@ -353,7 +350,6 @@ export default function Affordability() {
           {/* Chart 3 — Salary vs. Home Price */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <h3 style={chartTitle}>Top Industry Salaries Compared to Median Home Price</h3>
-            <p style={chartSubtitle}>2024, Routt County</p>
             <p style={accomp}>
               Combined salaries from two workers in the same sector range from $67,320 (Educational
               Services) to $142,924 (Health Care), yet all fall far short of the $328,451 income
@@ -382,14 +378,13 @@ export default function Affordability() {
           {/* Chart 4 — Sales by AMI */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <h3 style={chartTitle}>Share of Households and Sales by AMI, Routt County</h3>
-            <p style={chartSubtitle}>2024, Routt County</p>
             <p style={accomp}>
               Households earning over 200% AMI make up 26% of all households but account for 71%
               of home sales, while households earning below 80% AMI make up 44% of all households
               but account for just 2% of sales.
             </p>
             <LoadState loading={amiLoading} error={amiError} />
-            <div style={{ flex: 1 }} />
+            <div style={{ flex: 1, minHeight: 24 }} />
             {amiChart.length > 0 && (
               <AccessibleBarChart
                 data={amiChart}
@@ -428,7 +423,6 @@ export default function Affordability() {
           {/* Chart 5 — 30%+ burden */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <h3 style={chartTitle}>Paying 30% or More of Income on Housing</h3>
-            <p style={chartSubtitle}>2006–2024, Steamboat Springs, ACS 5-year estimates</p>
             <p style={accomp}>
               Renters are most cost-burdened, with 49% spending 30% or more of income on housing
               in 2020–2024, up from 37% in 2006–2010. Owners with a mortgage have improved slightly
@@ -453,7 +447,6 @@ export default function Affordability() {
           {/* Chart 6 — 50%+ burden */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <h3 style={chartTitle}>Paying 50% or More of Income on Housing</h3>
-            <p style={chartSubtitle}>2006–2024, Steamboat Springs, ACS 5-year estimates</p>
             <p style={accomp}>
               Nearly 30% of renters spend 50% or more of their income on housing in 2020–2024 —
               the highest of any group. Owners with a mortgage held steady around 16–20%, while
@@ -498,7 +491,6 @@ export default function Affordability() {
           {/* Chart 7 — 1 Earner */}
           <div>
             <h3 style={chartTitle}>1 Earner Income vs. Basic Costs</h3>
-            <p style={chartSubtitle}>Routt County</p>
             <p style={accomp}>
               Single earner salaries range from $33,660 (Educational Services) to $71,462 (Health
               Care). Only the Health Care salary clears the basic cost threshold for a single adult
@@ -526,7 +518,6 @@ export default function Affordability() {
           {/* Chart 8 — 2 Earners */}
           <div>
             <h3 style={chartTitle}>2 Earners Income vs. Basic Costs</h3>
-            <p style={chartSubtitle}>Routt County</p>
             <p style={accomp}>
               Combined salaries for two earners range from $67,320 (Educational Services) to
               $142,924 (Health Care). Only Health Care clears the $79,780 threshold for two adults
@@ -540,7 +531,7 @@ export default function Affordability() {
                 yTickFormatter={fmt$}
                 tooltipFormatter={(v, name) => [fmt$(v), name]}
                 referenceLines={[
-                  { value: 79780,  label: 'Living costs: 2 adults ($79,780)',                  stroke: '#e07b2a', dashed: true },
+                  { value: 79780,  label: 'Living costs: 2 adults ($79,780)',                  stroke: '#2e8b57', dashed: true },
                   { value: 151805, label: 'Living costs: 2 adults + 2 children ($151,805)',    stroke: '#c0392b' },
                 ]}
                 yDomain={[0, 180000]}

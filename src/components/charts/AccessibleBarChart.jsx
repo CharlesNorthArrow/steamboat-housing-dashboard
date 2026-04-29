@@ -43,14 +43,17 @@ function PatternLegend({ items }) {
       fontFamily: "'Source Sans 3', sans-serif",
       lineHeight: 1.4,
     }}>
-      {items.map((item, i) => (
-        <span key={item.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          <svg width="14" height="14" aria-hidden="true" style={{ flexShrink: 0 }}>
-            <rect width="14" height="14" fill={PATTERN_IDS[i % PATTERN_IDS.length]} />
-          </svg>
-          {item.value}
-        </span>
-      ))}
+      {items.map((item, i) => {
+        const fillIdx = item.patIdx != null ? item.patIdx : i
+        return (
+          <span key={item.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <svg width="14" height="14" aria-hidden="true" style={{ flexShrink: 0 }}>
+              <rect width="14" height="14" fill={PATTERN_IDS[fillIdx % PATTERN_IDS.length]} />
+            </svg>
+            {item.value}
+          </span>
+        )
+      })}
     </div>
   )
 }
@@ -58,7 +61,7 @@ function PatternLegend({ items }) {
 export default function AccessibleBarChart({
   data, keys, ariaLabel, caption, yTickFormatter, referenceLines = [],
   yDomain, tooltipFormatter, layout = 'vertical', xTickFormatter, chartHeight,
-  colorEachBar = false, patternIndices,
+  colorEachBar = false, patternIndices, legendBelow = false,
 }) {
   const isHorizontal = layout === 'horizontal'
   const getIdx = (i) => patternIndices ? patternIndices[i] : i
@@ -73,12 +76,17 @@ export default function AccessibleBarChart({
   }, [])
 
   // When colorEachBar=true, legend is rendered as a custom HTML block below the chart.
-  // When false, Recharts auto-generates the legend from the Bar components.
+  // When legendBelow=true, the multi-series legend is also rendered below instead of inside Recharts.
+  // When false (default), Recharts auto-generates the legend from the Bar components.
   const colorBarLegendItems = colorEachBar
     ? data.map((d, i) => ({
         value: d.name,
         id: String(i),
       }))
+    : null
+
+  const belowLegendItems = (!colorEachBar && legendBelow)
+    ? keys.map((key, i) => ({ value: key, id: key, patIdx: getIdx(i) }))
     : null
 
   return (
@@ -107,7 +115,7 @@ export default function AccessibleBarChart({
             </>
           )}
           <Tooltip content={(p) => <ChartTooltip {...p} formatter={tooltipFormatter} colorEachBarData={colorEachBar ? data : undefined} />} />
-          {!colorEachBar && (
+          {!colorEachBar && !legendBelow && (
             <Legend
               wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 8 }}
               payload={keys.map((key, i) => ({
@@ -140,6 +148,9 @@ export default function AccessibleBarChart({
 
       {colorEachBar && colorBarLegendItems && (
         <PatternLegend items={colorBarLegendItems} />
+      )}
+      {belowLegendItems && (
+        <PatternLegend items={belowLegendItems} />
       )}
     </ChartFigure>
   )

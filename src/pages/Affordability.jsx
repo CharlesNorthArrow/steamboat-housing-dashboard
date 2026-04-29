@@ -395,6 +395,7 @@ export default function Affordability() {
                 tooltipFormatter={(v, name) => [`${v}%`, name]}
                 yDomain={[0, 80]}
                 chartHeight={492}
+                patternIndices={[4, 2]}
                 ariaLabel="Horizontal paired bar chart showing household share and sales share by AMI band in Routt County 2024."
                 caption="Source: YVHA Housing Demand Study, 2025, Page 67 — MLS; Moffat County Assessor; CHFA Income Limits; Economic and Planning Systems"
               />

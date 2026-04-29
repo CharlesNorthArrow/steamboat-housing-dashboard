@@ -1,6 +1,7 @@
 // SVG pattern fills so bar charts don't rely on color alone (VPAT requirement)
-// Order: warm (dark orange) → cool (dark navy) for intuitive warm-to-cool progression
+// Index 0 = yellow, then warm → cool. Use patternIndices prop on charts to override per-series.
 export const PATTERNS = [
+  { id: 'pat-yellow',     fill: '#f5a623' },   // yellow/amber
   { id: 'pat-hatch',      fill: '#c45500' },   // dark orange
   { id: 'pat-cross',      fill: '#e07b2a' },   // medium orange
   { id: 'pat-dash',       fill: '#2e8b57' },   // green
@@ -15,6 +16,12 @@ export const PATTERNS = [
 export function PatternDefs() {
   return (
     <defs>
+      {/* X-cross on yellow/amber */}
+      <pattern id="pat-yellow" width="8" height="8" patternUnits="userSpaceOnUse">
+        <rect width="8" height="8" fill="#f5a623" />
+        <path d="M2 2L6 6M6 2L2 6" stroke="white" strokeWidth="1" opacity="0.4" />
+      </pattern>
+
       {/* Forward diagonal hatch — dark orange */}
       <pattern id="pat-hatch" width="8" height="8" patternUnits="userSpaceOnUse">
         <rect width="8" height="8" fill="#c45500" />
@@ -50,19 +57,19 @@ export function PatternDefs() {
         <path d="M8 8L0 0" stroke="white" strokeWidth="1.5" opacity="0.5" />
       </pattern>
 
-      {/* Vertical lines */}
+      {/* Vertical lines — dark brown */}
       <pattern id="pat-wave" width="8" height="8" patternUnits="userSpaceOnUse">
         <rect width="8" height="8" fill="#8b4513" />
         <path d="M4 0V8" stroke="white" strokeWidth="1.5" opacity="0.5" />
       </pattern>
 
-      {/* Grid */}
+      {/* Grid — purple */}
       <pattern id="pat-grid" width="8" height="8" patternUnits="userSpaceOnUse">
         <rect width="8" height="8" fill="#6a0572" />
         <path d="M0 0H8V8H0Z" stroke="white" strokeWidth="0.5" fill="none" opacity="0.5" />
       </pattern>
 
-      {/* Zigzag */}
+      {/* Zigzag — dark gold */}
       <pattern id="pat-zigzag" width="12" height="8" patternUnits="userSpaceOnUse">
         <rect width="12" height="8" fill="#b8860b" />
         <path d="M0 4L3 1L6 4L9 1L12 4" stroke="white" strokeWidth="1.5" fill="none" opacity="0.5" />

@@ -237,6 +237,7 @@ export default function TrailForward() {
             {incomeChartData.length > 0 && (
               <AccessibleStackedBar
                 data={incomeChartData} keys={incomeKeys} percent
+                patternIndices={[0, 2, 3, 4]}
                 ariaLabel="Stacked bar chart: percentage of households by income level 2006–2024."
                 caption="Source: ACS 5-Year Estimates, B19001 Household Income in the Past 12 Months"
               />
@@ -254,6 +255,7 @@ export default function TrailForward() {
               <AccessibleStackedBar
                 data={ageChartData.map(({ _medianAge, _share2544, ...rest }) => rest)}
                 keys={ageKeys} percent
+                patternIndices={[0, 1, 2, 3, 4, 8]}
                 ariaLabel="Stacked bar chart: percentage of residents by age group 2006–2024."
                 caption="Source: ACS 5-Year Estimates, S0101 Age and Sex"
               />
@@ -333,7 +335,7 @@ export default function TrailForward() {
                     <ReferenceLine y={0} stroke="rgba(0,0,0,0.25)" />
                     <Bar dataKey="Change (pp)" radius={[3, 3, 0, 0]}>
                       {netShiftData.map((entry, i) => (
-                        <Cell key={i} fill={entry['Change (pp)'] >= 0 ? '#e07b2a' : '#225286'} />
+                        <Cell key={i} fill={entry['Change (pp)'] >= 0 ? '#2e8b57' : '#e07b2a'} />
                       ))}
                     </Bar>
                   </BarChart>

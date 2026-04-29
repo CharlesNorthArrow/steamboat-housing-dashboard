@@ -3,7 +3,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, ReferenceLine, Cell, LabelList,
 } from 'recharts'
-import { PatternDefs, PATTERN_IDS } from './PatternDefs'
+import { PatternDefs, PATTERN_IDS, PATTERN_COLORS } from './PatternDefs'
 import ChartFigure from './ChartFigure'
 import ChartTooltip from './ChartTooltip'
 
@@ -58,9 +58,10 @@ function PatternLegend({ items }) {
 export default function AccessibleBarChart({
   data, keys, ariaLabel, caption, yTickFormatter, referenceLines = [],
   yDomain, tooltipFormatter, layout = 'vertical', xTickFormatter, chartHeight,
-  colorEachBar = false,
+  colorEachBar = false, patternIndices,
 }) {
   const isHorizontal = layout === 'horizontal'
+  const getIdx = (i) => patternIndices ? patternIndices[i] : i
   const resolvedHeight = chartHeight ?? (isHorizontal ? Math.max(240, data.length * 48 + 60) : 320)
 
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 800)
@@ -109,6 +110,12 @@ export default function AccessibleBarChart({
           {!colorEachBar && (
             <Legend
               wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 8 }}
+              payload={keys.map((key, i) => ({
+                value: key,
+                type: 'square',
+                color: PATTERN_COLORS[getIdx(i) % PATTERN_COLORS.length],
+                id: key,
+              }))}
             />
           )}
           {referenceLines.map((rl) => (
@@ -121,7 +128,7 @@ export default function AccessibleBarChart({
             />
           ))}
           {keys.map((key, i) => (
-            <Bar key={key} dataKey={key} fill={PATTERN_IDS[i % PATTERN_IDS.length]}>
+            <Bar key={key} dataKey={key} fill={PATTERN_IDS[getIdx(i) % PATTERN_IDS.length]}>
               {colorEachBar && data.map((_, j) => (
                 <Cell key={j} fill={PATTERN_IDS[j % PATTERN_IDS.length]} />
               ))}

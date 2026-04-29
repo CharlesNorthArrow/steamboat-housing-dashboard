@@ -29,8 +29,10 @@ function SRTable({ data, keys, label }) {
 }
 
 export default function AccessibleStackedBar({
-  data, keys, ariaLabel, caption, percent = true,
+  data, keys, ariaLabel, caption, percent = true, patternIndices,
 }) {
+  const getIdx = (i) => patternIndices ? patternIndices[i] : i
+
   const tickFormatter = percent ? (v) => `${Math.round(v * 100)}%` : undefined
   const tooltipFormatter = percent
     ? (v, name) => [`${(v * 100).toFixed(1)}%`, name]
@@ -39,7 +41,7 @@ export default function AccessibleStackedBar({
   const legendPayload = keys.map((key, i) => ({
     value: key,
     type: 'square',
-    color: PATTERN_COLORS[i % PATTERN_COLORS.length],
+    color: PATTERN_COLORS[getIdx(i) % PATTERN_COLORS.length],
     id: key,
   }))
 
@@ -67,7 +69,7 @@ export default function AccessibleStackedBar({
             payload={legendPayload}
           />
           {keys.map((key, i) => (
-            <Bar key={key} dataKey={key} stackId="a" fill={PATTERN_IDS[i % PATTERN_IDS.length]} />
+            <Bar key={key} dataKey={key} stackId="a" fill={PATTERN_IDS[getIdx(i) % PATTERN_IDS.length]} />
           ))}
         </BarChart>
       </ResponsiveContainer>

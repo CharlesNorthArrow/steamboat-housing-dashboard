@@ -82,6 +82,7 @@ export default function AccessibleBarChart({
     ? data.map((d, i) => ({
         value: d.name,
         id: String(i),
+        patIdx: getIdx(i),
       }))
     : null
 
@@ -138,7 +139,7 @@ export default function AccessibleBarChart({
           {keys.map((key, i) => (
             <Bar key={key} dataKey={key} fill={PATTERN_IDS[getIdx(i) % PATTERN_IDS.length]}>
               {colorEachBar && data.map((_, j) => (
-                <Cell key={j} fill={PATTERN_IDS[j % PATTERN_IDS.length]} />
+                <Cell key={j} fill={PATTERN_IDS[getIdx(j) % PATTERN_IDS.length]} />
               ))}
               <LabelList dataKey={key} position={isHorizontal ? 'right' : 'top'} formatter={yTickFormatter} style={{ fontSize: 12, fontFamily: "'Source Sans 3', sans-serif" }} />
             </Bar>

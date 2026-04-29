@@ -590,6 +590,7 @@ export default function Affordability() {
                 ]}
                 yDomain={[0, 130000]}
                 colorEachBar
+                patternIndices={[0, 3, 4]}
                 ariaLabel="Bar chart comparing single-earner salaries for three industries to basic cost-of-living thresholds in Routt County."
                 caption={`Sources: Select Salaries from Routt County Economic Development Partnership's "Highest Ranked Industries" report; 2025 Cost of Living from MIT Living Wage Calculator for Routt County, 2025`}
               />
@@ -617,6 +618,7 @@ export default function Affordability() {
                 ]}
                 yDomain={[0, 180000]}
                 colorEachBar
+                patternIndices={[0, 3, 4]}
                 ariaLabel="Bar chart comparing combined two-earner salaries for three industries to basic cost-of-living thresholds in Routt County."
                 caption={`Sources: Select Salaries from Routt County Economic Development Partnership's "Highest Ranked Industries" report; 2025 Cost of Living from MIT Living Wage Calculator for Routt County, 2025`}
               />

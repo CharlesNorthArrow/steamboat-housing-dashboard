@@ -29,7 +29,7 @@ function SRTable({ data, keys, label }) {
 }
 
 export default function AccessibleStackedBar({
-  data, keys, ariaLabel, caption, percent = true, patternIndices,
+  data, keys, ariaLabel, caption, percent = true, patternIndices, legendBelow = false,
 }) {
   const getIdx = (i) => patternIndices ? patternIndices[i] : i
 
@@ -64,24 +64,36 @@ export default function AccessibleStackedBar({
             domain={percent ? [0, 1] : undefined}
           />
           <Tooltip content={(p) => <ChartTooltip {...p} formatter={tooltipFormatter} />} />
-          <Legend
-            wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif" }}
-            content={() => (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 16px', justifyContent: 'center', paddingTop: 8, color: '#1a1a1a' }}>
-                {legendPayload.map((entry) => (
-                  <span key={entry.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                    <span style={{ display: 'inline-block', width: 14, height: 14, background: entry.color, borderRadius: 2, flexShrink: 0 }} />
-                    {entry.value}
-                  </span>
-                ))}
-              </div>
-            )}
-          />
+          {!legendBelow && (
+            <Legend
+              wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif" }}
+              content={() => (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 16px', justifyContent: 'center', paddingTop: 8, color: '#1a1a1a' }}>
+                  {legendPayload.map((entry) => (
+                    <span key={entry.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ display: 'inline-block', width: 14, height: 14, background: entry.color, borderRadius: 2, flexShrink: 0 }} />
+                      {entry.value}
+                    </span>
+                  ))}
+                </div>
+              )}
+            />
+          )}
           {keys.map((key, i) => (
             <Bar key={key} dataKey={key} stackId="a" fill={PATTERN_IDS[getIdx(i) % PATTERN_IDS.length]} />
           ))}
         </BarChart>
       </ResponsiveContainer>
+      {legendBelow && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 16px', justifyContent: 'center', paddingTop: 10, fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", color: '#1a1a1a' }}>
+          {legendPayload.map((entry) => (
+            <span key={entry.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ display: 'inline-block', width: 14, height: 14, background: entry.color, borderRadius: 2, flexShrink: 0 }} />
+              {entry.value}
+            </span>
+          ))}
+        </div>
+      )}
     </ChartFigure>
   )
 }

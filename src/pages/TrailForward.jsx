@@ -224,9 +224,11 @@ export default function TrailForward() {
       </div>
 
       {/* ── Charts 1 + 2 ── */}
+      {/* 2×2 grid equalises header-row and chart-row heights independently */}
       <div className="section-pad" style={{ backgroundColor: 'white' }}>
-        <div className="chart-grid">
-          {/* Chart 1 */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto auto', gap: '16px 80px' }}>
+
+          {/* Row 1 — headers */}
           <div>
             <h3 style={chartTitle}>Percentage of Households by Income Level</h3>
             <p style={accomp}>
@@ -234,16 +236,7 @@ export default function TrailForward() {
               high-income households (&gt;$200K) quadrupled from 6% to 24%.
             </p>
             <LoadState loading={incomeLoading} error={incomeError} />
-            {incomeChartData.length > 0 && (
-              <AccessibleStackedBar
-                data={incomeChartData} keys={incomeKeys} percent
-                patternIndices={[0, 2, 3, 4]}
-                ariaLabel="Stacked bar chart: percentage of households by income level 2006–2024."
-                caption="Source: ACS 5-Year Estimates, B19001 Household Income in the Past 12 Months"
-              />
-            )}
           </div>
-          {/* Chart 2 */}
           <div>
             <h3 style={chartTitle}>Percentage of Residents by Age Group</h3>
             <p style={accomp}>
@@ -251,16 +244,33 @@ export default function TrailForward() {
               older nearly tripled from 7% to 18% — signaling rapid community aging.
             </p>
             <LoadState loading={ageLoading} error={ageError} />
+          </div>
+
+          {/* Row 2 — charts */}
+          <div>
+            {incomeChartData.length > 0 && (
+              <AccessibleStackedBar
+                data={incomeChartData} keys={incomeKeys} percent
+                patternIndices={[0, 2, 3, 4]}
+                legendBelow
+                ariaLabel="Stacked bar chart: percentage of households by income level 2006–2024."
+                caption="Source: ACS 5-Year Estimates, B19001 Household Income in the Past 12 Months"
+              />
+            )}
+          </div>
+          <div>
             {ageChartData.length > 0 && (
               <AccessibleStackedBar
                 data={ageChartData.map(({ _medianAge, _share2544, ...rest }) => rest)}
                 keys={ageKeys} percent
                 patternIndices={[0, 1, 2, 3, 4, 5]}
+                legendBelow
                 ariaLabel="Stacked bar chart: percentage of residents by age group 2006–2024."
                 caption="Source: ACS 5-Year Estimates, S0101 Age and Sex"
               />
             )}
           </div>
+
         </div>
       </div>
 

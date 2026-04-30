@@ -268,8 +268,7 @@
 .header-image {
   height: 211px;
   width: auto;
-  border-radius: 10px;
-  border: 3px solid white;
+  border-radius: 0 0 0 10px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
   display: block;
 }
@@ -285,6 +284,8 @@
   color: var(--navy);
   border-color: rgba(27, 58, 92, 0.3);
   white-space: nowrap;
+  font-size: calc(13px - var(--scroll-p, 0) * 3px);
+  padding: calc(5px - var(--scroll-p, 0) * 1px) calc(11px - var(--scroll-p, 0) * 3px);
 }
 
 .header-page-actions .action-btn:hover {

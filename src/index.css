@@ -274,7 +274,7 @@
 /* Buttons positioned independently — flush to the left of the image, not inside its scale transform */
 .header-page-actions {
   position: absolute;
-  right: calc(48px + var(--header-img-w, 200px) + 12px);
+  right: calc(60px + var(--header-img-w, 200px) * (1 - var(--scroll-p, 0) * 0.3));
   top: 16px;
   z-index: 11;
 }

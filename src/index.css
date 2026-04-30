@@ -274,6 +274,11 @@
 }
 
 /* Buttons stacked vertically, dark styling for white header background */
+.header-page-actions {
+  transform: scale(var(--scroll-inv, 1));
+  transform-origin: top left;
+}
+
 .header-page-actions .page-actions {
   flex-direction: column;
   padding: 0;

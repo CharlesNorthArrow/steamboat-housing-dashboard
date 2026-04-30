@@ -26,6 +26,7 @@ export default function Header({ activeTab, onExportAll }) {
     const update = () => {
       const progress = Math.min(window.scrollY / 100, 1)
       el.style.setProperty('--scroll-p', progress)
+      el.style.setProperty('--scroll-inv', 1 / (1 - progress * 0.3))
     }
     window.addEventListener('scroll', update, { passive: true })
     return () => window.removeEventListener('scroll', update)

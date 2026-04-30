@@ -17,6 +17,7 @@ const TAB_IMAGE_LABELS = {
 
 export default function Header({ activeTab, onExportAll }) {
   const headerRef = useRef(null)
+  const imgRef = useRef(null)
   const imgSrc = TAB_IMAGES[activeTab] || TAB_IMAGES['trail-forward']
   const imgAlt = TAB_IMAGE_LABELS[activeTab] || 'Steamboat Springs, Colorado'
 
@@ -26,11 +27,25 @@ export default function Header({ activeTab, onExportAll }) {
     const update = () => {
       const progress = Math.min(window.scrollY / 100, 1)
       el.style.setProperty('--scroll-p', progress)
-      el.style.setProperty('--scroll-inv', 1 / (1 - progress * 0.3))
     }
     window.addEventListener('scroll', update, { passive: true })
     return () => window.removeEventListener('scroll', update)
   }, [])
+
+  // Measure image width so the button group can be positioned flush to its left edge
+  useEffect(() => {
+    const el = headerRef.current
+    const img = imgRef.current
+    if (!el || !img) return
+    const measure = () => el.style.setProperty('--header-img-w', img.offsetWidth + 'px')
+    if (img.complete) measure()
+    else img.addEventListener('load', measure)
+    window.addEventListener('resize', measure)
+    return () => {
+      img.removeEventListener('load', measure)
+      window.removeEventListener('resize', measure)
+    }
+  }, [imgSrc])
 
   return (
     <header ref={headerRef} className="site-header" role="banner">
@@ -40,10 +55,10 @@ export default function Header({ activeTab, onExportAll }) {
           <h1 className="header-title">Affordable Housing Dashboard</h1>
         </div>
         <div className="header-img-group">
-          <div className="header-page-actions">
-            <PageActions onExportAll={onExportAll} />
-          </div>
-          <img key={imgSrc} src={imgSrc} alt={imgAlt} className="header-image" />
+          <img ref={imgRef} key={imgSrc} src={imgSrc} alt={imgAlt} className="header-image" />
+        </div>
+        <div className="header-page-actions">
+          <PageActions onExportAll={onExportAll} />
         </div>
       </div>
     </header>

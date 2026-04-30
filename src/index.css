@@ -253,13 +253,11 @@
 }
 
 /* Wrapper carries the absolute position + scroll-scale so buttons move with the image */
+/* Image only — carries the scroll-scale transform */
 .header-img-group {
   position: absolute;
   right: 48px;
   top: 16px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
   transform: scale(calc(1 - var(--scroll-p, 0) * 0.3));
   transform-origin: top right;
   z-index: 10;
@@ -273,10 +271,12 @@
   display: block;
 }
 
-/* Buttons stacked vertically, dark styling for white header background */
+/* Buttons positioned independently — flush to the left of the image, not inside its scale transform */
 .header-page-actions {
-  transform: scale(var(--scroll-inv, 1));
-  transform-origin: top left;
+  position: absolute;
+  right: calc(48px + var(--header-img-w, 200px) + 12px);
+  top: 16px;
+  z-index: 11;
 }
 
 .header-page-actions .page-actions {
@@ -406,7 +406,10 @@
     transform: none;
   }
 
-  .header-page-actions { display: none; }
+  .header-page-actions {
+    display: none;
+    position: static;
+  }
 
   .header-image {
     height: 56px;

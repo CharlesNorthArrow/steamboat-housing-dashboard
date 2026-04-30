@@ -211,8 +211,9 @@
 .sidebar-notices p:last-child { margin-bottom: 0; }
 
 .sidebar-notices a {
-  color: white;
+  color: var(--gold);
   text-decoration: underline;
+  font-weight: 600;
 }
 
 /* ── Site header ─────────────────────────────────────────────── */

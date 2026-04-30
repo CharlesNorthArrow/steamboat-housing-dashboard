@@ -10,27 +10,10 @@ const TABS = [
   { id: 'policies',      label: 'Policies',        description: 'Programs and policy options',        wip: true },
 ]
 
-function SidebarFooter() {
-  const { data } = useGoogleSheet(SHEET_URLS.lastUpdated)
-  const lu = data?.[0]
-
-  return (
-    <div className="sidebar-footer-section">
-      {lu && (
-        <p>Data and narrative last updated {lu.Month} {lu.Year}</p>
-      )}
-      <p>
-        For questions or assistance accessing this dashboard, email the{' '}
-        <a href="mailto:kmccarthy@steamboatsprings.net">Housing Innovation Specialist</a>
-        {' '}or call{' '}
-        <a href="tel:9708717063">970-871-7063</a>.
-      </p>
-    </div>
-  )
-}
-
 export default function TabNav({ activeTab, onTabChange, onExportAll }) {
   const tabRefs = useRef([])
+  const { data: luData } = useGoogleSheet(SHEET_URLS.lastUpdated)
+  const lu = luData?.[0]
 
   function handleKeyDown(e, index) {
     let next = index
@@ -79,23 +62,20 @@ export default function TabNav({ activeTab, onTabChange, onExportAll }) {
         ))}
       </div>
 
-      {/* Disclaimer + last updated grouped at the bottom with a clear divider */}
       <div className="sidebar-bottom">
         <PageActions onExportAll={onExportAll} />
-        <div className="sidebar-disclaimer" role="note">
-          <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none"
-            stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-            style={{ flexShrink: 0, marginTop: 1 }}
-          >
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="8"  x2="12"    y2="12" />
-            <line x1="12" y1="16" x2="12.01" y2="16" />
-          </svg>
-          <span>
-            All public data is from the latest available year and will be updated regularly.
-          </span>
+        <div className="sidebar-notices" role="note">
+          <p>
+            💡 All public data is from the latest available year and updated regularly
+            {lu ? `, the last update of the data and narrative is ${lu.Month} ${lu.Year}` : ''}.
+          </p>
+          <p>
+            ❤️ For questions or assistance accessing this dashboard, email the{' '}
+            <a href="mailto:kmccarthy@steamboatsprings.net">Housing Innovation Specialist</a>
+            {' '}or call{' '}
+            <a href="tel:9708717063">970-871-7063</a>.
+          </p>
         </div>
-        <SidebarFooter />
       </div>
     </nav>
   )

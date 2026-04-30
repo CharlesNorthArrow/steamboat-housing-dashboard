@@ -32,14 +32,14 @@ function IconChevron() {
 }
 
 function ShareButton() {
-  const [label, setLabel] = useState('Share link')
+  const [label, setLabel] = useState('Share')
 
   function handleClick() {
     const url = window.location.href
     if (navigator.clipboard) {
       navigator.clipboard.writeText(url).then(() => {
         setLabel('Copied!')
-        setTimeout(() => setLabel('Share link'), 2200)
+        setTimeout(() => setLabel('Share'), 2200)
       })
     } else {
       prompt('Copy this link:', url)
@@ -87,7 +87,7 @@ function ExportButton({ onExportAll }) {
         aria-label="Export as PDF"
       >
         <IconDownload />
-        Export PDF
+        Export
         <IconChevron />
       </button>
 

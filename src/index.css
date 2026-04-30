@@ -258,7 +258,7 @@
   right: 48px;
   top: 16px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   transform: scale(calc(1 - var(--scroll-p, 0) * 0.3));
   transform-origin: top right;

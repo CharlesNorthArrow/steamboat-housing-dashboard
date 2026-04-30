@@ -284,8 +284,6 @@
   color: var(--navy);
   border-color: rgba(27, 58, 92, 0.3);
   white-space: nowrap;
-  font-size: calc(13px - var(--scroll-p, 0) * 3px);
-  padding: calc(5px - var(--scroll-p, 0) * 1px) calc(11px - var(--scroll-p, 0) * 3px);
 }
 
 .header-page-actions .action-btn:hover {

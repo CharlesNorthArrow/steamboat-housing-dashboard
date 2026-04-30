@@ -48,10 +48,10 @@ export default function App() {
   return (
     <>
       <SkipNav />
-      <Header activeTab={activeTab} />
+      <Header activeTab={activeTab} onExportAll={handleExportAll} />
 
       <div className="app-layout">
-        <TabNav activeTab={activeTab} onTabChange={handleTabChange} onExportAll={handleExportAll} />
+        <TabNav activeTab={activeTab} onTabChange={handleTabChange} />
 
         <main
           id="main-content"

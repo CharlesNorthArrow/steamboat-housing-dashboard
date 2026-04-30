@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react'
+import PageActions from '../ui/PageActions'
 
 const TAB_IMAGES = {
   'trail-forward': '/header-trail-forward.jpg',
@@ -14,7 +15,7 @@ const TAB_IMAGE_LABELS = {
   'policies':       'City policy and planning in Steamboat Springs',
 }
 
-export default function Header({ activeTab }) {
+export default function Header({ activeTab, onExportAll }) {
   const headerRef = useRef(null)
   const imgSrc = TAB_IMAGES[activeTab] || TAB_IMAGES['trail-forward']
   const imgAlt = TAB_IMAGE_LABELS[activeTab] || 'Steamboat Springs, Colorado'
@@ -37,7 +38,12 @@ export default function Header({ activeTab }) {
           <p className="header-sub">City of Steamboat Springs</p>
           <h1 className="header-title">Affordable Housing Dashboard</h1>
         </div>
-        <img key={imgSrc} src={imgSrc} alt={imgAlt} className="header-image" />
+        <div className="header-img-group">
+          <div className="header-page-actions">
+            <PageActions onExportAll={onExportAll} />
+          </div>
+          <img key={imgSrc} src={imgSrc} alt={imgAlt} className="header-image" />
+        </div>
       </div>
     </header>
   )

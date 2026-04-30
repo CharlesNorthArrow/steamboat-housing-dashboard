@@ -95,11 +95,11 @@ function ExportButton({ onExportAll }) {
         <div style={{
           position: 'absolute',
           left: 0,
-          bottom: 'calc(100% + 4px)',
+          top: 'calc(100% + 4px)',
           background: 'white',
           border: '1px solid #d8d5cc',
           borderRadius: 8,
-          boxShadow: '0 -4px 16px rgba(0,0,0,0.15)',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
           minWidth: 160,
           zIndex: 200,
           overflow: 'hidden',

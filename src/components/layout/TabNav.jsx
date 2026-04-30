@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 import { useGoogleSheet } from '../../hooks/useGoogleSheet'
 import { SHEET_URLS } from '../../utils/sheetUrls'
-import PageActions from '../ui/PageActions'
 
 const TABS = [
   { id: 'trail-forward', label: 'Trail Forward',  description: 'Key community outcomes' },
@@ -10,7 +9,7 @@ const TABS = [
   { id: 'policies',      label: 'Policies',        description: 'Programs and policy options',        wip: true },
 ]
 
-export default function TabNav({ activeTab, onTabChange, onExportAll }) {
+export default function TabNav({ activeTab, onTabChange }) {
   const tabRefs = useRef([])
   const { data: luData } = useGoogleSheet(SHEET_URLS.lastUpdated)
   const lu = luData?.[0]
@@ -63,7 +62,6 @@ export default function TabNav({ activeTab, onTabChange, onExportAll }) {
       </div>
 
       <div className="sidebar-bottom">
-        <PageActions onExportAll={onExportAll} />
         <div className="sidebar-notices" role="note">
           <p>
             💡 All public data is from the latest available year and updated regularly

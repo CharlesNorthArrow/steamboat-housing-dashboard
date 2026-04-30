@@ -19,7 +19,7 @@ export default function Footer({ activeTab, onTabChange }) {
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: 16,
-          fontSize: 13,
+          fontSize: 16,
         }}
       >
         <a
@@ -43,7 +43,7 @@ export default function Footer({ activeTab, onTabChange }) {
                     border: 'none',
                     cursor: 'pointer',
                     color: activeTab === tab.id ? 'white' : 'rgba(255,255,255,0.7)',
-                    fontSize: 13,
+                    fontSize: 16,
                     fontFamily: "'Source Sans 3', sans-serif",
                     fontWeight: activeTab === tab.id ? 600 : 400,
                     textDecoration: 'underline',
@@ -57,7 +57,7 @@ export default function Footer({ activeTab, onTabChange }) {
           </ul>
         </nav>
 
-        <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>
+        <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16 }}>
           Built by{' '}
           <a
             href="https://www.north-arrow.org"

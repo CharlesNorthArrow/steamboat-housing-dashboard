@@ -211,9 +211,8 @@
 .sidebar-notices p:last-child { margin-bottom: 0; }
 
 .sidebar-notices a {
-  color: var(--gold);
+  color: white;
   text-decoration: underline;
-  font-weight: 600;
 }
 
 /* ── Site header ─────────────────────────────────────────────── */
@@ -253,19 +252,45 @@
   font-family: 'Source Sans 3', sans-serif;
 }
 
-.header-image {
+/* Wrapper carries the absolute position + scroll-scale so buttons move with the image */
+.header-img-group {
   position: absolute;
   right: 48px;
   top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transform: scale(calc(1 - var(--scroll-p, 0) * 0.3));
+  transform-origin: top right;
+  z-index: 10;
+}
+
+.header-image {
   height: 211px;
   width: auto;
   border-radius: 10px;
   border: 3px solid white;
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  z-index: 10;
   display: block;
-  transform: scale(calc(1 - var(--scroll-p, 0) * 0.3));
-  transform-origin: top right;
+}
+
+/* Buttons stacked vertically, dark styling for white header background */
+.header-page-actions .page-actions {
+  flex-direction: column;
+  padding: 0;
+  gap: 6px;
+}
+
+.header-page-actions .action-btn {
+  color: var(--navy);
+  border-color: rgba(27, 58, 92, 0.3);
+  white-space: nowrap;
+}
+
+.header-page-actions .action-btn:hover {
+  background-color: rgba(27, 58, 92, 0.07);
+  border-color: rgba(27, 58, 92, 0.6);
+  color: var(--navy);
 }
 
 /* ── Page actions (share / export) ──────────────────────────── */
@@ -371,14 +396,17 @@
 
   .header-title { font-size: 17px; }
 
-  .header-image {
+  .header-img-group {
     position: static;
     flex: 0 0 auto;
+    transform: none;
+  }
+
+  .header-page-actions { display: none; }
+
+  .header-image {
     height: 56px;
     width: auto;
-    top: auto;
-    right: auto;
-    transform: none;
     border-radius: 6px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }

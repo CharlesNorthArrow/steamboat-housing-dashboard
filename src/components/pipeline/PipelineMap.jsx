@@ -1,11 +1,11 @@
-import { useEffect, useRef, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet'
 import { normalizeStatus, STATUS_CONFIG } from './PipelineStats'
 import { useGeocoder } from '../../hooks/useGeocoder'
 
 const TOKEN = import.meta.env.VITE_MAPBOX_TOKEN
 const CENTER = [40.4850, -106.8317]
-const ZOOM = 13
+const ZOOM = 16
 
 function unitRadius(unitCount) {
   const n = parseInt(String(unitCount || '0').replace(/,/g, ''), 10)
@@ -13,17 +13,22 @@ function unitRadius(unitCount) {
   return Math.min(28, Math.max(6, Math.sqrt(n) * 1.8))
 }
 
-function FitBounds({ points }) {
+function InvalidateSize() {
   const map = useMap()
   useEffect(() => {
-    if (!points || points.length === 0) return
-    const latlngs = points.map((p) => [p.lat, p.lng])
-    if (latlngs.length > 0) map.fitBounds(latlngs, { padding: [40, 40], maxZoom: 15 })
-  }, [map, points])
+    const container = map.getContainer()
+    if (container.offsetWidth > 0) map.invalidateSize()
+    const observer = new ResizeObserver(() => {
+      if (container.offsetWidth > 0) map.invalidateSize()
+    })
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [map])
   return null
 }
 
-export default function PipelineMap({ data }) {
+
+export default function PipelineMap({ data, statusFilter }) {
   const rows = data || []
 
   // Extract unique addresses for geocoding
@@ -35,7 +40,7 @@ export default function PipelineMap({ data }) {
   const { coords, loading: geocoding } = useGeocoder(addresses)
 
   // Build point objects once coordinates arrive
-  const points = useMemo(() => {
+  const allPoints = useMemo(() => {
     return rows.reduce((acc, row) => {
       const address = row.Address || row.address || ''
       const c = coords[address]
@@ -59,6 +64,11 @@ export default function PipelineMap({ data }) {
       return acc
     }, [])
   }, [rows, coords])
+
+  const points = useMemo(
+    () => statusFilter ? allPoints.filter(p => p.status === statusFilter) : allPoints,
+    [allPoints, statusFilter]
+  )
 
   const tileUrl = TOKEN
     ? `https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}@2x?access_token=${TOKEN}`
@@ -97,13 +107,14 @@ export default function PipelineMap({ data }) {
           style={{ height: '100%', width: '100%' }}
           scrollWheelZoom={false}
         >
+          <InvalidateSize />
           <TileLayer
             attribution={tileAttribution}
             url={tileUrl}
             tileSize={TOKEN ? 512 : 256}
             zoomOffset={TOKEN ? -1 : 0}
           />
-          {points.length > 0 && <FitBounds points={points} />}
+
           {points.map((pt, i) => (
             <CircleMarker
               key={i}
@@ -153,7 +164,7 @@ export default function PipelineMap({ data }) {
         </MapContainer>
       </div>
 
-      {!geocoding && addresses.length > 0 && points.length === 0 && (
+      {!geocoding && addresses.length > 0 && allPoints.length === 0 && (
         <p style={{ marginTop: 8, fontSize: 13, color: 'var(--text-muted)', fontStyle: 'italic' }}>
           No developments could be geocoded. Check that the Address column contains street addresses.
         </p>

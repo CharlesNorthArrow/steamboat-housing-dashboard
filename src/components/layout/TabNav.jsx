@@ -5,7 +5,7 @@ import { SHEET_URLS } from '../../utils/sheetUrls'
 const TABS = [
   { id: 'trail-forward', label: 'Trail Forward',  description: 'Key community outcomes' },
   { id: 'affordability', label: 'Affordability',  description: 'Rising costs and the affordability gap' },
-  { id: 'pipeline',      label: 'Pipeline',        description: 'Developments under way and planned', wip: true },
+  { id: 'pipeline',      label: 'Pipeline',        description: 'Developments under way and planned' },
   { id: 'policies',      label: 'Policies',        description: 'Programs and policy options',        wip: true },
 ]
 

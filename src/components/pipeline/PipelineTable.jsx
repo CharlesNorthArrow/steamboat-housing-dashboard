@@ -24,7 +24,7 @@ function StatusBadge({ statusRaw }) {
       color: '#fff',
       borderRadius: 3,
       padding: '2px 8px',
-      fontSize: 11,
+      fontSize: 13,
       fontWeight: 600,
       whiteSpace: 'nowrap',
     }}>
@@ -36,7 +36,7 @@ function StatusBadge({ statusRaw }) {
 const cellStyle = {
   padding: '10px 12px',
   borderBottom: '1px solid var(--border)',
-  fontSize: 13,
+  fontSize: 15,
   verticalAlign: 'top',
   fontFamily: "'Source Sans 3', sans-serif",
 }
@@ -97,7 +97,7 @@ export default function PipelineTable({ data, statusFilter, ownerFilter, announc
     border: '1px solid var(--border)',
     backgroundColor: 'white',
     fontFamily: "'Source Sans 3', sans-serif",
-    fontSize: 13,
+    fontSize: 15,
     cursor: 'pointer',
     color: 'var(--text-dark)',
   }
@@ -112,7 +112,7 @@ export default function PipelineTable({ data, statusFilter, ownerFilter, announc
 
   return (
     <section aria-label="Housing pipeline developments table" id="pipeline-table" tabIndex={-1} ref={tableRef} style={{ outline: 'none' }}>
-      <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 8 }}>
+      <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 8 }}>
         Showing {slice.length} of {filtered.length} development{filtered.length !== 1 ? 's' : ''}
         {filtered.length !== (data || []).length ? ` (filtered from ${(data || []).length} total)` : ''}
         {totalPages > 1 ? `, page ${safePage} of ${totalPages}` : ''}
@@ -120,7 +120,7 @@ export default function PipelineTable({ data, statusFilter, ownerFilter, announc
 
       <div style={{ overflowX: 'auto', border: '1px solid var(--border)', borderRadius: 4 }}>
         <table
-          style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}
+          style={{ width: '100%', borderCollapse: 'collapse', fontSize: 15 }}
           aria-label="Affordable housing pipeline developments"
           aria-rowcount={filtered.length}
         >
@@ -208,7 +208,7 @@ export default function PipelineTable({ data, statusFilter, ownerFilter, announc
             }, [])
             .map((p, i) =>
               p === '…' ? (
-                <span key={`ellipsis-${i}`} style={{ padding: '6px 4px', fontSize: 13 }} aria-hidden="true">…</span>
+                <span key={`ellipsis-${i}`} style={{ padding: '6px 4px', fontSize: 15 }} aria-hidden="true">…</span>
               ) : (
                 <button
                   key={p}

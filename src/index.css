@@ -81,6 +81,18 @@
   * { transition-duration: 0.15s; }
 }
 
+/* ── Leaflet / Tailwind v4 compatibility ────────────────────── */
+/* Tailwind's preflight resets img max-width and display, which breaks tile rendering */
+.leaflet-container img {
+  max-width: none !important;
+  max-height: none !important;
+  display: inline !important;
+}
+.leaflet-container svg {
+  display: block;
+  vertical-align: unset;
+}
+
 /* ── App shell ──────────────────────────────────────────────── */
 
 .app-layout {

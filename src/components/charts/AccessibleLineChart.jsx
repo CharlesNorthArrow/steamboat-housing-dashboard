@@ -55,7 +55,8 @@ export default function AccessibleLineChart({
           />
           <Tooltip content={(p) => <ChartTooltip {...p} formatter={tooltipFormatter} />} />
           <Legend
-            wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 8, color: '#1a1a1a' }}
+            iconSize={18}
+            wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 12, color: '#1a1a1a' }}
           />
           {referenceLines.map((rl) => (
             <ReferenceLine

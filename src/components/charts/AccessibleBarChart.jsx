@@ -3,7 +3,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, ReferenceLine, Cell, LabelList,
 } from 'recharts'
-import { PatternDefs, PATTERN_IDS, PATTERN_COLORS } from './PatternDefs'
+import { PatternDefs, PATTERN_IDS } from './PatternDefs'
 import ChartFigure from './ChartFigure'
 import ChartTooltip from './ChartTooltip'
 
@@ -36,19 +36,20 @@ function PatternLegend({ items }) {
     <div style={{
       display: 'flex',
       flexWrap: 'wrap',
-      gap: '4px 20px',
-      padding: '10px 8px 0',
+      gap: '5px 25px',
+      padding: '13px 10px 0',
       justifyContent: 'center',
       fontSize: 14,
       fontFamily: "'Source Sans 3', sans-serif",
       lineHeight: 1.4,
+      color: '#1a1a1a',
     }}>
       {items.map((item, i) => {
         const fillIdx = item.patIdx != null ? item.patIdx : i
         return (
-          <span key={item.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <svg width="14" height="14" aria-hidden="true" style={{ flexShrink: 0 }}>
-              <rect width="14" height="14" fill={PATTERN_IDS[fillIdx % PATTERN_IDS.length]} />
+          <span key={item.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <svg width="18" height="18" aria-hidden="true" style={{ flexShrink: 0 }}>
+              <rect width="18" height="18" fill={PATTERN_IDS[fillIdx % PATTERN_IDS.length]} />
             </svg>
             {item.value}
           </span>
@@ -118,13 +119,12 @@ export default function AccessibleBarChart({
           <Tooltip content={(p) => <ChartTooltip {...p} formatter={tooltipFormatter} colorEachBarData={colorEachBar ? data : undefined} />} />
           {!colorEachBar && !legendBelow && (
             <Legend
-              wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 8 }}
-              payload={keys.map((key, i) => ({
-                value: key,
-                type: 'square',
-                color: PATTERN_COLORS[getIdx(i) % PATTERN_COLORS.length],
-                id: key,
-              }))}
+              wrapperStyle={{ paddingTop: 10 }}
+              content={() => (
+                <PatternLegend
+                  items={keys.map((key, i) => ({ value: key, id: key, patIdx: getIdx(i) }))}
+                />
+              )}
             />
           )}
           {referenceLines.map((rl) => (

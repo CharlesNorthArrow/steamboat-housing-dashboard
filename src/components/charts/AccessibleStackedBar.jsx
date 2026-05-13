@@ -2,7 +2,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer,
 } from 'recharts'
-import { PatternDefs, PATTERN_IDS, PATTERN_COLORS } from './PatternDefs'
+import { PatternDefs, PATTERN_IDS } from './PatternDefs'
 import ChartFigure from './ChartFigure'
 import ChartTooltip from './ChartTooltip'
 
@@ -40,10 +40,18 @@ export default function AccessibleStackedBar({
 
   const legendPayload = keys.map((key, i) => ({
     value: key,
-    type: 'square',
-    color: PATTERN_COLORS[getIdx(i) % PATTERN_COLORS.length],
     id: key,
+    patIdx: getIdx(i),
   }))
+
+  const renderLegendItems = (items) => items.map((entry) => (
+    <span key={entry.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+      <svg width="18" height="18" aria-hidden="true" style={{ flexShrink: 0 }}>
+        <rect width="18" height="18" fill={PATTERN_IDS[entry.patIdx % PATTERN_IDS.length]} />
+      </svg>
+      {entry.value}
+    </span>
+  ))
 
   return (
     <ChartFigure
@@ -63,18 +71,13 @@ export default function AccessibleStackedBar({
             tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }}
             domain={percent ? [0, 1] : undefined}
           />
-          <Tooltip content={(p) => <ChartTooltip {...p} formatter={tooltipFormatter} />} />
+          <Tooltip content={(p) => <ChartTooltip {...p} formatter={tooltipFormatter} reversePayload />} />
           {!legendBelow && (
             <Legend
               wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif" }}
               content={() => (
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 16px', justifyContent: 'center', paddingTop: 8, color: '#1a1a1a' }}>
-                  {legendPayload.map((entry) => (
-                    <span key={entry.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                      <span style={{ display: 'inline-block', width: 14, height: 14, background: entry.color, borderRadius: 2, flexShrink: 0 }} />
-                      {entry.value}
-                    </span>
-                  ))}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px 20px', justifyContent: 'center', paddingTop: 10, color: '#1a1a1a', lineHeight: 1.4 }}>
+                  {renderLegendItems(legendPayload)}
                 </div>
               )}
             />
@@ -85,13 +88,8 @@ export default function AccessibleStackedBar({
         </BarChart>
       </ResponsiveContainer>
       {legendBelow && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 16px', justifyContent: 'center', paddingTop: 10, fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", color: '#1a1a1a' }}>
-          {legendPayload.map((entry) => (
-            <span key={entry.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ display: 'inline-block', width: 14, height: 14, background: entry.color, borderRadius: 2, flexShrink: 0 }} />
-              {entry.value}
-            </span>
-          ))}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px 20px', justifyContent: 'center', paddingTop: 13, fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", color: '#1a1a1a', lineHeight: 1.4 }}>
+          {renderLegendItems(legendPayload)}
         </div>
       )}
     </ChartFigure>

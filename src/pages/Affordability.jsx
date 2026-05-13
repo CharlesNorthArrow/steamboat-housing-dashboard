@@ -6,7 +6,7 @@ import {
 import { useGoogleSheet } from '../hooks/useGoogleSheet'
 import { SHEET_URLS } from '../utils/sheetUrls'
 import { parseDollar, parsePercent } from '../utils/formatters'
-import { PatternDefs, PATTERN_IDS, PATTERN_COLORS } from '../components/charts/PatternDefs'
+import { PatternDefs, PATTERN_IDS } from '../components/charts/PatternDefs'
 import ChartFigure from '../components/charts/ChartFigure'
 import ChartTooltip from '../components/charts/ChartTooltip'
 import AccessibleBarChart from '../components/charts/AccessibleBarChart'
@@ -375,20 +375,24 @@ export default function Affordability() {
                     <Legend
                       wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif" }}
                       content={() => (
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 20px', justifyContent: 'center', paddingTop: 8, color: '#1a1a1a' }}>
-                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                            <span style={{ display: 'inline-block', width: 14, height: 14, background: PATTERN_COLORS[0], borderRadius: 2, flexShrink: 0 }} />
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px 25px', justifyContent: 'center', paddingTop: 13, color: '#1a1a1a', lineHeight: 1.4 }}>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                            <svg width="18" height="18" aria-hidden="true" style={{ flexShrink: 0 }}>
+                              <rect width="18" height="18" fill={PATTERN_IDS[0]} />
+                            </svg>
                             Affordable Rent
                           </span>
-                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                            <span style={{ display: 'inline-block', width: 14, height: 14, background: PATTERN_COLORS[4], borderRadius: 2, flexShrink: 0 }} />
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                            <svg width="18" height="18" aria-hidden="true" style={{ flexShrink: 0 }}>
+                              <rect width="18" height="18" fill={PATTERN_IDS[4]} />
+                            </svg>
                             Market Rent
                           </span>
-                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                            <svg width="14" height="14" aria-hidden="true" style={{ flexShrink: 0 }}>
-                              <line x1="7" y1="1" x2="7" y2="13" stroke="#555" strokeWidth="2.5" />
-                              <line x1="3" y1="1" x2="11" y2="1" stroke="#555" strokeWidth="2.5" />
-                              <line x1="3" y1="13" x2="11" y2="13" stroke="#555" strokeWidth="2.5" />
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                            <svg width="18" height="18" aria-hidden="true" style={{ flexShrink: 0 }}>
+                              <line x1="9" y1="1" x2="9" y2="17" stroke="#555" strokeWidth="2.5" />
+                              <line x1="3" y1="1" x2="15" y2="1" stroke="#555" strokeWidth="2.5" />
+                              <line x1="3" y1="17" x2="15" y2="17" stroke="#555" strokeWidth="2.5" />
                             </svg>
                             Market Premium (gap)
                           </span>

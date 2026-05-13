@@ -19,8 +19,10 @@ function resolveColor(raw, index = 0) {
 // Recharts sets entry.fill to the Bar's fill prop for ALL bars (it doesn't
 // reflect the per-bar Cell fill), so we look up the correct pattern color
 // by finding the bar's position in the data array by name.
-export default function ChartTooltip({ active, payload, label, formatter, colorEachBarData }) {
+export default function ChartTooltip({ active, payload, label, formatter, colorEachBarData, reversePayload }) {
   if (!active || !payload?.length) return null
+
+  const entries = reversePayload ? [...payload].reverse() : payload
 
   return (
     <div style={{
@@ -39,7 +41,7 @@ export default function ChartTooltip({ active, payload, label, formatter, colorE
           {label}
         </div>
       )}
-      {payload.map((entry, i) => {
+      {entries.map((entry, i) => {
         let color
         if (colorEachBarData) {
           // colorEachBar mode: look up bar index by name to get the correct Cell color

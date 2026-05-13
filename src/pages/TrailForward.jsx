@@ -339,9 +339,9 @@ export default function TrailForward() {
                 <ResponsiveContainer width="100%" height={280}>
                   <BarChart data={netShiftData} margin={{ top: 16, right: 16, left: 8, bottom: 8 }}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <XAxis dataKey="name" tick={{ fontSize: 12, fontFamily: "'Source Sans 3', sans-serif" }} interval={0} />
-                    <YAxis tickFormatter={(v) => `${v > 0 ? '+' : ''}${v}pp`} tick={{ fontSize: 13, fontFamily: "'Source Sans 3', sans-serif" }} />
-                    <Tooltip formatter={(v) => [`${v > 0 ? '+' : ''}${v} pp`, 'Change']} contentStyle={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: 13 }} />
+                    <XAxis dataKey="name" tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }} interval={0} />
+                    <YAxis tickFormatter={(v) => `${v > 0 ? '+' : ''}${v}pp`} tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }} />
+                    <Tooltip formatter={(v) => [`${v > 0 ? '+' : ''}${v} pp`, 'Change']} contentStyle={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: 14 }} />
                     <ReferenceLine y={0} stroke="rgba(0,0,0,0.25)" />
                     <Bar dataKey="Change (pp)" radius={[3, 3, 0, 0]}>
                       {netShiftData.map((entry, i) => (
@@ -350,6 +350,26 @@ export default function TrailForward() {
                     </Bar>
                   </BarChart>
                 </ResponsiveContainer>
+                <div style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '5px 25px',
+                  padding: '13px 10px 0',
+                  justifyContent: 'center',
+                  fontSize: 14,
+                  fontFamily: "'Source Sans 3', sans-serif",
+                  lineHeight: 1.4,
+                  color: '#1a1a1a',
+                }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                    <span aria-hidden="true" style={{ display: 'inline-block', width: 18, height: 18, backgroundColor: '#e07b2a', flexShrink: 0 }} />
+                    Negative change
+                  </span>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                    <span aria-hidden="true" style={{ display: 'inline-block', width: 18, height: 18, backgroundColor: '#2e8b57', flexShrink: 0 }} />
+                    Positive change
+                  </span>
+                </div>
               </ChartFigure>
             )}
           </div>

@@ -109,7 +109,7 @@ export default function Pipeline() {
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
 
               {/* Left: stats table + legend */}
-              <div style={{ flex: '0 0 50%', borderRight: '1px solid var(--border)', padding: '24px', display: 'flex', flexDirection: 'column' }}>
+              <div className="pipeline-col pipeline-col-left" style={{ flex: '0 0 50%', borderRight: '1px solid var(--border)', padding: '24px', display: 'flex', flexDirection: 'column' }}>
                 <table
                   style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'Source Sans 3', sans-serif", fontSize: 16, fontWeight: 700 }}
                   aria-label="Pipeline summary by status"
@@ -197,7 +197,7 @@ export default function Pipeline() {
               </div>
 
               {/* Right: map */}
-              <div style={{ flex: '0 0 50%', padding: '24px' }}>
+              <div className="pipeline-col" style={{ flex: '0 0 50%', padding: '24px' }}>
                 {loading && (
                   <div style={{ height: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontSize: 14 }}>
                     Loading map data…

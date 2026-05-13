@@ -487,6 +487,17 @@
   .banner-pad h2 { font-size: 26px !important; }
 
   .banner-flex { flex-wrap: wrap; }
+
+  /* Pipeline: two-column stats+map stacks vertically */
+  .pipeline-col { flex: 0 0 100% !important; }
+  .pipeline-col-left { border-right: none !important; border-bottom: 1px solid var(--border); }
+
+  /* Policies: grid stacks to single column */
+  .policy-grid { grid-template-columns: 1fr !important; min-height: auto !important; }
+  .policy-sidebar { border-right: none !important; border-bottom: 1px solid var(--border); max-height: 320px; }
+
+  /* KPI cards: wrap on mobile */
+  .kpi-cards { flex-wrap: wrap !important; }
 }
 
 /* ── Print / PDF export ──────────────────────────────────────── */

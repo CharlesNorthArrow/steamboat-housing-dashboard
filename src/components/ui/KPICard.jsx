@@ -2,41 +2,39 @@ export default function KPICard({ label, value, lastUpdated }) {
   return (
     <article
       style={{
-        backgroundColor: 'var(--navy)',
-        color: 'white',
-        borderRadius: 8,
+        flex: '1 1 200px',
+        textAlign: 'center',
         padding: '28px 24px',
-        flex: '1 1 280px',
-        minWidth: 0,
+        border: '1px solid var(--border)',
+        borderRadius: 8,
+        backgroundColor: 'white',
       }}
       aria-label={`${label}: ${value}`}
     >
-      <h3
-        style={{
-          margin: '0 0 12px',
-          fontSize: 15,
-          fontWeight: 600,
-          fontFamily: "'Source Sans 3', sans-serif",
-          color: 'white',
-          letterSpacing: '0.02em',
-        }}
-      >
+      <h3 style={{
+        margin: '0 0 10px',
+        fontSize: 23,
+        fontWeight: 300,
+        color: 'var(--navy)',
+        fontFamily: "'Source Sans 3', sans-serif",
+        lineHeight: 1.35,
+      }}>
         {label}
       </h3>
-      <p
-        style={{
-          margin: '0 0 8px',
-          fontSize: 36,
-          fontWeight: 700,
-          fontFamily: "'Source Sans 3', sans-serif",
-          color: 'var(--gold)',
-          lineHeight: 1.1,
-        }}
-      >
+      <p style={{
+        margin: '0 0 8px',
+        fontSize: 29,
+        fontWeight: 700,
+        color: 'var(--orange)',
+        fontFamily: "'Source Sans 3', sans-serif",
+        lineHeight: 1.1,
+      }}>
         {value}
       </p>
       {lastUpdated && (
-        <p style={{ margin: 0, fontSize: 13, color: 'white' }}>{lastUpdated}</p>
+        <p style={{ margin: 0, fontSize: 13, fontWeight: 300, color: '#000', fontFamily: "'Source Sans 3', sans-serif" }}>
+          {lastUpdated}
+        </p>
       )}
     </article>
   )

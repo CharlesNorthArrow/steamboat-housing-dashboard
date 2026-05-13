@@ -5,7 +5,7 @@ import { useGeocoder } from '../../hooks/useGeocoder'
 
 const TOKEN = import.meta.env.VITE_MAPBOX_TOKEN
 const CENTER = [40.4850, -106.8317]
-const ZOOM = 16
+const ZOOM = 12
 
 function unitRadius(unitCount) {
   const n = parseInt(String(unitCount || '0').replace(/,/g, ''), 10)

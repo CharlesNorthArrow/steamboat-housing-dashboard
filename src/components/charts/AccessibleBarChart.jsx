@@ -133,7 +133,7 @@ export default function AccessibleBarChart({
               {...(isHorizontal ? { x: rl.value } : { y: rl.value })}
               stroke={rl.stroke || '#1b3a5c'}
               strokeDasharray={rl.dashed ? '6 3' : undefined}
-              label={{ value: rl.label, position: 'insideTopLeft', fontSize: 12, fill: rl.stroke || '#1b3a5c' }}
+              label={{ value: rl.label, position: rl.labelPosition || 'insideTopLeft', fontSize: 12, fill: rl.stroke || '#1b3a5c' }}
             />
           ))}
           {keys.map((key, i) => (

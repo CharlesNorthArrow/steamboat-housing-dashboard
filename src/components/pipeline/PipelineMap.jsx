@@ -136,8 +136,8 @@ export default function PipelineMap({ data, statusFilter }) {
                     backgroundColor: pt.color,
                     color: '#fff',
                     borderRadius: 3,
-                    padding: '1px 7px',
-                    fontSize: 11,
+                    padding: '2px 8px',
+                    fontSize: 12,
                     marginBottom: 8,
                   }}>
                     {pt.statusLabel}

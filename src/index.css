@@ -152,11 +152,11 @@
 /* ── Section / banner padding (balanced right margin) ─────── */
 
 .section-pad {
-  padding: 48px var(--sidebar-width) 48px 48px;
+  padding: 48px calc(var(--sidebar-width) * 0.7) 48px 48px;
 }
 
 .banner-pad {
-  padding: 40px var(--sidebar-width) 40px 48px;
+  padding: 40px calc(var(--sidebar-width) * 0.7) 40px 48px;
 }
 
 .sidebar-tab-btn:hover {
@@ -176,9 +176,9 @@
   display: inline-block;
   padding: 1px 7px;
   border-radius: 20px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   background-color: rgba(255,255,255,0.15);
   color: white;
   border: 1px solid rgba(255,255,255,0.35);
@@ -408,7 +408,7 @@
 
   .header-text { flex: 2; }
 
-  .header-sub { font-size: 11px; margin-bottom: 2px; }
+  .header-sub { font-size: 12px; margin-bottom: 2px; }
 
   .header-title { font-size: 17px; }
 

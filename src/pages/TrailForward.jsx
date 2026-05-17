@@ -91,10 +91,10 @@ export default function TrailForward() {
     const s = groupIncome(start)
     const e = groupIncome(end)
     const keys = [
-      ['Low Income (<$50K)',        'Low Income'],
+      ['Low Income (<$50K)',        'Low'],
       ['Middle ($50K–$124K)',       'Middle'],
       ['Upper Middle ($125K–$199K)','Upper Middle'],
-      ['High Income (>$200K)',      'High Income'],
+      ['High Income (>$200K)',      'High'],
     ]
     return keys.map(([k, label]) => ({
       name: label,

@@ -617,7 +617,7 @@ export default function Affordability() {
                 yTickFormatter={fmt$}
                 tooltipFormatter={(v, name) => [fmt$(v), name]}
                 referenceLines={[
-                  { value: 79780,  label: 'Living costs: 2 adults ($79,780)',                  stroke: '#2e8b57', dashed: true },
+                  { value: 79780,  label: 'Living costs: 2 adults ($79,780)',                  stroke: '#2e8b57', dashed: true, labelPosition: 'insideBottomLeft' },
                   { value: 151805, label: 'Living costs: 2 adults + 2 children ($151,805)',    stroke: '#c0392b' },
                 ]}
                 yDomain={[0, 180000]}

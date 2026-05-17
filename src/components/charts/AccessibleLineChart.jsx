@@ -55,9 +55,39 @@ export default function AccessibleLineChart({
           />
           <Tooltip content={(p) => <ChartTooltip {...p} formatter={tooltipFormatter} />} />
           <Legend
-            iconSize={18}
-            wrapperStyle={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", paddingTop: 12, color: '#1a1a1a' }}
+            content={() => (
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '6px 24px',
+                justifyContent: 'center',
+                paddingTop: 13,
+                fontSize: 14,
+                fontFamily: "'Source Sans 3', sans-serif",
+                color: '#1a1a1a',
+                lineHeight: 1.4,
+              }}>
+                {keys.map((key, i) => {
+                  const style = LINE_STYLES[i % LINE_STYLES.length]
+                  return (
+                    <span key={key} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                      <svg width="36" height="14" aria-hidden="true" style={{ flexShrink: 0, overflow: 'visible' }}>
+                        <line
+                          x1="0" y1="7" x2="36" y2="7"
+                          stroke={style.stroke}
+                          strokeWidth="2.5"
+                          strokeDasharray={style.strokeDasharray}
+                        />
+                        <circle cx="18" cy="7" r="4.5" fill={style.stroke} />
+                      </svg>
+                      {key}
+                    </span>
+                  )
+                })}
+              </div>
+            )}
           />
+
           {referenceLines.map((rl) => (
             <ReferenceLine
               key={rl.label}

@@ -29,6 +29,86 @@ function SRTable({ data, keys, label }) {
   )
 }
 
+// Render the reference-line amount as a small label hugging the y-axis,
+// guaranteed to sit ABOVE the line (Recharts' string positions can land below
+// in some configurations).
+function AboveLineRefLabel({ viewBox, text, color }) {
+  if (!viewBox) return null
+  return (
+    <text
+      x={viewBox.x + 4}
+      y={viewBox.y - 6}
+      textAnchor="start"
+      fontSize={12}
+      fontFamily="'Source Sans 3', sans-serif"
+      fill={color}
+      fontWeight={600}
+    >
+      {text}
+    </text>
+  )
+}
+
+// Legend row underneath the chart describing each reference line — colored
+// line swatch (dashed or solid, matching the actual ReferenceLine) + description.
+function ReferenceLineLegend({ items }) {
+  return (
+    <div style={{
+      display: 'flex', flexWrap: 'wrap', gap: '6px 24px',
+      padding: '12px 10px 0',
+      justifyContent: 'center',
+      fontSize: 13, fontFamily: "'Source Sans 3', sans-serif",
+      color: '#1a1a1a', lineHeight: 1.4,
+    }}>
+      {items.map((item, i) => (
+        <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+          <svg width="22" height="10" aria-hidden="true" style={{ flexShrink: 0 }}>
+            <line
+              x1="0" y1="5" x2="22" y2="5"
+              stroke={item.stroke} strokeWidth="2"
+              strokeDasharray={item.dashed ? '5 3' : undefined}
+            />
+          </svg>
+          {item.description}
+        </span>
+      ))}
+    </div>
+  )
+}
+
+// Wrap long category labels onto multiple lines so 2–3 word industry names
+// fit under a bar without overlapping their neighbours.
+function WrapTick({ x, y, payload, maxCharsPerLine }) {
+  const text = String(payload?.value ?? '')
+  const words = text.split(/\s+/)
+  const lines = []
+  let current = ''
+  for (const w of words) {
+    if (!current) { current = w; continue }
+    if ((current + ' ' + w).length <= maxCharsPerLine) current += ' ' + w
+    else { lines.push(current); current = w }
+  }
+  if (current) lines.push(current)
+  return (
+    <g transform={`translate(${x},${y + 4})`}>
+      {lines.map((line, i) => (
+        <text
+          key={i}
+          x={0}
+          y={i * 14}
+          dy="0.85em"
+          textAnchor="middle"
+          fontSize={12}
+          fontFamily="'Source Sans 3', sans-serif"
+          fill="#1a1a1a"
+        >
+          {line}
+        </text>
+      ))}
+    </g>
+  )
+}
+
 // Custom HTML legend rendered below the chart — used when colorEachBar=true so each
 // bar gets its own pattern swatch rather than a single series entry.
 function PatternLegend({ items }) {
@@ -76,20 +156,17 @@ export default function AccessibleBarChart({
     return () => mq.removeEventListener('change', handler)
   }, [])
 
-  // When colorEachBar=true, legend is rendered as a custom HTML block below the chart.
-  // When legendBelow=true, the multi-series legend is also rendered below instead of inside Recharts.
+  // When legendBelow=true (multi-series), the legend is rendered below instead of inside Recharts.
+  // When colorEachBar=true, each bar is named directly by the wrapped XAxis tick — no legend.
   // When false (default), Recharts auto-generates the legend from the Bar components.
-  const colorBarLegendItems = colorEachBar
-    ? data.map((d, i) => ({
-        value: d.name,
-        id: String(i),
-        patIdx: getIdx(i),
-      }))
-    : null
-
   const belowLegendItems = (!colorEachBar && legendBelow)
     ? keys.map((key, i) => ({ value: key, id: key, patIdx: getIdx(i) }))
     : null
+
+  // Allocate enough room under the chart for 2 lines of wrapped category labels.
+  const wrapChars = data.length <= 3 ? 18 : 14
+  const bottomMargin = colorEachBar && !isHorizontal ? 42 : 8
+  const refLegendItems = referenceLines.filter(r => r.description)
 
   return (
     <ChartFigure
@@ -101,7 +178,7 @@ export default function AccessibleBarChart({
         <BarChart
           data={data}
           layout={isHorizontal ? 'vertical' : 'horizontal'}
-          margin={{ top: 8, right: 48, left: 8, bottom: 8 }}
+          margin={{ top: 8, right: 48, left: 8, bottom: bottomMargin }}
         >
           <svg><PatternDefs /></svg>
           <CartesianGrid strokeDasharray="3 3" horizontal={!isHorizontal} vertical={isHorizontal} />
@@ -112,7 +189,13 @@ export default function AccessibleBarChart({
             </>
           ) : (
             <>
-              <XAxis dataKey="name" tick={{ fontSize: 13, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }} />
+              <XAxis
+                dataKey="name"
+                interval={0}
+                tick={colorEachBar
+                  ? <WrapTick maxCharsPerLine={wrapChars} />
+                  : { fontSize: 13, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }}
+              />
               <YAxis tickFormatter={yTickFormatter} tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }} domain={yDomain} />
             </>
           )}
@@ -133,7 +216,15 @@ export default function AccessibleBarChart({
               {...(isHorizontal ? { x: rl.value } : { y: rl.value })}
               stroke={rl.stroke || '#1b3a5c'}
               strokeDasharray={rl.dashed ? '6 3' : undefined}
-              label={{ value: rl.label, position: rl.labelPosition || 'insideTopLeft', fontSize: 12, fill: rl.stroke || '#1b3a5c' }}
+              label={rl.description
+                ? <AboveLineRefLabel text={rl.label} color={rl.stroke || '#1b3a5c'} />
+                : {
+                    value: rl.label,
+                    position: rl.labelPosition || 'insideTopLeft',
+                    fontSize: 12,
+                    fill: rl.stroke || '#1b3a5c',
+                    fontWeight: 600,
+                  }}
             />
           ))}
           {keys.map((key, i) => (
@@ -147,11 +238,11 @@ export default function AccessibleBarChart({
         </BarChart>
       </ResponsiveContainer>
 
-      {colorEachBar && colorBarLegendItems && (
-        <PatternLegend items={colorBarLegendItems} />
-      )}
       {belowLegendItems && (
         <PatternLegend items={belowLegendItems} />
+      )}
+      {refLegendItems.length > 0 && (
+        <ReferenceLineLegend items={refLegendItems} />
       )}
     </ChartFigure>
   )

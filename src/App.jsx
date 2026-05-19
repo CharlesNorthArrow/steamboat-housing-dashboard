@@ -12,7 +12,6 @@ const TAB_IDS = ['trail-forward', 'affordability', 'pipeline', 'policies']
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('trail-forward')
-  const [printAll, setPrintAll] = useState(false)
   const mainRef = useRef(null)
 
   function handleTabChange(tabId) {
@@ -22,16 +21,6 @@ export default function App() {
       const panel = document.getElementById(`panel-${tabId}`)
       if (panel) panel.focus({ preventScroll: true })
     })
-  }
-
-  function handleExportAll() {
-    setPrintAll(true)
-    window.onafterprint = () => {
-      setPrintAll(false)
-      window.onafterprint = null
-    }
-    // Small delay lets React render all panels before print dialog opens
-    setTimeout(() => window.print(), 150)
   }
 
   useEffect(() => {
@@ -48,7 +37,7 @@ export default function App() {
   return (
     <>
       <SkipNav />
-      <Header activeTab={activeTab} onExportAll={handleExportAll} />
+      <Header activeTab={activeTab} />
 
       <div className="app-layout">
         <TabNav activeTab={activeTab} onTabChange={handleTabChange} />
@@ -59,16 +48,16 @@ export default function App() {
           tabIndex={-1}
           className="content-col"
         >
-          <div className="tab-panel-wrapper" hidden={!printAll && activeTab !== 'trail-forward'}>
+          <div className="tab-panel-wrapper" hidden={activeTab !== 'trail-forward'}>
             <TrailForward />
           </div>
-          <div className="tab-panel-wrapper" hidden={!printAll && activeTab !== 'affordability'}>
+          <div className="tab-panel-wrapper" hidden={activeTab !== 'affordability'}>
             <Affordability />
           </div>
-          <div className="tab-panel-wrapper" hidden={!printAll && activeTab !== 'pipeline'}>
+          <div className="tab-panel-wrapper" hidden={activeTab !== 'pipeline'}>
             <Pipeline />
           </div>
-          <div className="tab-panel-wrapper" hidden={!printAll && activeTab !== 'policies'}>
+          <div className="tab-panel-wrapper" hidden={activeTab !== 'policies'}>
             <Policies />
           </div>
         </main>

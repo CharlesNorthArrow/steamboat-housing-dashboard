@@ -1,7 +1,7 @@
 ﻿import { useMemo } from 'react'
 import {
-  ComposedChart, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, Legend, ResponsiveContainer,
+  ComposedChart, BarChart, Bar, XAxis, YAxis, CartesianGrid,
+  Tooltip, Legend, ResponsiveContainer, ReferenceLine,
 } from 'recharts'
 import { useGoogleSheet } from '../hooks/useGoogleSheet'
 import { SHEET_URLS } from '../utils/sheetUrls'
@@ -27,6 +27,173 @@ function GapBracket({ x, y, width, height }) {
       <line x1={cx - tick} y1={top} x2={cx + tick} y2={top} stroke="#555" strokeWidth={2.5} />
       <line x1={cx - tick} y1={bot} x2={cx + tick} y2={bot} stroke="#555" strokeWidth={2.5} />
     </g>
+  )
+}
+
+function AmiButterfly({ data, caption }) {
+  // Mirror household-share to the negative side; sales-share stays positive.
+  const rows = data.map((d) => ({
+    name: d.name,
+    'Household Share (%)': d['Household Share (%)'] || 0,
+    'Sales Share (%)':     d['Sales Share (%)']     || 0,
+    _householdNeg: -(d['Household Share (%)'] || 0),
+  }))
+
+  const fmtPct = (v) => `${Math.abs(Math.round(v))}%`
+  const HOUSEHOLD_FILL = PATTERN_IDS[4]
+  const SALES_FILL     = PATTERN_IDS[2]
+
+  return (
+    <ChartFigure
+      ariaLabel="Butterfly chart: share of households (left, blue) vs. share of home sales (right, gold) by AMI band in Routt County 2024."
+      caption={caption}
+      srTable={
+        <table>
+          <caption>Share of Households and Sales by AMI, Routt County</caption>
+          <thead>
+            <tr>
+              <th scope="col">AMI Band</th>
+              <th scope="col">Household Share</th>
+              <th scope="col">Sales Share</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row) => (
+              <tr key={row.name}>
+                <th scope="row">{row.name}</th>
+                <td>{row['Household Share (%)']}%</td>
+                <td>{row['Sales Share (%)']}%</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      }
+    >
+      <div style={{ position: 'relative' }}>
+        <ResponsiveContainer width="100%" height={369}>
+          <BarChart
+            data={rows}
+            layout="vertical"
+            stackOffset="sign"
+            margin={{ top: 8, right: 24, left: 8, bottom: 8 }}
+            barCategoryGap="8%"
+          >
+            <svg><PatternDefs /></svg>
+            <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+            <XAxis
+              type="number"
+              domain={[-80, 80]}
+              ticks={[-80, -60, -40, -20, 0, 20, 40, 60, 80]}
+              tickFormatter={fmtPct}
+              tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }}
+            />
+            <YAxis
+              type="category"
+              dataKey="name"
+              width={160}
+              tick={{ fontSize: 14, fontFamily: "'Source Sans 3', sans-serif", fill: '#1a1a1a' }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <ReferenceLine x={0} stroke="#1a1a1a" />
+            <Tooltip
+              content={(p) => (
+                <ChartTooltip
+                  {...p}
+                  formatter={(v, name) => [fmtPct(v), name === '_householdNeg' ? 'Household Share (%)' : name]}
+                />
+              )}
+            />
+            <Bar dataKey="_householdNeg" stackId="ami" fill={HOUSEHOLD_FILL} isAnimationActive={false} />
+            <Bar dataKey="Sales Share (%)" stackId="ami" fill={SALES_FILL} isAnimationActive={false} />
+          </BarChart>
+        </ResponsiveContainer>
+
+        {/* Value labels stuck to the end of each bar. Position is computed
+            from the value as a fraction of the symmetric domain (-80..80).
+            Household labels anchor their right edge at the bar's left tip;
+            sales labels anchor their left edge at the bar's right tip. The
+            two halves of a row are always on opposite sides of zero, so the
+            labels can never collide. */}
+        {(() => {
+          const CHART_HEIGHT = 369
+          const TOP_PAD = 8
+          const BOTTOM_PAD = 32      // XAxis tick band + bottom margin
+          const LEFT_PAD = 168       // YAxis width (160) + margin.left (8)
+          const RIGHT_PAD = 24       // margin.right
+          const DOMAIN_HALF = 80     // x-axis is [-80, 80]
+          const plotHeight = CHART_HEIGHT - TOP_PAD - BOTTOM_PAD
+          const bandH = rows.length ? plotHeight / rows.length : 0
+          const labelBase = {
+            position: 'absolute',
+            transform: 'translateY(-50%)',
+            fontSize: 12,
+            fontFamily: "'Source Sans 3', sans-serif",
+            color: '#1a1a1a',
+            whiteSpace: 'nowrap',
+          }
+          return (
+            <div aria-hidden="true" style={{
+              position: 'absolute',
+              top: TOP_PAD,
+              left: LEFT_PAD,
+              right: RIGHT_PAD,
+              height: plotHeight,
+              pointerEvents: 'none',
+            }}>
+              {rows.map((row, i) => {
+                const X = row['Household Share (%)']
+                const Y = row['Sales Share (%)']
+                const top = bandH * (i + 0.5)
+                // 50% = zero in plot. Each 1% of value moves 1/(2*DOMAIN_HALF) of plot width.
+                const householdTipFromLeft = 50 - (X / (2 * DOMAIN_HALF)) * 100
+                const salesTipFromLeft     = 50 + (Y / (2 * DOMAIN_HALF)) * 100
+                return (
+                  <div key={row.name}>
+                    {/* household: text ends 4px LEFT of tip (grows leftward) */}
+                    <span style={{
+                      ...labelBase,
+                      top,
+                      right: `calc(${100 - householdTipFromLeft}% + 4px)`,
+                    }}>
+                      {fmtPct(X)}
+                    </span>
+                    {/* sales: text starts 4px RIGHT of tip (grows rightward) */}
+                    <span style={{
+                      ...labelBase,
+                      top,
+                      left: `calc(${salesTipFromLeft}% + 4px)`,
+                    }}>
+                      {fmtPct(Y)}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+          )
+        })()}
+      </div>
+
+      <div style={{
+        display: 'flex', flexWrap: 'wrap', gap: '5px 25px',
+        justifyContent: 'center', paddingTop: 13,
+        fontSize: 14, fontFamily: "'Source Sans 3', sans-serif",
+        color: '#1a1a1a', lineHeight: 1.4,
+      }}>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+          <svg width="18" height="18" aria-hidden="true" style={{ flexShrink: 0 }}>
+            <rect width="18" height="18" fill={HOUSEHOLD_FILL} />
+          </svg>
+          Household Share (left)
+        </span>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+          <svg width="18" height="18" aria-hidden="true" style={{ flexShrink: 0 }}>
+            <rect width="18" height="18" fill={SALES_FILL} />
+          </svg>
+          Sales Share (right)
+        </span>
+      </div>
+    </ChartFigure>
   )
 }
 
@@ -448,7 +615,7 @@ export default function Affordability() {
             <LoadState loading={amiLoading} error={amiError} />
           </div>
 
-          {/* Row 2 — charts (both 492 px, tops and bottoms align automatically) */}
+          {/* Row 2 — charts (matched height so tops and bottoms align) */}
           <div>
             {salaryChart.length > 0 && (
               <AccessibleBarChart
@@ -460,7 +627,7 @@ export default function Affordability() {
                   { value: incomeToByRef, label: `${fmt$(incomeToByRef)} — Income Required to Buy Median Home`, stroke: '#c0392b' },
                 ] : []}
                 yDomain={[0, 380000]}
-                chartHeight={492}
+                chartHeight={369}
                 colorEachBar
                 ariaLabel="Bar chart showing combined two-salary incomes across all industry sectors compared to the income required to buy a median-priced home in Routt County."
                 caption={`Sources: Select Salaries from Routt County Economic Development Partnership's "Highest Ranked Industries" report; Income data from YVHA Housing Demand Study, 2025, Page 60 — MLS; Routt County Assessor; Economic and Planning Systems`}
@@ -469,18 +636,8 @@ export default function Affordability() {
           </div>
           <div>
             {amiChart.length > 0 && (
-              <AccessibleBarChart
+              <AmiButterfly
                 data={amiChart}
-                keys={['Household Share (%)', 'Sales Share (%)']}
-                layout="horizontal"
-                xTickFormatter={(v) => `${v}%`}
-                yTickFormatter={(v) => `${v}%`}
-                tooltipFormatter={(v, name) => [`${v}%`, name]}
-                yDomain={[0, 80]}
-                chartHeight={492}
-                patternIndices={[4, 2]}
-                legendBelow
-                ariaLabel="Horizontal paired bar chart showing household share and sales share by AMI band in Routt County 2024."
                 caption="Source: YVHA Housing Demand Study, 2025, Page 67 — MLS; Moffat County Assessor; CHFA Income Limits; Economic and Planning Systems"
               />
             )}
@@ -589,8 +746,8 @@ export default function Affordability() {
                 yTickFormatter={fmt$}
                 tooltipFormatter={(v, name) => [fmt$(v), name]}
                 referenceLines={[
-                  { value: 58332,  label: 'Living costs: 1 adult ($58,332)',              stroke: '#e07b2a', dashed: true },
-                  { value: 107299, label: 'Living costs: 1 adult + 1 child ($107,299)',   stroke: '#c0392b' },
+                  { value: 58332,  label: '$58,332',  description: 'Living costs: 1 adult',           stroke: '#e07b2a', dashed: true },
+                  { value: 107299, label: '$107,299', description: 'Living costs: 1 adult + 1 child', stroke: '#c0392b' },
                 ]}
                 yDomain={[0, 130000]}
                 colorEachBar
@@ -617,8 +774,8 @@ export default function Affordability() {
                 yTickFormatter={fmt$}
                 tooltipFormatter={(v, name) => [fmt$(v), name]}
                 referenceLines={[
-                  { value: 79780,  label: 'Living costs: 2 adults ($79,780)',                  stroke: '#2e8b57', dashed: true, labelPosition: 'insideBottomLeft' },
-                  { value: 151805, label: 'Living costs: 2 adults + 2 children ($151,805)',    stroke: '#c0392b' },
+                  { value: 79780,  label: '$79,780',  description: 'Living costs: 2 adults',              stroke: '#e07b2a', dashed: true },
+                  { value: 151805, label: '$151,805', description: 'Living costs: 2 adults + 2 children', stroke: '#c0392b' },
                 ]}
                 yDomain={[0, 180000]}
                 colorEachBar

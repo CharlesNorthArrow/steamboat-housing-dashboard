@@ -15,7 +15,7 @@ const TAB_IMAGE_LABELS = {
   'policies':       'City policy and planning in Steamboat Springs',
 }
 
-export default function Header({ activeTab, onExportAll }) {
+export default function Header({ activeTab }) {
   const headerRef = useRef(null)
   const imgRef = useRef(null)
   const imgSrc = TAB_IMAGES[activeTab] || TAB_IMAGES['trail-forward']
@@ -58,7 +58,7 @@ export default function Header({ activeTab, onExportAll }) {
           <img ref={imgRef} key={imgSrc} src={imgSrc} alt={imgAlt} className="header-image" />
         </div>
         <div className="header-page-actions">
-          <PageActions onExportAll={onExportAll} />
+          <PageActions />
         </div>
       </div>
     </header>
